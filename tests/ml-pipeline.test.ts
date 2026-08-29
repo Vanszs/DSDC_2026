@@ -17,7 +17,7 @@ describe("Production ML Inference Engine (src/lib/ml-inference.ts)", () => {
   }));
 
   it("predicts continuous risk scores and composite EHV using trained Ridge ML weights", () => {
-    const result = predictMLDiseaseRisk(mockClimateHistory, false, 0.85);
+    const result = predictMLDiseaseRisk(mockClimateHistory);
 
     expect(result.dengueRisk).toBeGreaterThanOrEqual(0);
     expect(result.dengueRisk).toBeLessThanOrEqual(100);
@@ -30,7 +30,7 @@ describe("Production ML Inference Engine (src/lib/ml-inference.ts)", () => {
   });
 
   it("produces higher dengue risk score under optimum thermal Briere and lag precipitation", () => {
-    const baseline = predictMLDiseaseRisk(mockClimateHistory, false, 0.85);
+    const baseline = predictMLDiseaseRisk(mockClimateHistory);
     expect(baseline.dengueRisk).toBeGreaterThan(0);
     expect(baseline.ispaRisk).toBeGreaterThan(0);
   });
