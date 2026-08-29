@@ -74,19 +74,22 @@ Untuk menjamin model tidak "menyontek" masa depan (*data leakage*), dataset diba
 ### 4.1. Kurva Kesesuaian Termal Briere (DBD)
 Nyamuk tidak berkembang biak secara linear terhadap suhu. Di bawah $16^\circ\text{C}$ nyamuk mati kedinginan, dan di atas $36^\circ\text{C}$ enzim nyamuk rusak. Kapasitas vektor optimum tercapai pada $28.5^\circ\text{C}$.
 
-Formulasi non-linear **Briere et al. (1999) / Mordecai et al. (2019)**:
-$$S(T) = c \cdot T \cdot (T - T_{\min}) \cdot \sqrt{T_{\max} - T}$$
+Formulasi non-linear **Briere et al. (1999) / Mordecai et al. (2017)**:
+$$S(T) = \frac{T \cdot (T - T_{\min}) \cdot \sqrt{T_{\max} - T}}{\text{PEAK\_RAW}}$$
 
 Di mana:
 - $T_{\min} = 16.0^\circ\text{C}$ (Batas bawah termal)
 - $T_{\max} = 36.0^\circ\text{C}$ (Batas atas termal)
-- $c = 0.000147$ (Konstanta normalisasi agar $S(T) \in [0, 1]$)
+- $\text{PEAK\_RAW} = 1039.7953$ (Nilai puncak analitik global pada $T_{\text{opt}} = 30.95755^\circ\text{C}$)
 
 ```typescript
-export function computeBriereSuitability(temp: number): number {
-  if (temp <= 16.0 || temp >= 36.0) return 0.0;
-  const raw = 0.000147 * temp * (temp - 16.0) * Math.sqrt(36.0 - temp);
-  return Math.min(1.0, Math.max(0.0, raw));
+export function computeBriereSuitability(tempAvg: number): number {
+  if (!Number.isFinite(tempAvg) || tempAvg <= 16.0 || tempAvg >= 36.0) {
+    return 0.0;
+  }
+  const PEAK_BRIERE_RAW = 1039.7953;
+  const raw = tempAvg * (tempAvg - 16.0) * Math.sqrt(36.0 - tempAvg);
+  return Math.min(1.0, Math.max(0.0, raw / PEAK_BRIERE_RAW));
 }
 ```
 
@@ -133,16 +136,18 @@ Di mana:
 
 ### Bobot Model Terlatih (`src/lib/ml-weights.json`):
 - **Model DBD:**
-  - $\text{Bias} = 48.21$
-  - $w_{\text{Briere}} = +4.85$ (Suhu optimum mempercepat transmisi)
-  - $w_{\text{LagRain}} = +6.12$ (Genangan hujan pemicu terbesar)
-  - $w_{\text{RH}} = +1.42$ (Kelembapan tinggi menjaga kebugaran nyamuk)
-  - $w_{\text{DTR}} = -0.84$ (Fluktuasi suhu ekstrem menekan populasi)
+  - $\text{Bias} = 46.60$
+  - $w_{\text{Briere}} = +4.40$ (Kapasitas termal replikasi virus)
+  - $w_{\text{LagRain}} = +5.37$ (Residu genangan air pemicu larva)
+  - $w_{\text{RH}} = +1.82$ (Kelembapan tinggi menjaga kebugaran nyamuk)
+  - $w_{\text{DTR}} = -0.13$ (Fluktuasi suhu ekstrem menekan populasi)
 - **Model ISPA:**
-  - $\text{Bias} = 46.18$
-  - $w_{PM_{2.5}} = +8.34$ (Partikulat debu pemicu utama)
-  - $w_{NO_2} = +2.45$ (Emisi lalu lintas)
-  - $w_{\text{Wind}} = -3.81$ (Angin kencang membantu pembersihan udara)
+  - $\text{Bias} = 59.80$
+  - $w_{PM_{2.5}} = +6.79$ (Partikulat debu pemicu utama)
+  - $w_{CO} = +2.39$ (Emisi gas buang karbon monoksida)
+  - $w_{NO_2} = +2.37$ (Emisi gas buang nitrogen dioksida)
+  - $w_{\text{Wind}} = -3.26$ (Angin kencang membantu dispersi polutan)
+  - $w_{T_{\min}} = +0.15$ (Suhu dingin malam hari)
 
 ---
 
@@ -203,15 +208,15 @@ Pengujian pada data riil 1.752 hari (`data/evaluation_report.json`):
 
 | Metrik Evaluasi | Model DBD | Model ISPA | Skor Bahaya Gabungan |
 |---|:---:|:---:|:---:|
-| **Koefisien Determinasi ($R^2$)** | **0.9367** | **0.9242** | **0.9176** |
-| **Mean Absolute Error ($MAE$)** | 1.06 poin | 2.81 poin | 1.38 poin |
-| **Root Mean Squared Error ($RMSE$)** | 1.35 poin | 3.53 poin | 1.79 poin |
+| **Koefisien Determinasi ($R^2$)** | **0.9414** (94.1%) | **0.9247** (92.5%) | **0.9261** (92.6%) |
+| **Mean Absolute Error ($MAE$)** | 1.08 poin | 2.80 poin | 1.34 poin |
+| **Root Mean Squared Error ($RMSE$)** | 1.33 poin | 3.52 poin | 1.72 poin |
 
-### Evaluasi Klasifikasi Status Siaga (Triage Classification $\ge 40$):
-- **Precision:** $87.74\%$
-- **Recall (Sensitivitas Deteksi Bahaya):** **$97.72\%$** (Sangat krusial untuk kesehatan masyarakat agar tidak ada potensi wabah yang terlewat).
-- **F1-Score:** **$0.9246$**
-- **Akurasi Keseluruhan:** **$89.61\%$**
+### Evaluasi Klasifikasi Status Siaga (Triage Classification $\ge 60$):
+- **Precision:** $83.20\%$
+- **Recall (Sensitivitas Deteksi Bahaya):** **$97.86\%$** (Sangat krusial untuk kesehatan masyarakat agar tidak ada potensi wabah yang terlewat).
+- **F1-Score:** **$0.8994$**
+- **Akurasi Keseluruhan:** **$88.30\%$**
 
 ---
 
