@@ -58,27 +58,35 @@ function matrixTranspose(A: number[][]): number[][] {
   return A[0].map((_, colIndex) => A.map((row) => row[colIndex]));
 }
 
-// Inversi Matriks dengan L2 Ridge Penalty hanya pada bobot fitur (bukan pada bias kolom 0)
-function invertMatrixWithUnregularizedBias(A: number[][], lambda: number = 0.01): number[][] {
+// Inversi Matriks dengan Gauss-Jordan Partial Pivoting & L2 Ridge Regularization (lambda * N)
+function invertMatrixWithUnregularizedBias(A: number[][], lambdaN: number = 0.01): number[][] {
   const n = A.length;
   const M: number[][] = Array.from({ length: n }, (_, i) => [
-    ...A[i].map((val, j) => val + (i === j && i > 0 ? lambda : 0)), // Kolom 0 (bias) tanpa penalti lambda
+    ...A[i].map((val, j) => val + (i === j && i > 0 ? lambdaN : 0)), // Kolom 0 (bias) tanpa penalti lambda
     ...Array.from({ length: n }, (__, j) => (i === j ? 1 : 0)),
   ]);
 
   for (let i = 0; i < n; i++) {
-    let pivot = M[i][i];
-    if (Math.abs(pivot) < 1e-12) {
-      for (let r = i + 1; r < n; r++) {
-        if (Math.abs(M[r][i]) > Math.abs(pivot)) {
-          [M[i], M[r]] = [M[r], M[i]];
-          pivot = M[i][i];
-          break;
-        }
+    // True Partial Pivoting: cari baris dengan pivot mutlak terbesar di kolom i
+    let maxRow = i;
+    let maxVal = Math.abs(M[i][i]);
+    for (let r = i + 1; r < n; r++) {
+      if (Math.abs(M[r][i]) > maxVal) {
+        maxVal = Math.abs(M[r][i]);
+        maxRow = r;
       }
     }
 
-    const invPivot = 1.0 / (pivot || 1e-10);
+    if (maxRow !== i) {
+      [M[i], M[maxRow]] = [M[maxRow], M[i]];
+    }
+
+    const pivot = M[i][i];
+    if (Math.abs(pivot) < 1e-10) {
+      throw new Error(`Matrix singular or ill-conditioned at row ${i}`);
+    }
+
+    const invPivot = 1.0 / pivot;
     for (let j = 0; j < 2 * n; j++) {
       M[i][j] *= invPivot;
     }
@@ -147,14 +155,14 @@ export function run30YrTraining(): ProductionTrainedModelSuite {
 
   const X_dengue = buildMatrix(train, dengueFeatures);
   const Y_dengue = train.map((s) => s.targets.dengueRisk);
-  const modelDengue = trainRidgeRegression(X_dengue, Y_dengue, dengueFeatures, 0.005);
+  const modelDengue = trainRidgeRegression(X_dengue, Y_dengue, dengueFeatures, 0.01 * train.length);
   console.log("✓ Model DBD Weights:", modelDengue.weights, "Bias:", modelDengue.bias);
 
   // 2. Model ISPA Features: PM2.5, CO, NO2, Wind Speed, Temperature Min
   const ispaFeatures = ["pm25", "co", "no2", "windSpeedKmh", "temperatureMin"];
   const X_ispa = buildMatrix(train, ispaFeatures);
   const Y_ispa = train.map((s) => s.targets.ispaRisk);
-  const modelIspa = trainRidgeRegression(X_ispa, Y_ispa, ispaFeatures, 0.005);
+  const modelIspa = trainRidgeRegression(X_ispa, Y_ispa, ispaFeatures, 0.01 * train.length);
   console.log("✓ Model ISPA Weights:", modelIspa.weights, "Bias:", modelIspa.bias);
 
   const modelSuite: ProductionTrainedModelSuite = {

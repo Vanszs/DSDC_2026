@@ -1,6 +1,6 @@
 {
   "version": "3.1.0-30yr-dual-disease",
-  "trainedAt": "2026-08-29T10:58:13.320Z",
+  "trainedAt": "2026-08-29T16:43:46.029Z",
   "trainingSpan": "1994-01-15 s.d. 2016-05-29 (8.171 hari)",
   "datasetSize": {
     "train": 8171,
@@ -9,8 +9,8 @@
   },
   "scaler": {
     "means": {
-      "briereSuitability": 0.6772,
-      "lagRainfallDlnm": 0.1555,
+      "briereSuitability": 0.6354,
+      "lagRainfallDlnm": 0.1556,
       "relativeHumidityPct": 80.1121,
       "diurnalTempRange": 6.1981,
       "pm25": 26.4279,
@@ -20,7 +20,7 @@
       "temperatureMin": 21.2358
     },
     "stds": {
-      "briereSuitability": 0.0801,
+      "briereSuitability": 0.0752,
       "lagRainfallDlnm": 0.1483,
       "relativeHumidityPct": 10.0887,
       "diurnalTempRange": 1.9178,
@@ -47,12 +47,12 @@
         "diurnalTempRange"
       ],
       "weights": {
-        "briereSuitability": 4.8526,
-        "lagRainfallDlnm": 5.4648,
-        "relativeHumidityPct": 1.9371,
-        "diurnalTempRange": -0.0638
+        "briereSuitability": 4.3989,
+        "lagRainfallDlnm": 5.3658,
+        "relativeHumidityPct": 1.8162,
+        "diurnalTempRange": -0.1284
       },
-      "bias": 49.1036
+      "bias": 46.6034
     },
     "ispa": {
       "featureNames": [
@@ -63,11 +63,11 @@
         "temperatureMin"
       ],
       "weights": {
-        "pm25": 6.897,
-        "co": 2.9579,
-        "no2": 1.739,
-        "windSpeedKmh": -3.2938,
-        "temperatureMin": 0.1599
+        "pm25": 6.7929,
+        "co": 2.394,
+        "no2": 2.3698,
+        "windSpeedKmh": -3.2635,
+        "temperatureMin": 0.1482
       },
       "bias": 59.8043
     }
