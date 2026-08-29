@@ -159,7 +159,45 @@ Contoh:
 
 ---
 
-## 7. HASIL EVALUASI KINERJA PADA HOLDOUT TEST SET (2021–2025)
+## 7. ARSITEKTUR 3-TIER RESILIENT INGESTION & INFERENCE (ZERO-DOWNTIME ROBUSTNESS)
+
+Untuk menjamin sistem tidak pernah gagal (*zero-downtime*) dan selalu menyajikan data cuaca terkini saat diakses juri:
+
+```
+                              REQUEST USER (/api/analytics?date=YYYY-MM-DD)
+                                                    │
+                                                    ▼
+                ┌───────────────────────────────────────────────────────┐
+                │ TIER 1: DATABASE CACHE HIT                            │
+                │ Cek data targetDate di PostgreSQL (< 5ms)             │
+                └───────────────────────────┬───────────────────────────┘
+                                            │
+                            ┌───────────────┴───────────────┐
+                            │ ADA DI DB                     │ BELUM ADA / DATA HARI INI
+                            ▼                               ▼
+                ┌───────────────────────┐       ┌───────────────────────────────────────┐
+                │ RETURN DARI DB        │       │ TIER 2: LIVE OPEN-METEO INGESTION     │
+                │ Latensi: < 5 ms       │       │ Tarik 14 hari cuaca ECMWF IFS terbaru │
+                └───────────────────────┘       └───────────────────┬───────────────────┘
+                                                                    │
+                                                    ┌───────────────┴───────────────┐
+                                                    │ SUKSES                        │ GAGAL (API Down/Offline)
+                                                    ▼                               ▼
+                                        ┌───────────────────────┐       ┌───────────────────────┐
+                                        │ RUN INFERENCE ENGINE  │       │ TIER 3: 30-YR BASELINE│
+                                        │ Hitung L2 Ridge &     │       │ Gunakan baseline      │
+                                        │ Upsert ke Database    │       │ iklim 30 tahun +      │
+                                        │ Latensi: ~150 ms      │       │ Lapse Rate Topografis │
+                                        └───────────────────────┘       └───────────────────────┘
+```
+
+1. **Tier 1 (Database Cache Hit)**: Jika data sudah ada di database, langsung disajikan instan ($<5\text{ ms}$).
+2. **Tier 2 (Live Open-Meteo Ingestion)**: Jika data belum ada, sistem otomatis menarik time-series 14 hari cuaca ECMWF terkini, mengeksekusi inferensi L2 Ridge, dan menyimpannya (*upsert*) ke database.
+3. **Tier 3 (Zero-Downtime Climatological Fallback)**: Jika API pihak ketiga down atau jaringan terputus, sistem otomatis beralih ke baseline iklim 30 tahun sehingga tidak pernah terjadi HTTP 500 error.
+
+---
+
+## 8. HASIL EVALUASI KINERJA PADA HOLDOUT TEST SET (2021–2025)
 
 Pengujian pada data riil 1.752 hari (`data/evaluation_report.json`):
 
@@ -177,7 +215,7 @@ Pengujian pada data riil 1.752 hari (`data/evaluation_report.json`):
 
 ---
 
-## 8. STRUKTUR FILE & ALUR EKSEKUSI KODE DI BACKEND
+## 9. STRUKTUR FILE & ALUR EKSEKUSI KODE DI BACKEND
 
 ```
 src/
