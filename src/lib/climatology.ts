@@ -27,32 +27,26 @@ export interface DiseaseRiskResult {
 }
 
 /**
- * 4.1. Non-linear Thermal Suitability Curve (Briere et al. / Mordecai et al. 2017)
- * Menghitung kapasitas termal replikasi virus dengue dan vektor Aedes aegypti.
+ * 4.1. Non-linear Thermal Suitability Curve (Briere et al. 1999 / Mordecai et al. 2017)
  * S(T) = c * T * (T - T_min) * sqrt(T_max - T)
- * T_min = 16.0°C, T_opt = 28.5°C, T_max = 36.0°C, c = 0.000147
+ * T_min = 16.0°C, T_max = 36.0°C.
+ * Global maximum f(T) berada pada T_opt = 30.95755°C dengan f(T_opt) = 1039.7953.
  */
 export function computeBriereSuitability(tempAvg: number): number {
-  const T_MIN = 16.0;
-  const T_MAX = 36.0;
-  const C = 0.000147;
-
-  if (tempAvg <= T_MIN || tempAvg >= T_MAX) {
+  if (!Number.isFinite(tempAvg) || tempAvg <= 16.0 || tempAvg >= 36.0) {
     return 0.0;
   }
-  const raw = C * tempAvg * (tempAvg - T_MIN) * Math.sqrt(T_MAX - tempAvg);
-  // Normalisasi terhadap nilai kesesuaian biologis puncak pada T_opt = 28.5°C (~0.14342)
-  const peakSuitability = C * 28.5 * (28.5 - T_MIN) * Math.sqrt(T_MAX - 28.5);
-  return Math.min(1.0, Math.max(0.0, raw / peakSuitability));
+  const PEAK_BRIERE_RAW = 1039.7953;
+  const raw = tempAvg * (tempAvg - 16.0) * Math.sqrt(36.0 - tempAvg);
+  return Math.min(1.0, Math.max(0.0, raw / PEAK_BRIERE_RAW));
 }
 
 /**
  * 4.2. Distributed Lag Non-linear Model (DLNM) Gaussian Kernel (14-Day Cross-Basis)
- * Memodelkan efek tunda hujan terhadap penetasan telur dan larva nyamuk (puncak lag mu = 8 hari, sigma = 2.5).
+ * Array input menerima deret hujan kronologis [t-13, t-12, ..., t] atau berorientasi lag.
+ * Bobot Gaussian puncak pada lag 8 hari (k = 8).
  */
 export function computeLagRainfallEffect(rainfallHistory14Days: number[]): number {
-  // Koefisien Gaussian baku mu = 8, sigma = 2.5 untuk lag k = 0 s.d 13
-  // w_k = (1 / (sigma * sqrt(2*pi))) * exp(- (k - 8)^2 / (2 * 2.5^2))
   const weights = [
     0.001, 0.003, 0.009, 0.022, 0.045, 0.076, 0.111, 0.142,
     0.160, 0.155, 0.130, 0.094, 0.059, 0.032
@@ -60,8 +54,10 @@ export function computeLagRainfallEffect(rainfallHistory14Days: number[]): numbe
 
   let weightedRain = 0;
   const len = Math.min(rainfallHistory14Days.length, 14);
-  for (let i = 0; i < len; i++) {
-    weightedRain += rainfallHistory14Days[i] * weights[i];
+  for (let k = 0; k < len; k++) {
+    // Index len - 1 - k = hari t - k (Lag k hari ke belakang)
+    const rainAtLagK = rainfallHistory14Days[len - 1 - k] ?? 0;
+    weightedRain += rainAtLagK * weights[k];
   }
   // Normalisasi ambang batas saturasi genangan mikroklimat Kota Semarang (45.0 mm efektif)
   return Math.min(1.0, weightedRain / 45.0);

@@ -85,24 +85,42 @@ export function predictMLDiseaseRisk(
   let primaryFactor = "Stabilitas Mikroklimat & Kualitas Udara";
   let recommendation = "Pemantauan berkala dan pemeliharaan kebersihan lingkungan.";
 
+  const maxDengueKey = dengueModel.featureNames.reduce((best, f) =>
+    Math.abs(dengueAttributions[f] ?? 0) > Math.abs(dengueAttributions[best] ?? 0) ? f : best,
+    dengueModel.featureNames[0]
+  );
+
+  const maxIspaKey = ispaModel.featureNames.reduce((best, f) =>
+    Math.abs(ispaAttributions[f] ?? 0) > Math.abs(ispaAttributions[best] ?? 0) ? f : best,
+    ispaModel.featureNames[0]
+  );
+
   if (compositeScore >= 60) {
     if (dengueRisk >= ispaRisk) {
-      primaryFactor = dengueAttributions.lagRainfallDlnm > dengueAttributions.briereSuitability
+      primaryFactor = maxDengueKey === "lagRainfallDlnm"
         ? "Lag Presipitasi Akumulatif (Inkubasi Vektor Aedes)"
-        : "Suhu Optimum Replikasi Vektor Dengue (Kurva Briere)";
+        : maxDengueKey === "briereSuitability"
+        ? "Suhu Optimum Replikasi Vektor Dengue (Kurva Briere)"
+        : "Kelembapan Relatif Ekstrim Mendukung Daya Tahan Nyamuk";
       recommendation = "Aktivasi fogging fokus terarah dan larvasidasi massal pada genangan pemukiman.";
     } else {
-      primaryFactor = ispaAttributions.pm25 > ispaAttributions.windSpeedKmh
+      primaryFactor = maxIspaKey === "pm25"
         ? "Konsentrasi Partikulat Aerosol PM2.5 Tinggi"
-        : "Stagnasi Ventilasi Atmosferik Lapisan Permukaan";
+        : maxIspaKey === "windSpeedKmh"
+        ? "Stagnasi Ventilasi Atmosferik Lapisan Permukaan"
+        : "Konsentrasi Emisi Gas Buang Urban Tinggi";
       recommendation = "Pemberlakuan peringatan kualitas udara dan pembagian masker medis respiratorik.";
     }
   } else if (compositeScore >= 35) {
     if (dengueRisk >= ispaRisk) {
-      primaryFactor = "Kapasitas Termal Replikasi Vektor Aedes";
+      primaryFactor = maxDengueKey === "lagRainfallDlnm"
+        ? "Residu Genangan Air Pasca-Hujan Ringan"
+        : "Kapasitas Termal Replikasi Vektor Aedes";
       recommendation = "Pemeriksaan Jentik Berkala (PJB) oleh kader Jumantik kelurahan.";
     } else {
-      primaryFactor = "Akumulasi Polutan Partikulat Ringan";
+      primaryFactor = maxIspaKey === "pm25"
+        ? "Akumulasi Polutan Partikulat Ringan"
+        : "Ventilasi Udara Permukaan Rendah";
       recommendation = "Peningkatan ventilasi udara dalam ruangan dan pengurangan emisi lokal.";
     }
   }
