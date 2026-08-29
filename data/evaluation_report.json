@@ -1,0 +1,32 @@
+{
+  "evaluatedAt": "2026-08-29T10:58:13.756Z",
+  "testPeriod": "2021-03-16 s.d. 2025-12-31",
+  "testSamplesCount": 1752,
+  "metrics": {
+    "dengue": {
+      "r2Score": 0.9367,
+      "mae": 1.064,
+      "rmse": 1.358
+    },
+    "ispa": {
+      "r2Score": 0.9242,
+      "mae": 2.814,
+      "rmse": 3.535
+    },
+    "compositeEHV": {
+      "r2Score": 0.9176,
+      "mae": 1.38,
+      "rmse": 1.796
+    }
+  },
+  "triageAlertClassification": {
+    "precision": 0.8774,
+    "recall": 0.9772,
+    "f1Score": 0.9246,
+    "accuracy": 0.8961,
+    "truePositives": 1116,
+    "falsePositives": 156,
+    "falseNegatives": 26,
+    "trueNegatives": 454
+  }
+}

@@ -1,0 +1,1042 @@
+[
+  {
+    "date": "2026-05-31",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-01",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-02",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-03",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-04",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-05",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-06",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-07",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-08",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-09",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-10",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-11",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-12",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-13",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-14",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-15",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-16",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-17",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 23,
+    "temperatureMax": 31.5,
+    "humidityAvg": 71,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-06-18",
+    "temperatureAvg": 27.3,
+    "temperatureMin": 24.1,
+    "temperatureMax": 30.5,
+    "humidityAvg": 73,
+    "rainfallMm": 0,
+    "windSpeedKmh": 8.9,
+    "pm25": 36.6
+  },
+  {
+    "date": "2026-06-19",
+    "temperatureAvg": 26.2,
+    "temperatureMin": 22.1,
+    "temperatureMax": 30.3,
+    "humidityAvg": 89.4,
+    "rainfallMm": 0.3,
+    "windSpeedKmh": 12.8,
+    "pm25": 31.4
+  },
+  {
+    "date": "2026-06-20",
+    "temperatureAvg": 26.1,
+    "temperatureMin": 22.3,
+    "temperatureMax": 30,
+    "humidityAvg": 90,
+    "rainfallMm": 2.8,
+    "windSpeedKmh": 9.6,
+    "pm25": 33.8
+  },
+  {
+    "date": "2026-06-21",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 22.9,
+    "temperatureMax": 29.8,
+    "humidityAvg": 90.4,
+    "rainfallMm": 1,
+    "windSpeedKmh": 11.4,
+    "pm25": 32.7
+  },
+  {
+    "date": "2026-06-22",
+    "temperatureAvg": 25.9,
+    "temperatureMin": 22.6,
+    "temperatureMax": 29.2,
+    "humidityAvg": 91.6,
+    "rainfallMm": 3.4,
+    "windSpeedKmh": 10.2,
+    "pm25": 32.7
+  },
+  {
+    "date": "2026-06-23",
+    "temperatureAvg": 25.9,
+    "temperatureMin": 22.4,
+    "temperatureMax": 29.4,
+    "humidityAvg": 91.2,
+    "rainfallMm": 13.7,
+    "windSpeedKmh": 10.7,
+    "pm25": 25.5
+  },
+  {
+    "date": "2026-06-24",
+    "temperatureAvg": 26,
+    "temperatureMin": 22.3,
+    "temperatureMax": 29.6,
+    "humidityAvg": 90.8,
+    "rainfallMm": 3.2,
+    "windSpeedKmh": 12.1,
+    "pm25": 30.6
+  },
+  {
+    "date": "2026-06-25",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 22.8,
+    "temperatureMax": 29.9,
+    "humidityAvg": 90.2,
+    "rainfallMm": 0.4,
+    "windSpeedKmh": 12.1,
+    "pm25": 32.2
+  },
+  {
+    "date": "2026-06-26",
+    "temperatureAvg": 26.3,
+    "temperatureMin": 22.4,
+    "temperatureMax": 30.2,
+    "humidityAvg": 73.6,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12.8,
+    "pm25": 31.5
+  },
+  {
+    "date": "2026-06-27",
+    "temperatureAvg": 26.8,
+    "temperatureMin": 23.3,
+    "temperatureMax": 30.3,
+    "humidityAvg": 89.4,
+    "rainfallMm": 0.3,
+    "windSpeedKmh": 12.8,
+    "pm25": 31.4
+  },
+  {
+    "date": "2026-06-28",
+    "temperatureAvg": 26.6,
+    "temperatureMin": 22.2,
+    "temperatureMax": 31.1,
+    "humidityAvg": 87.8,
+    "rainfallMm": 0.8,
+    "windSpeedKmh": 10.5,
+    "pm25": 34
+  },
+  {
+    "date": "2026-06-29",
+    "temperatureAvg": 25.1,
+    "temperatureMin": 20.1,
+    "temperatureMax": 30.1,
+    "humidityAvg": 73.8,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12.3,
+    "pm25": 32.2
+  },
+  {
+    "date": "2026-06-30",
+    "temperatureAvg": 25,
+    "temperatureMin": 19.8,
+    "temperatureMax": 30.2,
+    "humidityAvg": 73.6,
+    "rainfallMm": 0,
+    "windSpeedKmh": 11,
+    "pm25": 33.9
+  },
+  {
+    "date": "2026-07-01",
+    "temperatureAvg": 25.1,
+    "temperatureMin": 19.8,
+    "temperatureMax": 30.4,
+    "humidityAvg": 89.2,
+    "rainfallMm": 0.8,
+    "windSpeedKmh": 10.9,
+    "pm25": 33.5
+  },
+  {
+    "date": "2026-07-02",
+    "temperatureAvg": 24.5,
+    "temperatureMin": 19.7,
+    "temperatureMax": 29.4,
+    "humidityAvg": 91.2,
+    "rainfallMm": 0.1,
+    "windSpeedKmh": 11.7,
+    "pm25": 32.9
+  },
+  {
+    "date": "2026-07-03",
+    "temperatureAvg": 25.3,
+    "temperatureMin": 21.1,
+    "temperatureMax": 29.4,
+    "humidityAvg": 91.2,
+    "rainfallMm": 1.2,
+    "windSpeedKmh": 10.8,
+    "pm25": 33.4
+  },
+  {
+    "date": "2026-07-04",
+    "temperatureAvg": 25.7,
+    "temperatureMin": 21.8,
+    "temperatureMax": 29.6,
+    "humidityAvg": 74.8,
+    "rainfallMm": 0,
+    "windSpeedKmh": 14.8,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-05",
+    "temperatureAvg": 25.9,
+    "temperatureMin": 22.4,
+    "temperatureMax": 29.5,
+    "humidityAvg": 75,
+    "rainfallMm": 0,
+    "windSpeedKmh": 15.5,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-06",
+    "temperatureAvg": 26.1,
+    "temperatureMin": 22.4,
+    "temperatureMax": 29.9,
+    "humidityAvg": 90.2,
+    "rainfallMm": 1.5,
+    "windSpeedKmh": 14.1,
+    "pm25": 29.2
+  },
+  {
+    "date": "2026-07-07",
+    "temperatureAvg": 26,
+    "temperatureMin": 20.7,
+    "temperatureMax": 31.3,
+    "humidityAvg": 87.4,
+    "rainfallMm": 1.4,
+    "windSpeedKmh": 11.6,
+    "pm25": 32.2
+  },
+  {
+    "date": "2026-07-08",
+    "temperatureAvg": 25.4,
+    "temperatureMin": 20.4,
+    "temperatureMax": 30.3,
+    "humidityAvg": 73.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 11.1,
+    "pm25": 33.7
+  },
+  {
+    "date": "2026-07-09",
+    "temperatureAvg": 24.3,
+    "temperatureMin": 19.3,
+    "temperatureMax": 29.3,
+    "humidityAvg": 75.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12.6,
+    "pm25": 31.8
+  },
+  {
+    "date": "2026-07-10",
+    "temperatureAvg": 24.8,
+    "temperatureMin": 20.3,
+    "temperatureMax": 29.3,
+    "humidityAvg": 75.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 13.5,
+    "pm25": 30.6
+  },
+  {
+    "date": "2026-07-11",
+    "temperatureAvg": 24.4,
+    "temperatureMin": 19.9,
+    "temperatureMax": 28.8,
+    "humidityAvg": 76.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12.6,
+    "pm25": 31.8
+  },
+  {
+    "date": "2026-07-12",
+    "temperatureAvg": 25.1,
+    "temperatureMin": 20.8,
+    "temperatureMax": 29.5,
+    "humidityAvg": 75,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-07-13",
+    "temperatureAvg": 25,
+    "temperatureMin": 20.6,
+    "temperatureMax": 29.3,
+    "humidityAvg": 75.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 15.2,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-14",
+    "temperatureAvg": 25.7,
+    "temperatureMin": 21.4,
+    "temperatureMax": 30,
+    "humidityAvg": 74,
+    "rainfallMm": 0,
+    "windSpeedKmh": 14.9,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-15",
+    "temperatureAvg": 25.4,
+    "temperatureMin": 21.4,
+    "temperatureMax": 29.5,
+    "humidityAvg": 75,
+    "rainfallMm": 0,
+    "windSpeedKmh": 14.7,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-16",
+    "temperatureAvg": 25.6,
+    "temperatureMin": 21.5,
+    "temperatureMax": 29.7,
+    "humidityAvg": 74.6,
+    "rainfallMm": 0,
+    "windSpeedKmh": 14.7,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-17",
+    "temperatureAvg": 26,
+    "temperatureMin": 21.7,
+    "temperatureMax": 30.3,
+    "humidityAvg": 89.4,
+    "rainfallMm": 0.4,
+    "windSpeedKmh": 14.7,
+    "pm25": 29.8
+  },
+  {
+    "date": "2026-07-18",
+    "temperatureAvg": 26,
+    "temperatureMin": 21.7,
+    "temperatureMax": 30.3,
+    "humidityAvg": 73.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 14.2,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-19",
+    "temperatureAvg": 25.8,
+    "temperatureMin": 21.5,
+    "temperatureMax": 30.1,
+    "humidityAvg": 89.8,
+    "rainfallMm": 0.9,
+    "windSpeedKmh": 9.9,
+    "pm25": 34.7
+  },
+  {
+    "date": "2026-07-20",
+    "temperatureAvg": 25.1,
+    "temperatureMin": 20.4,
+    "temperatureMax": 29.9,
+    "humidityAvg": 90.2,
+    "rainfallMm": 0.2,
+    "windSpeedKmh": 15.3,
+    "pm25": 29.9
+  },
+  {
+    "date": "2026-07-21",
+    "temperatureAvg": 25.6,
+    "temperatureMin": 20.3,
+    "temperatureMax": 30.9,
+    "humidityAvg": 88.2,
+    "rainfallMm": 0.6,
+    "windSpeedKmh": 14.9,
+    "pm25": 29.7
+  },
+  {
+    "date": "2026-07-22",
+    "temperatureAvg": 25.6,
+    "temperatureMin": 20.8,
+    "temperatureMax": 30.5,
+    "humidityAvg": 89,
+    "rainfallMm": 1.8,
+    "windSpeedKmh": 16,
+    "pm25": 29.1
+  },
+  {
+    "date": "2026-07-23",
+    "temperatureAvg": 25.2,
+    "temperatureMin": 20.5,
+    "temperatureMax": 29.9,
+    "humidityAvg": 74.2,
+    "rainfallMm": 0,
+    "windSpeedKmh": 16.6,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-24",
+    "temperatureAvg": 25.4,
+    "temperatureMin": 20.4,
+    "temperatureMax": 30.4,
+    "humidityAvg": 73.2,
+    "rainfallMm": 0,
+    "windSpeedKmh": 15.5,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-25",
+    "temperatureAvg": 23.3,
+    "temperatureMin": 18,
+    "temperatureMax": 28.5,
+    "humidityAvg": 77,
+    "rainfallMm": 0,
+    "windSpeedKmh": 17.9,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-26",
+    "temperatureAvg": 25.1,
+    "temperatureMin": 20.4,
+    "temperatureMax": 29.9,
+    "humidityAvg": 90.2,
+    "rainfallMm": 0.3,
+    "windSpeedKmh": 13,
+    "pm25": 31.1
+  },
+  {
+    "date": "2026-07-27",
+    "temperatureAvg": 25.5,
+    "temperatureMin": 21.2,
+    "temperatureMax": 29.8,
+    "humidityAvg": 74.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 15,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-28",
+    "temperatureAvg": 26.3,
+    "temperatureMin": 22.5,
+    "temperatureMax": 30,
+    "humidityAvg": 74,
+    "rainfallMm": 0,
+    "windSpeedKmh": 15.1,
+    "pm25": 30
+  },
+  {
+    "date": "2026-07-29",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 22.4,
+    "temperatureMax": 30.4,
+    "humidityAvg": 89.2,
+    "rainfallMm": 1.1,
+    "windSpeedKmh": 11.6,
+    "pm25": 32.4
+  },
+  {
+    "date": "2026-07-30",
+    "temperatureAvg": 26,
+    "temperatureMin": 22.4,
+    "temperatureMax": 29.6,
+    "humidityAvg": 90.8,
+    "rainfallMm": 4.1,
+    "windSpeedKmh": 13.3,
+    "pm25": 28.7
+  },
+  {
+    "date": "2026-07-31",
+    "temperatureAvg": 26,
+    "temperatureMin": 22,
+    "temperatureMax": 30,
+    "humidityAvg": 90,
+    "rainfallMm": 0.9,
+    "windSpeedKmh": 14.3,
+    "pm25": 29.5
+  },
+  {
+    "date": "2026-08-01",
+    "temperatureAvg": 26,
+    "temperatureMin": 21.5,
+    "temperatureMax": 30.5,
+    "humidityAvg": 89,
+    "rainfallMm": 0.5,
+    "windSpeedKmh": 13.8,
+    "pm25": 30
+  },
+  {
+    "date": "2026-08-02",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 22.3,
+    "temperatureMax": 30.5,
+    "humidityAvg": 89,
+    "rainfallMm": 0.7,
+    "windSpeedKmh": 14.1,
+    "pm25": 29.6
+  },
+  {
+    "date": "2026-08-03",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 22.6,
+    "temperatureMax": 30.1,
+    "humidityAvg": 89.8,
+    "rainfallMm": 1.7,
+    "windSpeedKmh": 15.3,
+    "pm25": 29.1
+  },
+  {
+    "date": "2026-08-04",
+    "temperatureAvg": 26.1,
+    "temperatureMin": 21.5,
+    "temperatureMax": 30.7,
+    "humidityAvg": 88.6,
+    "rainfallMm": 0.4,
+    "windSpeedKmh": 11.9,
+    "pm25": 32.5
+  },
+  {
+    "date": "2026-08-05",
+    "temperatureAvg": 24.7,
+    "temperatureMin": 19.7,
+    "temperatureMax": 29.7,
+    "humidityAvg": 74.6,
+    "rainfallMm": 0,
+    "windSpeedKmh": 15.7,
+    "pm25": 30
+  },
+  {
+    "date": "2026-08-06",
+    "temperatureAvg": 26,
+    "temperatureMin": 21.7,
+    "temperatureMax": 30.4,
+    "humidityAvg": 89.2,
+    "rainfallMm": 0.4,
+    "windSpeedKmh": 15.1,
+    "pm25": 29.8
+  },
+  {
+    "date": "2026-08-07",
+    "temperatureAvg": 25.5,
+    "temperatureMin": 21.2,
+    "temperatureMax": 29.9,
+    "humidityAvg": 90.2,
+    "rainfallMm": 1,
+    "windSpeedKmh": 13.6,
+    "pm25": 30
+  },
+  {
+    "date": "2026-08-08",
+    "temperatureAvg": 26.5,
+    "temperatureMin": 21.8,
+    "temperatureMax": 31.1,
+    "humidityAvg": 87.8,
+    "rainfallMm": 0.1,
+    "windSpeedKmh": 11.9,
+    "pm25": 32.6
+  },
+  {
+    "date": "2026-08-09",
+    "temperatureAvg": 25.4,
+    "temperatureMin": 19.9,
+    "temperatureMax": 31,
+    "humidityAvg": 88,
+    "rainfallMm": 0.6,
+    "windSpeedKmh": 15.2,
+    "pm25": 29.7
+  },
+  {
+    "date": "2026-08-10",
+    "temperatureAvg": 25.6,
+    "temperatureMin": 21.1,
+    "temperatureMax": 30.2,
+    "humidityAvg": 73.6,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12.4,
+    "pm25": 32.1
+  },
+  {
+    "date": "2026-08-11",
+    "temperatureAvg": 25.3,
+    "temperatureMin": 19.8,
+    "temperatureMax": 30.7,
+    "humidityAvg": 88.6,
+    "rainfallMm": 0.7,
+    "windSpeedKmh": 14.7,
+    "pm25": 29.6
+  },
+  {
+    "date": "2026-08-12",
+    "temperatureAvg": 25.4,
+    "temperatureMin": 20.4,
+    "temperatureMax": 30.4,
+    "humidityAvg": 89.2,
+    "rainfallMm": 0.1,
+    "windSpeedKmh": 13.3,
+    "pm25": 30.8
+  },
+  {
+    "date": "2026-08-13",
+    "temperatureAvg": 26.3,
+    "temperatureMin": 21.2,
+    "temperatureMax": 31.3,
+    "humidityAvg": 71.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 13.7,
+    "pm25": 30.4
+  },
+  {
+    "date": "2026-08-14",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 21.1,
+    "temperatureMax": 31.6,
+    "humidityAvg": 86.8,
+    "rainfallMm": 1.1,
+    "windSpeedKmh": 9.7,
+    "pm25": 34.8
+  },
+  {
+    "date": "2026-08-15",
+    "temperatureAvg": 26.1,
+    "temperatureMin": 21,
+    "temperatureMax": 31.1,
+    "humidityAvg": 87.8,
+    "rainfallMm": 0.5,
+    "windSpeedKmh": 10.2,
+    "pm25": 34.6
+  },
+  {
+    "date": "2026-08-16",
+    "temperatureAvg": 26.6,
+    "temperatureMin": 22,
+    "temperatureMax": 31.1,
+    "humidityAvg": 87.8,
+    "rainfallMm": 0.2,
+    "windSpeedKmh": 13.6,
+    "pm25": 30.4
+  },
+  {
+    "date": "2026-08-17",
+    "temperatureAvg": 26.3,
+    "temperatureMin": 22.7,
+    "temperatureMax": 29.9,
+    "humidityAvg": 90.2,
+    "rainfallMm": 8,
+    "windSpeedKmh": 11.3,
+    "pm25": 28.6
+  },
+  {
+    "date": "2026-08-18",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 21.8,
+    "temperatureMax": 30.9,
+    "humidityAvg": 88.2,
+    "rainfallMm": 0.7,
+    "windSpeedKmh": 14.3,
+    "pm25": 29.6
+  },
+  {
+    "date": "2026-08-19",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 21.9,
+    "temperatureMax": 30.8,
+    "humidityAvg": 88.4,
+    "rainfallMm": 1.9,
+    "windSpeedKmh": 14.2,
+    "pm25": 29
+  },
+  {
+    "date": "2026-08-20",
+    "temperatureAvg": 26.5,
+    "temperatureMin": 22.2,
+    "temperatureMax": 30.8,
+    "humidityAvg": 88.4,
+    "rainfallMm": 1.3,
+    "windSpeedKmh": 12.8,
+    "pm25": 30.8
+  },
+  {
+    "date": "2026-08-21",
+    "temperatureAvg": 25.8,
+    "temperatureMin": 21.1,
+    "temperatureMax": 30.4,
+    "humidityAvg": 73.2,
+    "rainfallMm": 0,
+    "windSpeedKmh": 15.8,
+    "pm25": 30
+  },
+  {
+    "date": "2026-08-22",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 21.8,
+    "temperatureMax": 30.9,
+    "humidityAvg": 72.2,
+    "rainfallMm": 0,
+    "windSpeedKmh": 13.5,
+    "pm25": 30.6
+  },
+  {
+    "date": "2026-08-23",
+    "temperatureAvg": 26,
+    "temperatureMin": 20.8,
+    "temperatureMax": 31.2,
+    "humidityAvg": 71.6,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12.2,
+    "pm25": 32.3
+  },
+  {
+    "date": "2026-08-24",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 21.4,
+    "temperatureMax": 31.3,
+    "humidityAvg": 71.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 15.4,
+    "pm25": 30
+  },
+  {
+    "date": "2026-08-25",
+    "temperatureAvg": 26.4,
+    "temperatureMin": 21.2,
+    "temperatureMax": 31.5,
+    "humidityAvg": 87,
+    "rainfallMm": 0.6,
+    "windSpeedKmh": 17,
+    "pm25": 29.7
+  },
+  {
+    "date": "2026-08-26",
+    "temperatureAvg": 26.1,
+    "temperatureMin": 21.5,
+    "temperatureMax": 30.6,
+    "humidityAvg": 88.8,
+    "rainfallMm": 1,
+    "windSpeedKmh": 14.8,
+    "pm25": 29.5
+  },
+  {
+    "date": "2026-08-27",
+    "temperatureAvg": 26.5,
+    "temperatureMin": 21.2,
+    "temperatureMax": 31.9,
+    "humidityAvg": 86.2,
+    "rainfallMm": 0.3,
+    "windSpeedKmh": 14.3,
+    "pm25": 29.8
+  },
+  {
+    "date": "2026-08-28",
+    "temperatureAvg": 26.2,
+    "temperatureMin": 19.9,
+    "temperatureMax": 32.5,
+    "humidityAvg": 69,
+    "rainfallMm": 0,
+    "windSpeedKmh": 13.3,
+    "pm25": 30.9
+  },
+  {
+    "date": "2026-08-29",
+    "temperatureAvg": 24.9,
+    "temperatureMin": 19.3,
+    "temperatureMax": 30.4,
+    "humidityAvg": 73.2,
+    "rainfallMm": 0,
+    "windSpeedKmh": 16.5,
+    "pm25": 30
+  },
+  {
+    "date": "2026-08-30",
+    "temperatureAvg": 26.7,
+    "temperatureMin": 22,
+    "temperatureMax": 31.4,
+    "humidityAvg": 71.2,
+    "rainfallMm": 0,
+    "windSpeedKmh": 14.2,
+    "pm25": 30
+  },
+  {
+    "date": "2026-08-31",
+    "temperatureAvg": 27.1,
+    "temperatureMin": 22.1,
+    "temperatureMax": 32,
+    "humidityAvg": 86,
+    "rainfallMm": 0.5,
+    "windSpeedKmh": 17.9,
+    "pm25": 29.7
+  },
+  {
+    "date": "2026-09-01",
+    "temperatureAvg": 27.7,
+    "temperatureMin": 23.2,
+    "temperatureMax": 32.2,
+    "humidityAvg": 85.6,
+    "rainfallMm": 0.3,
+    "windSpeedKmh": 12.7,
+    "pm25": 31.5
+  },
+  {
+    "date": "2026-09-02",
+    "temperatureAvg": 27.9,
+    "temperatureMin": 23.3,
+    "temperatureMax": 32.4,
+    "humidityAvg": 85.2,
+    "rainfallMm": 0.3,
+    "windSpeedKmh": 10.4,
+    "pm25": 34.4
+  },
+  {
+    "date": "2026-09-03",
+    "temperatureAvg": 27.1,
+    "temperatureMin": 22.4,
+    "temperatureMax": 31.8,
+    "humidityAvg": 86.4,
+    "rainfallMm": 0.6,
+    "windSpeedKmh": 10.6,
+    "pm25": 34
+  },
+  {
+    "date": "2026-09-04",
+    "temperatureAvg": 27.5,
+    "temperatureMin": 23.2,
+    "temperatureMax": 31.8,
+    "humidityAvg": 70.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 15,
+    "pm25": 30
+  },
+  {
+    "date": "2026-09-05",
+    "temperatureAvg": 27.2,
+    "temperatureMin": 21.6,
+    "temperatureMax": 32.8,
+    "humidityAvg": 68.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 16.4,
+    "pm25": 30
+  },
+  {
+    "date": "2026-09-06",
+    "temperatureAvg": 26.9,
+    "temperatureMin": 20.8,
+    "temperatureMax": 32.9,
+    "humidityAvg": 68.2,
+    "rainfallMm": 0,
+    "windSpeedKmh": 13.9,
+    "pm25": 30.1
+  },
+  {
+    "date": "2026-09-07",
+    "temperatureAvg": 27.9,
+    "temperatureMin": 22.6,
+    "temperatureMax": 33.3,
+    "humidityAvg": 67.4,
+    "rainfallMm": 0,
+    "windSpeedKmh": 12.5,
+    "pm25": 31.9
+  },
+  {
+    "date": "2026-09-08",
+    "temperatureAvg": 28.7,
+    "temperatureMin": 23.5,
+    "temperatureMax": 33.9,
+    "humidityAvg": 66.2,
+    "rainfallMm": 0,
+    "windSpeedKmh": 11.9,
+    "pm25": 32.7
+  },
+  {
+    "date": "2026-09-09",
+    "temperatureAvg": 28.8,
+    "temperatureMin": 23.6,
+    "temperatureMax": 33.9,
+    "humidityAvg": 66.2,
+    "rainfallMm": 0,
+    "windSpeedKmh": 11.5,
+    "pm25": 33.2
+  },
+  {
+    "date": "2026-09-10",
+    "temperatureAvg": 28.7,
+    "temperatureMin": 23.9,
+    "temperatureMax": 33.5,
+    "humidityAvg": 67,
+    "rainfallMm": 0,
+    "windSpeedKmh": 16.5,
+    "pm25": 30
+  },
+  {
+    "date": "2026-09-11",
+    "temperatureAvg": 28.9,
+    "temperatureMin": 24.1,
+    "temperatureMax": 33.7,
+    "humidityAvg": 66.6,
+    "rainfallMm": 0,
+    "windSpeedKmh": 16,
+    "pm25": 30
+  }
+]

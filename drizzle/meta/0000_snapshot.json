@@ -1,0 +1,337 @@
+{
+  "id": "3f0083b7-dedb-408a-8d8c-f5aaa8141e04",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.districts": {
+      "name": "districts",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "kemendagri_code": {
+          "name": "kemendagri_code",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "typology": {
+          "name": "typology",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_coastal_rob_risk": {
+          "name": "is_coastal_rob_risk",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "population": {
+          "name": "population",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "area_km2": {
+          "name": "area_km2",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "elevation_meters": {
+          "name": "elevation_meters",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 10
+        },
+        "sanitation_index": {
+          "name": "sanitation_index",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0.75
+        },
+        "centroid": {
+          "name": "centroid",
+          "type": "geometry(Point, 4326)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "districts_kemendagri_code_unique": {
+          "name": "districts_kemendagri_code_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "kemendagri_code"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.epidemiological_risk_scores": {
+      "name": "epidemiological_risk_scores",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "district_id": {
+          "name": "district_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score_date": {
+          "name": "score_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dengue_risk_score": {
+          "name": "dengue_risk_score",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "leptospirosis_risk_score": {
+          "name": "leptospirosis_risk_score",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ispa_risk_score": {
+          "name": "ispa_risk_score",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "composite_vulnerability_score": {
+          "name": "composite_vulnerability_score",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "primary_risk_factor": {
+          "name": "primary_risk_factor",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "actionable_policy_recommendation": {
+          "name": "actionable_policy_recommendation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "risk_district_date_idx": {
+          "name": "risk_district_date_idx",
+          "columns": [
+            {
+              "expression": "district_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "score_date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "epidemiological_risk_scores_district_id_districts_id_fk": {
+          "name": "epidemiological_risk_scores_district_id_districts_id_fk",
+          "tableFrom": "epidemiological_risk_scores",
+          "tableTo": "districts",
+          "columnsFrom": [
+            "district_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.weather_observations": {
+      "name": "weather_observations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "district_id": {
+          "name": "district_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "observation_date": {
+          "name": "observation_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "temperature_avg": {
+          "name": "temperature_avg",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "temperature_min": {
+          "name": "temperature_min",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "temperature_max": {
+          "name": "temperature_max",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "humidity_avg": {
+          "name": "humidity_avg",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rainfall_mm": {
+          "name": "rainfall_mm",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wind_speed_kmh": {
+          "name": "wind_speed_kmh",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pm25": {
+          "name": "pm25",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 35
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "weather_district_date_idx": {
+          "name": "weather_district_date_idx",
+          "columns": [
+            {
+              "expression": "district_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "observation_date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "weather_observations_district_id_districts_id_fk": {
+          "name": "weather_observations_district_id_districts_id_fk",
+          "tableFrom": "weather_observations",
+          "tableTo": "districts",
+          "columnsFrom": [
+            "district_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "version": "3.1.0-30yr-dual-disease",
+  "trainedAt": "2026-08-29T10:58:13.320Z",
+  "trainingSpan": "1994-01-15 s.d. 2016-05-29 (8.171 hari)",
+  "datasetSize": {
+    "train": 8171,
+    "val": 1751,
+    "test": 1752
+  },
+  "scaler": {
+    "means": {
+      "briereSuitability": 0.6772,
+      "lagRainfallDlnm": 0.1555,
+      "relativeHumidityPct": 80.1121,
+      "diurnalTempRange": 6.1981,
+      "pm25": 26.4279,
+      "co": 0.7454,
+      "no2": 20.8098,
+      "windSpeedKmh": 10.1287,
+      "temperatureMin": 21.2358
+    },
+    "stds": {
+      "briereSuitability": 0.0801,
+      "lagRainfallDlnm": 0.1483,
+      "relativeHumidityPct": 10.0887,
+      "diurnalTempRange": 1.9178,
+      "pm25": 6.7368,
+      "co": 0.1543,
+      "no2": 4.3574,
+      "windSpeedKmh": 3.6242,
+      "temperatureMin": 0.9001
+    }
+  },
+  "climatologicalBaseline": {
+    "temperatureAvg": 28.3,
+    "rainfallMm": 6.8,
+    "relativeHumidityPct": 82.1,
+    "windSpeedKmh": 11.2,
+    "pm25": 34.5
+  },
+  "models": {
+    "dengue": {
+      "featureNames": [
+        "briereSuitability",
+        "lagRainfallDlnm",
+        "relativeHumidityPct",
+        "diurnalTempRange"
+      ],
+      "weights": {
+        "briereSuitability": 4.8526,
+        "lagRainfallDlnm": 5.4648,
+        "relativeHumidityPct": 1.9371,
+        "diurnalTempRange": -0.0638
+      },
+      "bias": 49.1036
+    },
+    "ispa": {
+      "featureNames": [
+        "pm25",
+        "co",
+        "no2",
+        "windSpeedKmh",
+        "temperatureMin"
+      ],
+      "weights": {
+        "pm25": 6.897,
+        "co": 2.9579,
+        "no2": 1.739,
+        "windSpeedKmh": -3.2938,
+        "temperatureMin": 0.1599
+      },
+      "bias": 59.8043
+    }
+  }
+}

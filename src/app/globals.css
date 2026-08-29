@@ -1,0 +1,304 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------------------------------- */
+/* COCKPIT 60-30-10 DESIGN TOKENS & WCAG AA CONTRAST DEFINITIONS             */
+/* 60% Dominant Base: Slate/Zinc neutral surfaces                            */
+/* 30% Structural Division: Slate borders, card panels, tabular grids         */
+/* 10% Surgical Accents: Emerald (#059669) & Crimson (#dc2626)               */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --background: #faf8f5;
+  --foreground: #141824;
+  --crucible-canvas: #faf8f5;
+  --crucible-card: #ffffff;
+  --crucible-card-elevated: #ffffff;
+  --crucible-border: #e5e0d8;
+  --crucible-border-subtle: #eeece6;
+  --crucible-champagne: #f4eee3;
+  --crucible-champagne-glow: rgba(244, 238, 227, 0.65);
+  --crucible-amber: #d97706;
+  --crucible-muted: #645e54;
+  --crucible-text: #1b1916;
+  --crucible-cta: #181818;
+  --crucible-cta-hover: #000000;
+  --crucible-cta-text: #ffffff;
+  --crucible-cta-secondary: #ffffff;
+  --crucible-cta-secondary-border: #dcd6ca;
+  --crucible-cta-secondary-hover: #faf8f5;
+  --crucible-cta-secondary-text: #141824;
+  --cockpit-surface: #ffffff;
+  --cockpit-border: #e5e0d8;
+  --cockpit-muted: #57534e;
+  --cockpit-accent: #059669;
+  --focus-ring: #059669;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #080c14;
+  --foreground: #f1f5f9;
+  --crucible-canvas: #080c14;
+  --crucible-card: #0e1420;
+  --crucible-card-elevated: #131b2c;
+  --crucible-border: #1e2638;
+  --crucible-border-subtle: #171f30;
+  --crucible-champagne: #1f1b14;
+  --crucible-champagne-glow: rgba(31, 27, 20, 0.45);
+  --crucible-amber: #f59e0b;
+  --crucible-muted: #94a3b8;
+  --crucible-text: #f8fafc;
+  --crucible-cta: #ffffff;
+  --crucible-cta-hover: #f1f5f9;
+  --crucible-cta-text: #080c14;
+  --crucible-cta-secondary: #0e1420;
+  --crucible-cta-secondary-border: #1e2638;
+  --crucible-cta-secondary-hover: #131b2c;
+  --crucible-cta-secondary-text: #f8fafc;
+  --cockpit-surface: #0e1420;
+  --cockpit-border: #1e2638;
+  --cockpit-muted: #94a3b8;
+  --cockpit-accent: #10b981;
+  --focus-ring: #34d399;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: #080c14;
+    --foreground: #f1f5f9;
+    --crucible-canvas: #080c14;
+    --crucible-card: #0e1420;
+    --crucible-card-elevated: #131b2c;
+    --crucible-border: #1e2638;
+    --crucible-border-subtle: #171f30;
+    --crucible-champagne: #1f1b14;
+    --crucible-champagne-glow: rgba(31, 27, 20, 0.45);
+    --crucible-amber: #f59e0b;
+    --crucible-muted: #94a3b8;
+    --crucible-text: #f8fafc;
+    --crucible-cta: #ffffff;
+    --crucible-cta-hover: #f1f5f9;
+    --crucible-cta-text: #080c14;
+    --crucible-cta-secondary: #0e1420;
+    --crucible-cta-secondary-border: #1e2638;
+    --crucible-cta-secondary-hover: #131b2c;
+    --crucible-cta-secondary-text: #f8fafc;
+    --cockpit-surface: #0e1420;
+    --cockpit-border: #1e2638;
+    --cockpit-muted: #94a3b8;
+    --cockpit-accent: #10b981;
+    --focus-ring: #34d399;
+    color-scheme: dark;
+  }
+}
+
+html {
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* -------------------------------------------------------------------------- */
+/* ACCESSIBILITY: WCAG AA FOCUS RING & KEYBOARD NAVIGATION                   */
+/* -------------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  padding: 0.75rem 1.5rem;
+  background-color: #0f172a;
+  color: #f8fafc;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  border: 2px solid #10b981;
+  text-decoration: none;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* TYPOGRAPHY: TABULAR DATA MATRIX NUMBERS                                    */
+/* -------------------------------------------------------------------------- */
+
+.font-mono-num {
+  font-family: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.02em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* TACTILE INTERACTION & PREFERS-REDUCED-MOTION SAFETY                        */
+/* -------------------------------------------------------------------------- */
+
+.active-press {
+  transition: transform 120ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 120ms ease;
+}
+
+.active-press:active {
+  transform: scale(0.985) translateY(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .active-press,
+  .active-press:active {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .animate-spin {
+    animation: none !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* CRUCIBLE AMBIENT GLOW & ATMOSPHERIC LIGHTING                               */
+/* -------------------------------------------------------------------------- */
+
+.ambient-champagne-aura {
+  background: radial-gradient(circle at 50% 30%, var(--crucible-champagne-glow) 0%, transparent 70%);
+}
+
+/* -------------------------------------------------------------------------- */
+/* COCKPIT SCROLLBAR & MAPLIBRE POPUP OVERRIDES                               */
+/* -------------------------------------------------------------------------- */
+
+.cockpit-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.cockpit-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.04);
+}
+.cockpit-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.35);
+  border-radius: 9999px;
+}
+.cockpit-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.55);
+}
+
+/* MapLibre Light Popup */
+.maplibregl-popup-content {
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
+  padding: 0.875rem;
+  border: 1px solid #e5e0d8;
+  background: #ffffff;
+  color: #141824;
+}
+
+.maplibregl-popup-anchor-top .maplibregl-popup-tip {
+  border-bottom-color: #ffffff;
+}
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: #ffffff;
+}
+.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+  border-right-color: #ffffff;
+}
+.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+  border-left-color: #ffffff;
+}
+.maplibregl-popup-anchor-top-left .maplibregl-popup-tip {
+  border-bottom-color: #ffffff;
+}
+.maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
+  border-bottom-color: #ffffff;
+}
+.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip {
+  border-top-color: #ffffff;
+}
+.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+  border-top-color: #ffffff;
+}
+
+.maplibregl-popup-close-button {
+  padding: 4px 8px;
+  font-size: 14px;
+  color: #645e54;
+}
+
+.maplibregl-popup-close-button:hover {
+  color: #1b1916;
+  background: transparent;
+}
+
+/* MapLibre Dark Cockpit Popup */
+.dark .maplibregl-popup-content {
+  background: #0b111a;
+  border-color: #1e293b;
+  color: #f1f5f9;
+  box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+}
+
+.dark .maplibregl-popup-anchor-top .maplibregl-popup-tip {
+  border-bottom-color: #0b111a;
+}
+.dark .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: #0b111a;
+}
+.dark .maplibregl-popup-anchor-left .maplibregl-popup-tip {
+  border-right-color: #0b111a;
+}
+.dark .maplibregl-popup-anchor-right .maplibregl-popup-tip {
+  border-left-color: #0b111a;
+}
+.dark .maplibregl-popup-anchor-top-left .maplibregl-popup-tip {
+  border-bottom-color: #0b111a;
+}
+.dark .maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
+  border-bottom-color: #0b111a;
+}
+.dark .maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip {
+  border-top-color: #0b111a;
+}
+.dark .maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+  border-top-color: #0b111a;
+}
+
+.dark .maplibregl-popup-close-button {
+  color: #94a3b8;
+}
+
+.dark .maplibregl-popup-close-button:hover {
+  color: #f8fafc;
+  background: transparent;
+}
