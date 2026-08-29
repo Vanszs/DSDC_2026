@@ -20,3 +20,4 @@ coverage
 # System & IDE files
 .DS_Store
 *.tsbuildinfo
+.vercel
