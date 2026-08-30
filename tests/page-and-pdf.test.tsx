@@ -131,13 +131,13 @@ describe("Dashboard Page (src/app/dashboard/page.tsx)", () => {
     expect(openDrawerBtn).toBeTruthy();
     fireEvent.click(openDrawerBtn);
 
-    expect(screen.getByText(/Instruksi & Rekomendasi Aksi Pemerintah Kota/i)).toBeTruthy();
-    expect(screen.getByText(/Tindakan Wajib Minggu Ini/i)).toBeTruthy();
-    expect(screen.getByText(/Pencegahan DBD/i)).toBeTruthy();
-    expect(screen.getByText(/Kesiapsiagaan Fasilitas Kesehatan/i)).toBeTruthy();
-    expect(screen.getByText(/Apa yang Terjadi di Kota Semarang/i)).toBeTruthy();
-    expect(screen.getByText(/Kapan Ancaman Terjadi/i)).toBeTruthy();
-    expect(screen.getByText(/Tren Risiko 3 Bulan Terakhir/i)).toBeTruthy();
+    expect(screen.getByText(/Protokol Intervensi/i)).toBeTruthy();
+    expect(screen.getByText(/Instruksi Wajib/i)).toBeTruthy();
+    expect(screen.getByText(/Pengendalian Vektor/i)).toBeTruthy();
+    expect(screen.getByText(/Kesiapan Logistik/i)).toBeTruthy();
+    expect(screen.getByText(/Beban Risiko Wilayah Saat Ini/i)).toBeTruthy();
+    expect(screen.getByText(/Proyeksi Risiko 30 Hari Mendatang/i)).toBeTruthy();
+    expect(screen.getByText(/Tren Indeks Kerentanan Historis/i)).toBeTruthy();
   });
 });
 
