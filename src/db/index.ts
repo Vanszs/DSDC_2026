@@ -12,14 +12,14 @@ const globalForDb = globalThis as unknown as {
 const client =
   globalForDb.conn ??
   postgres(connectionString, {
-    max: 10,
+    max: process.env.NODE_ENV === "production" ? 1 : 10,
     idle_timeout: 20,
-    connect_timeout: 10,
+    connect_timeout: 15,
+    ssl: connectionString.includes("neon.tech") || connectionString.includes("sslmode=require") ? "require" : undefined,
+    prepare: false, // Disables prepared statements for Neon transaction pooler compatibility
   });
 
-if (process.env.NODE_ENV !== "production") {
-  globalForDb.conn = client;
-}
+globalForDb.conn = client;
 
 export const db = drizzle(client, { schema });
 export { client };
