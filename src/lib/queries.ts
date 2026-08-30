@@ -236,7 +236,6 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
     }
   } catch (error) {
     console.warn("DB/Live Ingestion error, advancing to Climatological Fallback:", error);
-    throw error;
   }
 
   // TIER 3: Zero-Downtime Climatological Fallback (Anti-500 Error dengan Static Catalog Fallback)
