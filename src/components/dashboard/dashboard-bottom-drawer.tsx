@@ -371,6 +371,45 @@ export function DashboardBottomDrawer({
               </div>
             </div>
 
+            {/* 4. PENJELASAN SEDERHANA: KENAPA PREDIKSI MINGGU INI SEPERTI INI? (Bahasa Awam Tanpa AI-Slop) */}
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-[#0B0F19] space-y-3">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-2.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Penjelasan Faktor Cuaca</span>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 mt-0.5">
+                  Mengapa Prediksi Minggu Ini Muncul Angka {cityScore} (Status {status.label})?
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+                <div className="p-3.5 rounded-xl bg-white dark:bg-[#080C14] border border-slate-200 dark:border-slate-800 space-y-1">
+                  <span className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
+                    🌧️ Curah Hujan 14 Hari Terakhir:
+                  </span>
+                  <p className="text-slate-600 dark:text-slate-400 text-[11.5px] leading-relaxed">
+                    Hujan yang turun berselang 1–2 minggu lalu meninggalkan genangan di selokan dan sampah terbuka. Ini adalah waktu alami jentik nyamuk DBD menetas menjadi nyamuk dewasa.
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-white dark:bg-[#080C14] border border-slate-200 dark:border-slate-800 space-y-1">
+                  <span className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
+                    🌡️ Suhu Udara Rata-rata ({computedAvgTemp}°C):
+                  </span>
+                  <p className="text-slate-600 dark:text-slate-400 text-[11.5px] leading-relaxed">
+                    Suhu hangat di kisaran 28°C adalah suhu paling ideal bagi nyamuk untuk lebih aktif menggigit dan mempercepat penularan virus di lingkungan warga.
+                  </p>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-white dark:bg-[#080C14] border border-slate-200 dark:border-slate-800 space-y-1">
+                  <span className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
+                    💨 Kondisi Angin & Debu Udara:
+                  </span>
+                  <p className="text-slate-600 dark:text-slate-400 text-[11.5px] leading-relaxed">
+                    Angin yang tenang membuat debu dan asap kendaraan tidak cepat terbawa pergi, sehingga partikel polusi melayang lebih lama di udara dekat permukaan tanah.
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       )}
