@@ -131,12 +131,13 @@ describe("Dashboard Page (src/app/dashboard/page.tsx)", () => {
     expect(openDrawerBtn).toBeTruthy();
     fireEvent.click(openDrawerBtn);
 
-    expect(screen.getByText("Skor Bahaya Saat Ini")).toBeTruthy();
-    expect(screen.getByText("Penyakit Paling Rawan")).toBeTruthy();
-    expect(screen.getByText("Demam Berdarah")).toBeTruthy();
-    expect(screen.getByText(/Langkah Pencegahan yang Harus Dilakukan Sekarang/i)).toBeTruthy();
-    expect(screen.getByText(/Tren Skor Bahaya 3 Bulan Terakhir/i)).toBeTruthy();
-    expect(screen.getByText(/Proyeksi Risiko 1 Bulan Ke Depan/i)).toBeTruthy();
+    expect(screen.getByText(/Instruksi & Rekomendasi Aksi Pemerintah Kota/i)).toBeTruthy();
+    expect(screen.getByText(/Tindakan Wajib Minggu Ini/i)).toBeTruthy();
+    expect(screen.getByText(/Pencegahan DBD/i)).toBeTruthy();
+    expect(screen.getByText(/Kesiapsiagaan Fasilitas Kesehatan/i)).toBeTruthy();
+    expect(screen.getByText(/Apa yang Terjadi di Kota Semarang/i)).toBeTruthy();
+    expect(screen.getByText(/Kapan Ancaman Terjadi/i)).toBeTruthy();
+    expect(screen.getByText(/Tren Risiko 3 Bulan Terakhir/i)).toBeTruthy();
   });
 });
 
