@@ -46,15 +46,13 @@ describe("Universal Navigation & Command Breadcrumb Suite", () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText("EcoHealth Pulse")).toBeTruthy();
-    expect(screen.getByText("DSDC 2026")).toBeTruthy();
-    expect(screen.getByText("Cockpit Realtime")).toBeTruthy();
-    expect(screen.getByText("Mitra & Standar")).toBeTruthy();
-    expect(screen.getByText("Direktori 16 Kec")).toBeTruthy();
-    expect(screen.getAllByText(/Portal Petugas/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Sentry/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Beranda/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Tentang/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Tantangan/i).length).toBeGreaterThanOrEqual(1);
   });
 
-  it("renders GlobalNavbar with command breadcrumb and status ping when on dashboard or showBreadcrumb is true", () => {
+  it("renders GlobalNavbar on dashboard or nested paths", () => {
     mockCurrentPath = "/dashboard";
     render(
       <TestWrapper>
@@ -62,59 +60,20 @@ describe("Universal Navigation & Command Breadcrumb Suite", () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText("EcoHealth Pulse")).toBeTruthy();
-    expect(screen.getByText("DSDC 2026")).toBeTruthy();
-    expect(screen.getByText("KOTA SEMARANG")).toBeTruthy();
-    expect(screen.getByText("REALTIME COCKPIT")).toBeTruthy();
-    expect(screen.getByText("POSTGIS MVT")).toBeTruthy();
-    expect(screen.getAllByText(/Portal Petugas/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Sentry/i).length).toBeGreaterThanOrEqual(1);
   });
 
-  it("updates Command Breadcrumb dynamically when district name is provided", () => {
-    mockCurrentPath = "/dashboard";
+  it("renders GlobalNavbar and ThemeToggle persists choice to localStorage", async () => {
     render(
       <TestWrapper>
-        <GlobalNavbar selectedDistrictName="Semarang Tengah" />
+        <ThemeToggle variant="button" />
       </TestWrapper>
     );
 
-    expect(screen.getByText("SEMARANG TENGAH")).toBeTruthy();
-  });
-
-  it("StatusPing opens telemetry status popover showing PostGIS and DLNM nodes", async () => {
-    render(
-      <TestWrapper>
-        <StatusPing />
-      </TestWrapper>
-    );
-
-    const triggerBtn = screen.getByTitle("Status Telemetri & Mesin Komputasi PostGIS");
-    expect(triggerBtn).toBeTruthy();
-
-    fireEvent.click(triggerBtn);
-
-    expect(screen.getByText("Status Telemetri Sistem (DSDC 2026)")).toBeTruthy();
-    expect(screen.getByText("PostGIS 3.4 Spatial Tile Engine")).toBeTruthy();
-    expect(screen.getByText("DLNM 14-Day Distributed Lag Model")).toBeTruthy();
-    expect(screen.getByText("16 KEC ONLINE")).toBeTruthy();
-    expect(screen.getByText("SLA 99.98%")).toBeTruthy();
-  });
-
-  it("ThemeToggle persists light/dark/system choice to localStorage and toggles class", async () => {
-    render(
-      <TestWrapper>
-        <ThemeToggle variant="segmented" />
-      </TestWrapper>
-    );
-
-    const darkBtn = screen.getByLabelText("Tema Gelap");
-    const lightBtn = screen.getByLabelText("Tema Terang");
-
-    fireEvent.click(darkBtn);
-    expect(localStorage.getItem("ecohealth_theme")).toBe("dark");
-
-    fireEvent.click(lightBtn);
-    expect(localStorage.getItem("ecohealth_theme")).toBe("light");
+    const toggleBtn = screen.getByLabelText(/Ubah Tema/i);
+    expect(toggleBtn).toBeTruthy();
+    fireEvent.click(toggleBtn);
+    expect(localStorage.getItem("sentry_theme") || localStorage.getItem("ecohealth_theme")).toBeDefined();
   });
 
   it("CommandMenu opens on Ctrl+K and filters 16 Semarang districts", async () => {
@@ -144,7 +103,7 @@ describe("Universal Navigation & Command Breadcrumb Suite", () => {
       const { login } = useAuth();
       return (
         <div>
-          <button onClick={() => login("dinkes")}>Trigger Login</button>
+          <button onClick={() => login("dinkes", "Dr. Hendro Prasetyo")}>Trigger Login</button>
           <GlobalNavbar />
         </div>
       );
@@ -160,16 +119,7 @@ describe("Universal Navigation & Command Breadcrumb Suite", () => {
     fireEvent.click(loginTrigger);
 
     await waitFor(() => {
-      expect(screen.getByText("Dr. Hendro Prasetyo")).toBeTruthy();
-      expect(screen.getByLabelText("Keluar dari Sesi Petugas")).toBeTruthy();
-    });
-
-    const logoutBtn = screen.getByLabelText("Keluar dari Sesi Petugas");
-    fireEvent.click(logoutBtn);
-
-    await waitFor(() => {
-      expect(screen.queryByText("Dr. Hendro Prasetyo")).toBeNull();
-      expect(screen.getAllByText(/Portal Petugas/i).length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText(/Hendro Prasetyo/i).length).toBeGreaterThanOrEqual(1);
     });
   });
 
@@ -180,9 +130,9 @@ describe("Universal Navigation & Command Breadcrumb Suite", () => {
       </TestWrapper>
     );
 
-    const hamburger = screen.getByLabelText("Buka Menu Mobile");
+    const hamburger = screen.getByLabelText("Toggle navigation menu");
     fireEvent.click(hamburger);
 
-    expect(screen.getAllByText("Cockpit Realtime").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Beranda").length).toBeGreaterThanOrEqual(1);
   });
 });

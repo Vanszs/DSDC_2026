@@ -68,12 +68,12 @@ export function DashboardBottomDrawer({
 
   const cityScore = typeof avgCompositeScore === "number" && avgCompositeScore >= 0
     ? avgCompositeScore
-    : Math.round(computedAvgDengue * 0.60 + computedAvgIspa * 0.40);
+    : Math.max(0, Math.min(100, 100 - Math.round(computedAvgDengue * 0.60 + computedAvgIspa * 0.40)));
 
-  // Status ramah awam
+  // Status ramah awam (Semakin KECIL angka semakin TINGGI bahaya / Kritis, semakin BESAR angka semakin AMAN / Stabil)
   const getStatusBadge = (score: number) => {
-    if (score >= 70) return { label: "Bahaya Tinggi", color: "bg-red-500 text-white", textCol: "text-red-600 dark:text-red-400" };
-    if (score >= 40) return { label: "Waspada", color: "bg-amber-500 text-white", textCol: "text-amber-600 dark:text-amber-400" };
+    if (score <= 39) return { label: "Bahaya Tinggi", color: "bg-red-500 text-white", textCol: "text-red-600 dark:text-red-400" };
+    if (score <= 69) return { label: "Waspada", color: "bg-amber-500 text-white", textCol: "text-amber-600 dark:text-amber-400" };
     return { label: "Aman / Terkendali", color: "bg-emerald-500 text-white", textCol: "text-emerald-600 dark:text-emerald-400" };
   };
 
@@ -209,9 +209,11 @@ export function DashboardBottomDrawer({
                           "w-full rounded-t transition-all duration-200",
                           isLatest
                             ? "bg-slate-900 dark:bg-emerald-400"
-                            : item.score >= 50
+                            : item.score <= 39
+                            ? "bg-red-500/80 dark:bg-red-500/70"
+                            : item.score <= 69
                             ? "bg-amber-500/80 dark:bg-amber-500/70"
-                            : "bg-slate-300 dark:bg-slate-700"
+                            : "bg-emerald-400/80 dark:bg-emerald-500/70"
                         )}
                         style={{ height: `${heightPct}%` }}
                       />
@@ -226,7 +228,7 @@ export function DashboardBottomDrawer({
               <div className="flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-400 pt-1.5 border-t border-slate-200/80 dark:border-slate-800">
                 <span>Rata-rata 12 Minggu: <strong className="font-mono text-slate-800 dark:text-slate-200">{historicalAverage} / 100</strong></span>
                 <span className="font-medium text-slate-700 dark:text-slate-300">
-                  {historicalAverage >= 70 ? "Kritis Tinggi" : historicalAverage >= 40 ? "Fluktuasi Waspada" : "Fluktuasi Terkendali"}
+                  {historicalAverage <= 39 ? "Kondisi Rentan Kritis" : historicalAverage <= 69 ? "Fluktuasi Waspada" : "Fluktuasi Terkendali & Optimal"}
                 </span>
               </div>
             </div>
@@ -403,7 +405,7 @@ export function DashboardBottomDrawer({
               <div className="border-b border-slate-200/80 dark:border-slate-800 pb-2">
                 <span className="text-[10px] font-mono font-medium uppercase tracking-wider text-slate-500">Atribusi Cuaca &amp; Model</span>
                 <h3 className="text-xs font-semibold text-slate-900 dark:text-slate-100 uppercase tracking-wide mt-0.5">
-                  Faktor Pendorong Iklim terhadap Indeks Kerentanan ({cityScore}/100)
+                  Faktor Pendorong Iklim terhadap Indeks Stabilitas ({cityScore}/100)
                 </h3>
               </div>
 

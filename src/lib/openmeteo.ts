@@ -49,8 +49,11 @@ export async function fetchOpenMeteoECMWFData(
     url.searchParams.set("latitude", lat.toFixed(4));
     url.searchParams.set("longitude", lng.toFixed(4));
     url.searchParams.set("daily", "temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max");
-    url.searchParams.set("past_days", pastDays.toString());
-    url.searchParams.set("forecast_days", forecastDays.toString());
+    // Open-Meteo free forecast endpoint max past_days is 92, max forecast_days is 16
+    const safePastDays = Math.min(92, Math.max(0, pastDays));
+    const safeForecastDays = Math.min(16, Math.max(1, forecastDays));
+    url.searchParams.set("past_days", safePastDays.toString());
+    url.searchParams.set("forecast_days", safeForecastDays.toString());
     url.searchParams.set("timezone", "Asia/Jakarta");
 
     const res = await fetch(url.toString(), {

@@ -74,7 +74,7 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
           eq(weatherObservations.observationDate, targetDate)
         )
       )
-      .orderBy(desc(epidemiologicalRiskScores.compositeVulnerabilityScore));
+      .orderBy(epidemiologicalRiskScores.compositeVulnerabilityScore); // Ascending: Skor terendah (paling bahaya) muncul teratas
 
     // Jika query DB mengembalikan baris (baik cache hit maupun fallback nulls)
     if (existingRows && existingRows.length > 0) {
@@ -232,7 +232,7 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
         }
       }
 
-      return results.sort((a, b) => b.compositeScore - a.compositeScore);
+      return results.sort((a, b) => a.compositeScore - b.compositeScore); // Ascending: Skor terendah (paling bahaya) muncul teratas
     }
   } catch (error) {
     console.warn("DB/Live Ingestion error, advancing to Climatological Fallback:", error);

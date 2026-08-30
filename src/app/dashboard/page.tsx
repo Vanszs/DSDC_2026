@@ -76,15 +76,18 @@ export default function DashboardPage() {
     };
   }, [selectedDate, fetchAnalytics]);
 
-  // Aggregate metrics
+  // Aggregate metrics (Semakin KECIL score <= 39, semakin TINGGI bahayanya)
   const totalDistricts = districts.length;
-  const highRiskCount = districts.filter((d) => d.compositeScore >= 70).length;
+  const highRiskCount = districts.filter((d) => d.compositeScore <= 39).length;
   const avgCompositeScore = totalDistricts
     ? Math.round(
         districts.reduce((acc, d) => acc + d.compositeScore, 0) / totalDistricts
       )
     : 0;
-  const highestRiskDistrict = districts[0] ?? null;
+  // Urutkan distrik dengan skor terendah (paling rentan / berisiko) di urutan pertama
+  const highestRiskDistrict = districts.length
+    ? [...districts].sort((a, b) => a.compositeScore - b.compositeScore)[0]
+    : null;
 
   return (
     <div className="relative w-full h-[100dvh] overflow-hidden flex flex-col bg-[#FAF8F5] text-slate-900 dark:bg-[#080C14] dark:text-slate-100 transition-colors duration-150">

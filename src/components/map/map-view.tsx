@@ -22,8 +22,10 @@ interface DynamicRiskColorPalette {
 }
 
 const getDynamicRiskPalette = (score: number, isDark: boolean): DynamicRiskColorPalette => {
-  if (score >= 70) {
-    // Siaga Kritis (Merah Berpendar)
+  // SKALA STABILITAS LINGKUNGAN: Semakin KECIL angka (0 - 39), semakin TINGGI BAHAYANYA (Merah)
+  // Semakin BESAR angka (70 - 100), semakin STABIL & OPTIMAL (Hijau)
+  if (score <= 39) {
+    // Siaga Kritis / Bahaya Ekstrim (Merah Berpendar)
     return {
       fillColor: isDark ? "#ef4444" : "#dc2626",
       fillOpacity: isDark ? 0.24 : 0.18,
@@ -32,8 +34,8 @@ const getDynamicRiskPalette = (score: number, isDark: boolean): DynamicRiskColor
       strokeColor: isDark ? "#fca5a5" : "#b91c1c",
     };
   }
-  if (score >= 40) {
-    // Siaga Waspada (Amber / Oranye)
+  if (score <= 69) {
+    // Siaga Waspada / Moderat (Amber / Oranye)
     return {
       fillColor: isDark ? "#f59e0b" : "#d97706",
       fillOpacity: isDark ? 0.20 : 0.15,
@@ -42,7 +44,7 @@ const getDynamicRiskPalette = (score: number, isDark: boolean): DynamicRiskColor
       strokeColor: isDark ? "#fcd34d" : "#b45309",
     };
   }
-  // Terkendali / Aman (Emerald Hijau)
+  // Optimal / Terkendali / Aman (Emerald Hijau)
   return {
     fillColor: isDark ? "#10b981" : "#059669",
     fillOpacity: isDark ? 0.18 : 0.14,

@@ -108,12 +108,14 @@ export function predictMLDiseaseRisk(
     finalIspaRisk = Math.round(Math.min(100, Math.max(5, rawIspaHazard * densityFactor * 0.95)));
   }
 
-  // Composite Environmental Health Vulnerability (EHV) Index (DBD 60% : ISPA 40%)
-  const compositeScore = Math.round(finalDengueRisk * 0.60 + finalIspaRisk * 0.40);
+  // Composite Environmental Health & Stability Score (0 = Ekstrim Bahaya/Kritis, 100 = Optimal/Sangat Stabil & Aman)
+  // Dihitung dengan menginversi beban risiko komposit: Indeks Stabilitas = 100 - Beban Risiko Komposit
+  const rawRiskLoad = Math.round(finalDengueRisk * 0.60 + finalIspaRisk * 0.40);
+  const compositeScore = Math.max(0, Math.min(100, 100 - rawRiskLoad));
 
   // Dynamic Feature Attribution: Tentukan Pemicu Utama dari argmax (kontribusi risiko positif terbesar)
-  let primaryFactor = "Stabilitas Mikroklimat & Kualitas Udara";
-  let recommendation = "Pemantauan berkala dan pemeliharaan kebersihan lingkungan.";
+  let primaryFactor = "Stabilitas Mikroklimat & Kualitas Udara Optimal";
+  let recommendation = "Pertahankan sanitasi lingkungan dan monitoring berkala.";
 
   const maxDengueKey = dengueModel.featureNames.reduce((best, f) =>
     (dengueAttributions[f] ?? 0) > (dengueAttributions[best] ?? 0) ? f : best,
@@ -125,7 +127,8 @@ export function predictMLDiseaseRisk(
     ispaModel.featureNames[0]
   );
 
-  if (compositeScore >= 60) {
+  // Semakin KECIL compositeScore, semakin TINGGI tingkat bahayanya
+  if (compositeScore <= 35) { // Bahaya Tinggi / Kritis (Beban Risiko >= 65)
     if (finalDengueRisk >= finalIspaRisk) {
       if (maxDengueKey === "lagRainfallDlnm") {
         primaryFactor = "Lag Presipitasi Akumulatif (Inkubasi Vektor Aedes)";
@@ -149,7 +152,7 @@ export function predictMLDiseaseRisk(
       }
       recommendation = "Pemberlakuan peringatan kualitas udara dan pembagian masker medis respiratorik.";
     }
-  } else if (compositeScore >= 35) {
+  } else if (compositeScore <= 65) { // Waspada / Moderat (Beban Risiko 35 - 64)
     if (finalDengueRisk >= finalIspaRisk) {
       if (maxDengueKey === "lagRainfallDlnm") {
         primaryFactor = "Residu Genangan Air Pasca-Hujan Ringan";

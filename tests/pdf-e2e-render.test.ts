@@ -68,7 +68,7 @@ describe("Executive PDF Document Real Binary Rendering & Stream Audit", () => {
     // Assert PDF structure terminates properly (%%EOF)
     const pdfRaw = pdfBuffer.toString("latin1");
     expect(pdfRaw).toContain("%%EOF");
-    expect(pdfRaw).toContain("EcoHealth Pulse - Executive Briefing Kota Semarang");
+    expect(pdfRaw).toContain("Executive Briefing Kota Semarang");
 
     // Decompress flate streams and assert all content rendered
     const decoded = extractDecodedTextFromPdf(pdfBuffer);
@@ -97,7 +97,7 @@ describe("Executive PDF Document Real Binary Rendering & Stream Audit", () => {
 
     expect(response.status).toBe(200);
     expect(response.headers.get("Content-Type")).toBe("application/pdf");
-    expect(response.headers.get("Content-Disposition")).toMatch(/EcoHealth_Executive_Brief_\d{8}\.pdf/);
+    expect(response.headers.get("Content-Disposition")).toMatch(/Executive_Brief_\d{8}\.pdf/);
 
     const arrayBuf = await response.arrayBuffer();
     const buf = Buffer.from(arrayBuf);
