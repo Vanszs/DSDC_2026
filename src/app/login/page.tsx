@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   ShieldCheck,
   Fingerprint,
-  KeyRound,
   User,
   CheckCircle2,
   AlertCircle,
@@ -13,7 +12,6 @@ import {
   RefreshCw,
   Eye,
   EyeOff,
-  Smartphone,
   Check,
   Activity,
 } from "lucide-react";
@@ -51,7 +49,7 @@ const ROLE_CONFIGS: Record<UserRole, RoleConfig> = {
       "Akses telemetri 16 kecamatan Semarang",
       "Unduh lembar kerja operasional lapangan",
     ],
-    requiresMfa: true,
+    requiresMfa: false,
   },
   epidemiologist: {
     id: "epidemiologist",
@@ -68,7 +66,7 @@ const ROLE_CONFIGS: Record<UserRole, RoleConfig> = {
       "Ekspor PDF Executive Brief dan OpenXML Excel",
       "Akses streaming PostGIS MVT Vector Tiles",
     ],
-    requiresMfa: true,
+    requiresMfa: false,
   },
   public: {
     id: "public",
@@ -99,18 +97,13 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [rememberSession, setRememberSession] = useState<boolean>(true);
 
-  const [authStep, setAuthStep] = useState<"input" | "mfa" | "success">("input");
+  const [authStep, setAuthStep] = useState<"input" | "success">("input");
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const [passkeyState, setPasskeyState] = useState<"idle" | "requesting" | "verified" | "failed">("idle");
-
-  const [otpDigits, setOtpDigits] = useState<string[]>(["", "", "", "", "", ""]);
-  const [mfaTimer, setMfaTimer] = useState<number>(30);
   const [sessionToken, setSessionToken] = useState<string>("");
   const [redirectCountdown, setRedirectCountdown] = useState<number>(3);
-
-  const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleRoleSelect = (role: UserRole) => {
     setSelectedRole(role);
@@ -123,16 +116,6 @@ export default function LoginPage() {
       setPassword("SandiKedinasan@2026");
     }
   };
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (authStep === "mfa" && mfaTimer > 0) {
-      interval = setInterval(() => {
-        setMfaTimer((prev) => Math.max(0, prev - 1));
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [authStep, mfaTimer]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -168,18 +151,8 @@ export default function LoginPage() {
 
     setTimeout(() => {
       setLoading(false);
-      const roleCfg = ROLE_CONFIGS[selectedRole];
-
-      if (roleCfg.requiresMfa) {
-        setAuthStep("mfa");
-        setMfaTimer(30);
-        setTimeout(() => {
-          otpInputRefs.current[0]?.focus();
-        }, 100);
-      } else {
-        completeAuthentication();
-      }
-    }, 600);
+      completeAuthentication();
+    }, 400);
   };
 
   const handlePasskeyTrigger = () => {
@@ -192,62 +165,8 @@ export default function LoginPage() {
       setLoading(false);
       setTimeout(() => {
         completeAuthentication();
-      }, 700);
-    }, 1200);
-  };
-
-  const handleOtpChange = (index: number, value: string) => {
-    if (!/^\d*$/.test(value)) return;
-
-    const newDigits = [...otpDigits];
-    newDigits[index] = value.slice(-1);
-    setOtpDigits(newDigits);
-
-    if (value && index < 5) {
-      otpInputRefs.current[index + 1]?.focus();
-    }
-
-    const fullCode = newDigits.join("");
-    if (fullCode.length === 6) {
-      verifyMfaCode(fullCode);
-    }
-  };
-
-  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Backspace" && !otpDigits[index] && index > 0) {
-      otpInputRefs.current[index - 1]?.focus();
-    }
-  };
-
-  const handleOtpPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const pastedData = e.clipboardData.getData("text").trim();
-    if (/^\d{6}$/.test(pastedData)) {
-      const digits = pastedData.split("");
-      setOtpDigits(digits);
-      otpInputRefs.current[5]?.focus();
-      verifyMfaCode(pastedData);
-    }
-  };
-
-  const fillMockOtp = () => {
-    const mockCode = ["8", "2", "4", "9", "0", "1"];
-    setOtpDigits(mockCode);
-    verifyMfaCode("824901");
-  };
-
-  const verifyMfaCode = (code: string) => {
-    setLoading(true);
-    setErrorMsg(null);
-
-    setTimeout(() => {
-      setLoading(false);
-      if (code === "824901" || code.length === 6) {
-        completeAuthentication();
-      } else {
-        setErrorMsg("Kode verifikasi OTP tidak valid. Silakan coba lagi.");
-      }
-    }, 500);
+      }, 500);
+    }, 800);
   };
 
   const completeAuthentication = () => {
@@ -510,102 +429,7 @@ export default function LoginPage() {
               </div>
             )}
 
-            {/* STEP 2: MFA TOTP */}
-            {authStep === "mfa" && (
-              <div className="space-y-3.5">
-                <div className="p-2.5 rounded-lg bg-emerald-50/80 border border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-800 text-xs text-emerald-900 dark:text-emerald-200 flex items-center gap-2">
-                  <Smartphone className="h-4 w-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
-                  <span className="text-[11px] leading-tight font-semibold">
-                    Kode OTP 6-Digit Terkirim
-                  </span>
-                </div>
-
-                <div className="space-y-1.5">
-                  <h2 className="text-xs font-semibold text-slate-700 dark:text-slate-300 text-center">
-                    Verifikasi Dua Langkah (MFA)
-                  </h2>
-                  <div className="flex justify-center gap-1.5 sm:gap-2" onPaste={handleOtpPaste}>
-                    {otpDigits.map((digit, index) => (
-                      <input
-                        key={index}
-                        ref={(el) => {
-                          otpInputRefs.current[index] = el;
-                        }}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        value={digit}
-                        onChange={(e) => handleOtpChange(index, e.target.value)}
-                        onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                        className="w-9 h-11 sm:w-10 sm:h-11 text-center text-lg font-mono font-bold rounded-lg border border-slate-200 bg-slate-50/50 text-slate-900 shadow-xs focus:outline-none focus:ring-1 focus:ring-slate-900 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-100 dark:focus:ring-emerald-400"
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between text-[11px] pt-0.5">
-                  <button
-                    type="button"
-                    onClick={fillMockOtp}
-                    className="text-emerald-700 dark:text-emerald-400 hover:underline font-semibold flex items-center gap-1"
-                  >
-                    <KeyRound className="h-3 w-3" />
-                    Gunakan Kode Demo (824901)
-                  </button>
-
-                  <span className="text-slate-500 dark:text-slate-400 font-mono">
-                    {mfaTimer > 0 ? (
-                      `${mfaTimer}s`
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => setMfaTimer(30)}
-                        className="text-slate-800 dark:text-slate-200 font-semibold hover:underline"
-                      >
-                        Kirim Ulang
-                      </button>
-                    )}
-                  </span>
-                </div>
-
-                <div className="pt-1 space-y-1.5">
-                  <Button
-                    type="button"
-                    onClick={() => verifyMfaCode(otpDigits.join(""))}
-                    disabled={loading || otpDigits.join("").length !== 6}
-                    className="w-full h-9 text-xs font-semibold bg-slate-900 hover:bg-black text-white dark:bg-[#FAF8F5] dark:hover:bg-white dark:text-slate-900 transition-colors duration-150 motion-reduce:transition-none"
-                  >
-                    {loading ? (
-                      <span className="flex items-center gap-2">
-                        <RefreshCw className="h-3.5 w-3.5 animate-spin text-emerald-400" />
-                        Verifikasi...
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-1.5">
-                        Verifikasi & Buka Cockpit
-                        <Check className="h-3.5 w-3.5" />
-                      </span>
-                    )}
-                  </Button>
-
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      setAuthStep("input");
-                      setOtpDigits(["", "", "", "", "", ""]);
-                      setErrorMsg(null);
-                    }}
-                    variant="ghost"
-                    size="sm"
-                    className="w-full text-xs text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 h-8"
-                  >
-                    Kembali
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {/* STEP 3: SUCCESS */}
+            {/* STEP 2: SUCCESS */}
             {authStep === "success" && (
               <div className="p-5 rounded-xl border border-emerald-200 dark:border-emerald-800/80 bg-emerald-50/60 dark:bg-emerald-950/30 text-center space-y-3">
                 <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-white shadow-xs">
