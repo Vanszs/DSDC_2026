@@ -7,6 +7,7 @@ import { fetchOpenMeteoECMWFData, OpenMeteoDailyRecord } from "./openmeteo";
 import { predictMLDiseaseRisk } from "./ml-inference";
 import { downscaleERA5SingleGridToDistrict, SEMARANG_PRIMARY_ERA5_GRID, ERA5SingleGridReference } from "./downscaling";
 import { DailyClimateVector } from "./climatology";
+import { KEMENDAGRI_33_74_DISTRICTS } from "./regulatory-specs";
 
 export interface DistrictSummaryDTO {
   id: number;
@@ -75,7 +76,7 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
       )
       .orderBy(desc(epidemiologicalRiskScores.compositeVulnerabilityScore));
 
-    // Jika query DB berhasil mengembalikan baris, gunakan data tersebut
+    // Jika query DB mengembalikan baris (baik cache hit maupun fallback nulls)
     if (existingRows && existingRows.length > 0) {
       return existingRows.map((r) => ({
         id: r.id,
@@ -133,20 +134,29 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
           era5Ref
         );
 
-        // Siapkan time-series 14 hari dengan koreksi mikroklimat kecamatan
+        // Siapkan time-series 14 hari dengan koreksi konsisten seluruh window 14-hari
+        const orographicRainFactor = dist.elevationMeters > 50
+          ? 1.0 + (dist.elevationMeters - 50) * 0.0007
+          : 1.0;
+
         const district14Days: DailyClimateVector[] = past14.map((w) => ({
           date: w.date,
           temperatureAvg: parseFloat((w.temperatureAvg + downscaled.lapseRateCorrection).toFixed(1)),
-          temperatureMin: w.temperatureMin,
-          temperatureMax: w.temperatureMax,
+          temperatureMin: parseFloat((w.temperatureMin + downscaled.lapseRateCorrection).toFixed(1)),
+          temperatureMax: parseFloat((w.temperatureMax + downscaled.lapseRateCorrection).toFixed(1)),
           humidityAvg: downscaled.humidityAvg,
-          rainfallMm: w.rainfallMm,
+          rainfallMm: parseFloat((w.rainfallMm * orographicRainFactor).toFixed(1)),
           windSpeedKmh: w.windSpeedKmh,
           pm25: downscaled.pm25,
         }));
 
-        // Jalankan ML Inference L2 Ridge
-        const prediction = predictMLDiseaseRisk(district14Days);
+        // Jalankan ML Inference L2 Ridge Terintegrasi Exposure & Vulnerability (WHO/IPCC Framework)
+        const prediction = predictMLDiseaseRisk(district14Days, {
+          population: dist.population,
+          areaKm2: dist.areaKm2,
+          sanitationIndex: dist.sanitationIndex,
+          isCoastalRobRisk: dist.isCoastalRobRisk,
+        });
 
         results.push({
           id: dist.id,
@@ -187,7 +197,11 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
               target: [weatherObservations.districtId, weatherObservations.observationDate],
               set: {
                 temperatureAvg: downscaled.temperatureAvg,
+                temperatureMin: downscaled.temperatureMin,
+                temperatureMax: downscaled.temperatureMax,
+                humidityAvg: downscaled.humidityAvg,
                 rainfallMm: downscaled.rainfallMm,
+                windSpeedKmh: downscaled.windSpeedKmh,
                 pm25: downscaled.pm25,
               },
             });
@@ -222,11 +236,31 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
     }
   } catch (error) {
     console.warn("DB/Live Ingestion error, advancing to Climatological Fallback:", error);
+    throw error;
   }
 
-  // TIER 3: Zero-Downtime Climatological Fallback (Anti-500 Error)
-  const rawDistricts = (await db.select().from(districts)) || [];
-  const districtList = Array.isArray(rawDistricts) ? rawDistricts : [];
+  // TIER 3: Zero-Downtime Climatological Fallback (Anti-500 Error dengan Static Catalog Fallback)
+  let districtList: any[] = [];
+  try {
+    const rawDistricts = await db.select().from(districts);
+    if (Array.isArray(rawDistricts) && rawDistricts.length > 0) {
+      districtList = rawDistricts;
+    }
+  } catch {
+    // Database connection totally down, gunakan catalog master Kemendagri 33.74
+    districtList = KEMENDAGRI_33_74_DISTRICTS.map((d, i) => ({
+      id: i + 1,
+      kemendagriCode: d.code,
+      name: d.name,
+      typology: d.typology,
+      isCoastalRobRisk: d.isCoastalRob,
+      population: d.population,
+      areaKm2: d.areaKm2,
+      elevationMeters: d.elevationMeters,
+      sanitationIndex: 0.75,
+      centroid: d.centroid,
+    }));
+  }
 
   if (districtList.length === 0) {
     return [];
@@ -242,17 +276,22 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
     });
 
     const fallback14Days: DailyClimateVector[] = Array.from({ length: 14 }, (_, i) => ({
-      date: format(subDays(new Date(), 13 - i), "yyyy-MM-dd"),
+      date: format(subDays(parseISO(targetDate) || new Date(), 13 - i), "yyyy-MM-dd"),
       temperatureAvg: downscaled.temperatureAvg,
-      temperatureMin: 23.5,
-      temperatureMax: 32.0,
+      temperatureMin: downscaled.temperatureMin,
+      temperatureMax: downscaled.temperatureMax,
       humidityAvg: downscaled.humidityAvg,
       rainfallMm: downscaled.rainfallMm,
       windSpeedKmh: downscaled.windSpeedKmh,
       pm25: downscaled.pm25,
     }));
 
-    const prediction = predictMLDiseaseRisk(fallback14Days);
+    const prediction = predictMLDiseaseRisk(fallback14Days, {
+      population: d.population,
+      areaKm2: d.areaKm2,
+      sanitationIndex: d.sanitationIndex,
+      isCoastalRobRisk: d.isCoastalRobRisk,
+    });
 
     return {
       id: d.id,

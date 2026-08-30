@@ -54,7 +54,7 @@ export async function GET(
         ORDER BY score_date DESC 
         LIMIT 1
       ) r ON true
-      WHERE ST_Transform(d.centroid, 3857) && b.geom
+      WHERE d.centroid && ST_Transform(b.geom, 4326)
     )
     SELECT ST_AsMVT(mvt_geom.*, 'districts_layer', 4096, 'geom') AS mvt FROM mvt_geom;
   `;

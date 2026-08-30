@@ -6,9 +6,7 @@ import Link from "next/link";
 import {
   Activity,
   RefreshCw,
-  Layers,
-  ArrowLeft,
-  Calendar,
+  AlertCircle,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { DistrictSummaryDTO } from "@/lib/queries";
@@ -41,12 +39,16 @@ export default function DashboardPage() {
   const [selectedDistrict, setSelectedDistrict] =
     useState<DistrictSummaryDTO | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const fetchAnalytics = useCallback(async (dateStr: string) => {
+  const fetchAnalytics = useCallback(async (dateStr: string, signal?: AbortSignal) => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/analytics?date=${dateStr}`);
-      if (!res.ok) throw new Error("Gagal mengambil data analitik");
+      setErrorMessage(null);
+      const res = await fetch(`/api/analytics?date=${dateStr}`, {
+        signal,
+      });
+      if (!res.ok) throw new Error(`Gagal memuat analitik: HTTP ${res.status}`);
       const json = await res.json();
       const list: DistrictSummaryDTO[] = json.data ?? [];
       setDistricts(list);
@@ -56,15 +58,22 @@ export default function DashboardPage() {
         const matching = list.find((d) => d.id === prev.id);
         return matching ?? list[0] ?? null;
       });
-    } catch (err) {
-      console.error("Fetch analytics error:", err);
+    } catch (err: any) {
+      if (err.name !== "AbortError") {
+        console.error("Fetch analytics error:", err);
+        setErrorMessage(err.message || "Gagal sinkronisasi data analitik");
+      }
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchAnalytics(selectedDate);
+    const controller = new AbortController();
+    fetchAnalytics(selectedDate, controller.signal);
+    return () => {
+      controller.abort();
+    };
   }, [selectedDate, fetchAnalytics]);
 
   // Aggregate metrics
@@ -113,6 +122,23 @@ export default function DashboardPage() {
             </button>
           </div>
         </div>
+
+        {/* Error Alert Toast */}
+        {errorMessage && (
+          <div
+            role="alert"
+            className="absolute top-20 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-xs font-semibold text-white shadow-2xl animate-fade-in border border-red-500 pointer-events-auto"
+          >
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            <span>{errorMessage}</span>
+            <button
+              onClick={() => fetchAnalytics(selectedDate)}
+              className="ml-2 underline font-bold hover:text-red-100"
+            >
+              Coba Lagi
+            </button>
+          </div>
+        )}
 
         {/* Loading Overlay */}
         {loading && (

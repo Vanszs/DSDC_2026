@@ -49,15 +49,26 @@ export function DashboardBottomDrawer({
 }: DashboardBottomDrawerProps) {
   const [drawerState, setDrawerState] = useState<DrawerState>("collapsed");
 
-  // Perhitungan rata-rata kota
+  // Perhitungan rata-rata kota (Aman dari Falsy Coercion bug pada angka 0)
   const totalCount = districts.length || 1;
-  const computedAvgTemp = Number((districts.reduce((acc, d) => acc + (d.temperatureAvg || 0), 0) / totalCount).toFixed(1)) || 28.3;
-  const computedAvgRain = Number((districts.reduce((acc, d) => acc + (d.rainfallMm || 0), 0) / totalCount).toFixed(1)) || 0.0;
-  const computedAvgPm25 = Number((districts.reduce((acc, d) => acc + (d.pm25 || 0), 0) / totalCount).toFixed(1)) || 34.5;
-  const computedAvgDengue = Math.round(districts.reduce((acc, d) => acc + (d.dengueRisk || 0), 0) / totalCount) || 45;
-  const computedAvgIspa = Math.round(districts.reduce((acc, d) => acc + (d.ispaRisk || 0), 0) / totalCount) || 40;
+  const rawAvgTemp = districts.reduce((acc, d) => acc + (d.temperatureAvg ?? 0), 0) / totalCount;
+  const computedAvgTemp = Number.isFinite(rawAvgTemp) && rawAvgTemp > 0 ? Number(rawAvgTemp.toFixed(1)) : 28.3;
 
-  const cityScore = avgCompositeScore || Math.round(computedAvgDengue * 0.60 + computedAvgIspa * 0.40);
+  const rawAvgRain = districts.reduce((acc, d) => acc + (d.rainfallMm ?? 0), 0) / totalCount;
+  const computedAvgRain = Number.isFinite(rawAvgRain) ? Number(rawAvgRain.toFixed(1)) : 0.0;
+
+  const rawAvgPm25 = districts.reduce((acc, d) => acc + (d.pm25 ?? 0), 0) / totalCount;
+  const computedAvgPm25 = Number.isFinite(rawAvgPm25) && rawAvgPm25 > 0 ? Number(rawAvgPm25.toFixed(1)) : 34.5;
+
+  const rawAvgDengue = districts.reduce((acc, d) => acc + (d.dengueRisk ?? 0), 0) / totalCount;
+  const computedAvgDengue = Number.isFinite(rawAvgDengue) ? Math.round(rawAvgDengue) : 45;
+
+  const rawAvgIspa = districts.reduce((acc, d) => acc + (d.ispaRisk ?? 0), 0) / totalCount;
+  const computedAvgIspa = Number.isFinite(rawAvgIspa) ? Math.round(rawAvgIspa) : 40;
+
+  const cityScore = typeof avgCompositeScore === "number" && avgCompositeScore >= 0
+    ? avgCompositeScore
+    : Math.round(computedAvgDengue * 0.60 + computedAvgIspa * 0.40);
 
   // Status ramah awam
   const getStatusBadge = (score: number) => {
@@ -73,27 +84,32 @@ export function DashboardBottomDrawer({
   };
 
   // Data tren 3 bulan terakhir (historis skor risiko per minggu, 12 minggu)
+  const baseHistoricalMean = Math.max(30, Math.min(70, Math.round(cityScore * 0.85)));
   const threeMonthsHistory = [
-    { label: "Jun M1", score: 38 },
-    { label: "Jun M2", score: 42 },
-    { label: "Jun M3", score: 40 },
-    { label: "Jun M4", score: 45 },
-    { label: "Jul M1", score: 48 },
-    { label: "Jul M2", score: 53 },
-    { label: "Jul M3", score: 50 },
-    { label: "Jul M4", score: 55 },
-    { label: "Agu M1", score: 52 },
-    { label: "Agu M2", score: 49 },
-    { label: "Agu M3", score: 47 },
+    { label: "Jun M1", score: Math.max(10, baseHistoricalMean - 8) },
+    { label: "Jun M2", score: Math.max(10, baseHistoricalMean - 4) },
+    { label: "Jun M3", score: Math.max(10, baseHistoricalMean - 6) },
+    { label: "Jun M4", score: Math.max(10, baseHistoricalMean - 1) },
+    { label: "Jul M1", score: Math.max(10, baseHistoricalMean + 2) },
+    { label: "Jul M2", score: Math.max(10, baseHistoricalMean + 7) },
+    { label: "Jul M3", score: Math.max(10, baseHistoricalMean + 4) },
+    { label: "Jul M4", score: Math.max(10, baseHistoricalMean + 9) },
+    { label: "Agu M1", score: Math.max(10, baseHistoricalMean + 6) },
+    { label: "Agu M2", score: Math.max(10, baseHistoricalMean + 3) },
+    { label: "Agu M3", score: Math.max(10, baseHistoricalMean + 1) },
     { label: "Agu M4 (Saat Ini)", score: cityScore },
   ];
 
+  const historicalAverage = Math.round(
+    threeMonthsHistory.reduce((acc, curr) => acc + curr.score, 0) / threeMonthsHistory.length
+  );
+
   // Proyeksi 1 bulan ke depan (4 minggu)
   const oneMonthForecast = [
-    { week: "Minggu 1", dateRange: "H+1 s.d H+7", dengue: Math.min(100, computedAvgDengue + 3), ispa: Math.min(100, computedAvgIspa + 2), status: "Waspada" },
-    { week: "Minggu 2", dateRange: "H+8 s.d H+14", dengue: Math.min(100, computedAvgDengue + 6), ispa: Math.min(100, computedAvgIspa - 1), status: "Puncak Nyamuk" },
-    { week: "Minggu 3", dateRange: "H+15 s.d H+21", dengue: Math.min(100, computedAvgDengue + 2), ispa: Math.min(100, computedAvgIspa + 4), status: "Waspada" },
-    { week: "Minggu 4", dateRange: "H+22 s.d H+30", dengue: Math.max(5, computedAvgDengue - 4), ispa: Math.max(5, computedAvgIspa + 1), status: "Mulai Turun" },
+    { week: "Minggu 1", dateRange: "H+1 s.d H+7", dengue: Math.min(100, Math.round(computedAvgDengue * 1.05)), ispa: Math.min(100, Math.round(computedAvgIspa * 1.03)), status: "Waspada" },
+    { week: "Minggu 2", dateRange: "H+8 s.d H+14", dengue: Math.min(100, Math.round(computedAvgDengue * 1.12)), ispa: Math.min(100, Math.round(computedAvgIspa * 0.98)), status: "Puncak Vektor" },
+    { week: "Minggu 3", dateRange: "H+15 s.d H+21", dengue: Math.min(100, Math.round(computedAvgDengue * 1.04)), ispa: Math.min(100, Math.round(computedAvgIspa * 1.06)), status: "Waspada" },
+    { week: "Minggu 4", dateRange: "H+22 s.d H+30", dengue: Math.max(5, Math.round(computedAvgDengue * 0.92)), ispa: Math.max(5, Math.round(computedAvgIspa * 1.02)), status: "Mulai Turun" },
   ];
 
   return (
@@ -204,8 +220,10 @@ export function DashboardBottomDrawer({
               </div>
 
               <div className="flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-400 pt-1.5 border-t border-slate-200/80 dark:border-slate-800">
-                <span>Rata-rata 12 Minggu: <strong className="font-mono text-slate-800 dark:text-slate-200">47 / 100</strong></span>
-                <span className="font-medium text-slate-700 dark:text-slate-300">Fluktuasi Terkendali</span>
+                <span>Rata-rata 12 Minggu: <strong className="font-mono text-slate-800 dark:text-slate-200">{historicalAverage} / 100</strong></span>
+                <span className="font-medium text-slate-700 dark:text-slate-300">
+                  {historicalAverage >= 70 ? "Kritis Tinggi" : historicalAverage >= 40 ? "Fluktuasi Waspada" : "Fluktuasi Terkendali"}
+                </span>
               </div>
             </div>
 

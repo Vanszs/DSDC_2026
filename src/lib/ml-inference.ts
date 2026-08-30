@@ -9,8 +9,16 @@
 import mlWeightsData from "./ml-weights.json";
 import { computeBriereSuitability, computeLagRainfallEffect, DailyClimateVector, DiseaseRiskResult } from "./climatology";
 
+export interface DistrictVulnerabilityContext {
+  population?: number;
+  areaKm2?: number;
+  sanitationIndex?: number;
+  isCoastalRobRisk?: boolean;
+}
+
 export function predictMLDiseaseRisk(
-  climate14Days: DailyClimateVector[]
+  climate14Days: DailyClimateVector[],
+  context?: DistrictVulnerabilityContext
 ): DiseaseRiskResult {
   const current = climate14Days[climate14Days.length - 1] ?? {
     temperatureAvg: 28.3,
@@ -65,7 +73,6 @@ export function predictMLDiseaseRisk(
     dengueScore += contrib;
     dengueAttributions[feat] = contrib;
   }
-  const dengueRisk = Math.round(Math.min(100, Math.max(5, dengueScore)));
 
   // 2. Inference Model ISPA
   const ispaModel = mlWeightsData.models.ispa;
@@ -76,58 +83,97 @@ export function predictMLDiseaseRisk(
     ispaScore += contrib;
     ispaAttributions[feat] = contrib;
   }
-  const ispaRisk = Math.round(Math.min(100, Math.max(5, ispaScore)));
+
+  // 1. Layer 1: Bioclimatic ML Hazard Score
+  const rawDengueHazard = dengueScore;
+  const rawIspaHazard = ispaScore;
+
+  // 2. Layer 2: Spatial Exposure & Vulnerability Integration (WHO/IPCC Framework)
+  let finalDengueRisk = Math.round(Math.min(100, Math.max(5, rawDengueHazard)));
+  let finalIspaRisk = Math.round(Math.min(100, Math.max(5, rawIspaHazard)));
+
+  if (context && (context.population || context.sanitationIndex !== undefined)) {
+    const pop = context.population || 80000;
+    const area = context.areaKm2 || 15.0;
+    const density = pop / Math.max(1, area); // Jiwa / km2
+    // Normalisasi kepadatan Kota Semarang (rentang 1.300 s.d 11.000 jiwa/km2)
+    const densityFactor = Math.min(1.20, Math.max(0.85, 0.85 + (density / 10000) * 0.35));
+
+    // Sanitasi & Rob modifier
+    const sanitation = context.sanitationIndex ?? 0.75;
+    const sanitationPenalty = (1.0 - sanitation) * 15; // 0 s.d 6 poin tambahan jika sanitasi buruk
+    const robBonus = context.isCoastalRobRisk ? 5 : 0;
+
+    finalDengueRisk = Math.round(Math.min(100, Math.max(5, rawDengueHazard * densityFactor * 0.90 + sanitationPenalty + robBonus)));
+    finalIspaRisk = Math.round(Math.min(100, Math.max(5, rawIspaHazard * densityFactor * 0.95)));
+  }
 
   // Composite Environmental Health Vulnerability (EHV) Index (DBD 60% : ISPA 40%)
-  const compositeScore = Math.round(dengueRisk * 0.60 + ispaRisk * 0.40);
+  const compositeScore = Math.round(finalDengueRisk * 0.60 + finalIspaRisk * 0.40);
 
-  // Dynamic Feature Attribution: Tentukan Pemicu Utama dari argmax |contrib|
+  // Dynamic Feature Attribution: Tentukan Pemicu Utama dari argmax (kontribusi risiko positif terbesar)
   let primaryFactor = "Stabilitas Mikroklimat & Kualitas Udara";
   let recommendation = "Pemantauan berkala dan pemeliharaan kebersihan lingkungan.";
 
   const maxDengueKey = dengueModel.featureNames.reduce((best, f) =>
-    Math.abs(dengueAttributions[f] ?? 0) > Math.abs(dengueAttributions[best] ?? 0) ? f : best,
+    (dengueAttributions[f] ?? 0) > (dengueAttributions[best] ?? 0) ? f : best,
     dengueModel.featureNames[0]
   );
 
   const maxIspaKey = ispaModel.featureNames.reduce((best, f) =>
-    Math.abs(ispaAttributions[f] ?? 0) > Math.abs(ispaAttributions[best] ?? 0) ? f : best,
+    (ispaAttributions[f] ?? 0) > (ispaAttributions[best] ?? 0) ? f : best,
     ispaModel.featureNames[0]
   );
 
   if (compositeScore >= 60) {
-    if (dengueRisk >= ispaRisk) {
-      primaryFactor = maxDengueKey === "lagRainfallDlnm"
-        ? "Lag Presipitasi Akumulatif (Inkubasi Vektor Aedes)"
-        : maxDengueKey === "briereSuitability"
-        ? "Suhu Optimum Replikasi Vektor Dengue (Kurva Briere)"
-        : "Kelembapan Relatif Ekstrim Mendukung Daya Tahan Nyamuk";
+    if (finalDengueRisk >= finalIspaRisk) {
+      if (maxDengueKey === "lagRainfallDlnm") {
+        primaryFactor = "Lag Presipitasi Akumulatif (Inkubasi Vektor Aedes)";
+      } else if (maxDengueKey === "briereSuitability") {
+        primaryFactor = "Suhu Optimum Replikasi Vektor Dengue (Kurva Briere)";
+      } else if (maxDengueKey === "relativeHumidityPct") {
+        primaryFactor = "Kelembapan Relatif Ekstrim Mendukung Daya Tahan Nyamuk";
+      } else {
+        primaryFactor = "Fluktuasi Suhu Harian Mendukung Transmisi Vektor";
+      }
       recommendation = "Aktivasi fogging fokus terarah dan larvasidasi massal pada genangan pemukiman.";
     } else {
-      primaryFactor = maxIspaKey === "pm25"
-        ? "Konsentrasi Partikulat Aerosol PM2.5 Tinggi"
-        : maxIspaKey === "windSpeedKmh"
-        ? "Stagnasi Ventilasi Atmosferik Lapisan Permukaan"
-        : "Konsentrasi Emisi Gas Buang Urban Tinggi";
+      if (maxIspaKey === "pm25") {
+        primaryFactor = "Konsentrasi Partikulat Aerosol PM2.5 Tinggi";
+      } else if (maxIspaKey === "windSpeedKmh") {
+        primaryFactor = "Stagnasi Ventilasi Atmosferik Lapisan Permukaan";
+      } else if (maxIspaKey === "temperatureMin") {
+        primaryFactor = "Paparan Suhu Dingin Ekstrim Malam Hari";
+      } else {
+        primaryFactor = "Konsentrasi Emisi Gas Buang Urban Tinggi (CO & NO2)";
+      }
       recommendation = "Pemberlakuan peringatan kualitas udara dan pembagian masker medis respiratorik.";
     }
   } else if (compositeScore >= 35) {
-    if (dengueRisk >= ispaRisk) {
-      primaryFactor = maxDengueKey === "lagRainfallDlnm"
-        ? "Residu Genangan Air Pasca-Hujan Ringan"
-        : "Kapasitas Termal Replikasi Vektor Aedes";
+    if (finalDengueRisk >= finalIspaRisk) {
+      if (maxDengueKey === "lagRainfallDlnm") {
+        primaryFactor = "Residu Genangan Air Pasca-Hujan Ringan";
+      } else if (maxDengueKey === "relativeHumidityPct") {
+        primaryFactor = "Kelembapan Mikro Mendukung Vektor";
+      } else {
+        primaryFactor = "Kapasitas Termal Replikasi Vektor Aedes";
+      }
       recommendation = "Pemeriksaan Jentik Berkala (PJB) oleh kader Jumantik kelurahan.";
     } else {
-      primaryFactor = maxIspaKey === "pm25"
-        ? "Akumulasi Polutan Partikulat Ringan"
-        : "Ventilasi Udara Permukaan Rendah";
+      if (maxIspaKey === "pm25") {
+        primaryFactor = "Akumulasi Polutan Partikulat Ringan";
+      } else if (maxIspaKey === "temperatureMin") {
+        primaryFactor = "Fluktuasi Suhu Udara Rendah";
+      } else {
+        primaryFactor = "Ventilasi Udara Permukaan Rendah";
+      }
       recommendation = "Peningkatan ventilasi udara dalam ruangan dan pengurangan emisi lokal.";
     }
   }
 
   return {
-    dengueRisk,
-    ispaRisk,
+    dengueRisk: finalDengueRisk,
+    ispaRisk: finalIspaRisk,
     compositeScore,
     primaryFactor,
     recommendation,

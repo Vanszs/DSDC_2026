@@ -113,12 +113,22 @@ $$\text{ISPA\_Raw} = \left(\frac{PM_{2.5}}{50}\times 50\right) + \left(\frac{NO_
 
 ---
 
-### 4.4. Skalabilitas Topografis Lapse Rate DEMNAS 30m
-Kota Semarang memiliki kontur bervariasi dari dataran pantai ($0\text{ mdpl}$) hingga perbukitan Banyumanik & Gunungpati ($350\text{ mdpl}$). Data makro ERA5 didistribusikan secara fisik:
-1. **Suhu Udara (Environmental Lapse Rate):**
-   $$T_{\text{lokal}} = T_{\text{ERA5}} - 0.0065 \cdot (h_{\text{DEMNAS}} - 65.0)$$
-2. **Koreksi Presipitasi Lereng Orografis:**
-   $$P_{\text{lokal}} = P_{\text{ERA5}} \cdot \left(1 + 0.0007 \cdot \max(0, h_{\text{DEMNAS}} - 50.0)\right)$$
+### 4.4. Two-Layer Integrated Risk Framework (WHO/IPCC) & Topographic Downscaling
+Sistem memisahkan secara tegas antara **Bahaya Iklim Makro (Hazard)** dengan **Diferensiasi Kerentanan Spasial (Exposure & Vulnerability)**:
+
+1. **Layer 1: Bioclimatic ML Hazard ($H_{\text{climate}}$)**
+   - Model L2 Ridge 30-Tahun memprediksi kapasitas bahaya biologis iklim dari data reanalisis Open-Meteo ERA5 25 km.
+   - Suhu dan presipitasi di-*downscale* secara fisik berdasarkan elevasi DEMNAS 30m:
+     $$T_{\text{lokal}} = T_{\text{ERA5}} - 0.0065 \cdot (h_{\text{DEMNAS}} - 65.0)$$
+     $$P_{\text{lokal}} = P_{\text{ERA5}} \cdot \left(1 + 0.0007 \cdot \max(0, h_{\text{DEMNAS}} - 50.0)\right)$$
+
+2. **Layer 2: Spatial Exposure & Vulnerability Index ($E_i, V_i$)**
+   - Mengintegrasikan data spasial lokal Kemendagri 33.74:
+     - **Kepadatan Penduduk ($D_i = \text{Pop} / \text{Area}$)**: Normalisasi faktor eksposur densitas urban ($0.85 - 1.20$).
+     - **Indeks Sanitasi ($V_{\text{san}} = (1 - \text{Sanitation}) \times 15$)**: Penalti beban lingkungan pemukiman.
+     - **Faktor Rob Pesisir ($V_{\text{rob}} = +5\text{ poin}$)**: Genangan permanen di wilayah Semarang Utara, Genuk, Gayamsari, Tugu.
+   - **Skor Risiko Terpadu Akhir**:
+     $$\text{Risk}_{\text{final}} = \text{Hazard}_{\text{ML}} \times \text{Exposure}(D_i) + V_{\text{san}} + V_{\text{rob}}$$
 
 ---
 

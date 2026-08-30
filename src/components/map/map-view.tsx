@@ -153,8 +153,8 @@ export const MapView: React.FC<MapViewProps> = ({ districts }) => {
   // Ambil skor rata-rata komposit EHV kota
   const totalCount = districts.length || 1;
   const currentCityScore = districts.length
-    ? Math.round(districts.reduce((acc, d) => acc + (d.compositeScore || 0), 0) / totalCount)
-    : 41;
+    ? Math.round(districts.reduce((acc, d) => acc + (d.compositeScore ?? 0), 0) / totalCount)
+    : 0;
 
   // Inisialisasi MapLibre GL dengan Viewport Terkunci Total (100% Frozen Viewport)
   useEffect(() => {
@@ -187,13 +187,37 @@ export const MapView: React.FC<MapViewProps> = ({ districts }) => {
     }
   }, []);
 
-  // Update style saat tema berganti (Dark <-> Light) atau skor bahaya EHV berubah
+  // Update style secara presisi via paint properties atau saat tema berganti
+  const prevThemeRef = React.useRef(isDark);
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map) return;
 
-    const targetStyle = createMapStyle(isDark, currentCityScore);
-    map.setStyle(targetStyle);
+    // Jika tema berubah, update style secara penuh
+    if (prevThemeRef.current !== isDark) {
+      prevThemeRef.current = isDark;
+      const targetStyle = createMapStyle(isDark, currentCityScore);
+      map.setStyle(targetStyle);
+      return;
+    }
+
+    // Jika hanya skor yang berubah, update paint properties tanpa me-reload raster base map
+    if (typeof map.isStyleLoaded === "function" ? map.isStyleLoaded() : true) {
+      const palette = getDynamicRiskPalette(currentCityScore, isDark);
+      try {
+        if (typeof map.getLayer === "function" && map.getLayer("semarang-boundary-fill")) {
+          map.setPaintProperty("semarang-boundary-fill", "fill-color", palette.fillColor);
+        }
+        if (typeof map.getLayer === "function" && map.getLayer("semarang-boundary-glow")) {
+          map.setPaintProperty("semarang-boundary-glow", "line-color", palette.glowColor);
+        }
+        if (typeof map.getLayer === "function" && map.getLayer("semarang-boundary-stroke")) {
+          map.setPaintProperty("semarang-boundary-stroke", "line-color", palette.strokeColor);
+        }
+      } catch {
+        // Fallback jika layer belum siap
+      }
+    }
   }, [isDark, currentCityScore]);
 
   // Cleanup map instance

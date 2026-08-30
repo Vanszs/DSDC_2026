@@ -9,7 +9,9 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   try {
-    const data = await getLatestCitywideVulnerability();
+    const { searchParams } = new URL(request.url);
+    const dateParam = searchParams.get("date") ?? undefined;
+    const data = await getLatestCitywideVulnerability(dateParam);
     const dateStr = format(new Date(), "dd MMMM yyyy");
 
     const pdfElement = React.createElement(ExecutiveReportDocument, {

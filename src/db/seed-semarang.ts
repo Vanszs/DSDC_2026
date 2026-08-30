@@ -41,8 +41,8 @@ export const SEMARANG_16_DISTRICTS: SemarangSeedItem[] = [
 async function runSeed() {
   console.log("Menjalankan Seeding Database EcoHealth Pulse (Semarang 16 Kecamatan dengan Live Open-Meteo ECMWF & Topo Downscaling)...");
 
-  // 1. Ambil data aktual ECMWF dari Open-Meteo API (Historical 28 hari + Forecast 14 hari)
-  const openMeteoData: OpenMeteoDailyRecord[] = await fetchOpenMeteoECMWFData(-7.0000, 110.4000, 28, 14);
+  // 1. Ambil data aktual ECMWF dari Open-Meteo API (Historical 35 hari + Forecast 30 hari penuh)
+  const openMeteoData: OpenMeteoDailyRecord[] = await fetchOpenMeteoECMWFData(-7.0000, 110.4000, 35, 30);
   const openMeteoMap = new Map<string, OpenMeteoDailyRecord>();
   openMeteoData.forEach((rec) => openMeteoMap.set(rec.date, rec));
 
@@ -145,7 +145,12 @@ async function runSeed() {
       const targetIndex = climateSeries.findIndex((c) => c.date === targetDate);
       if (targetIndex >= 14) {
         const sliced14Days = climateSeries.slice(targetIndex - 13, targetIndex + 1);
-        const risk = predictMLDiseaseRisk(sliced14Days);
+        const risk = predictMLDiseaseRisk(sliced14Days, {
+          population: d.population,
+          areaKm2: d.areaKm2,
+          sanitationIndex: d.sanitation,
+          isCoastalRobRisk: d.isCoastalRob,
+        });
 
         allScoreRows.push({
           districtId,

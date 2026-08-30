@@ -43,8 +43,9 @@ export function computeBriereSuitability(tempAvg: number): number {
 
 /**
  * 4.2. Distributed Lag Non-linear Model (DLNM) Gaussian Kernel (14-Day Cross-Basis)
- * Array input menerima deret hujan kronologis [t-13, t-12, ..., t] atau berorientasi lag.
+ * Array input menerima deret hujan kronologis [t-13, t-12, ..., t].
  * Bobot Gaussian puncak pada lag 8 hari (k = 8).
+ * Menangani zero-padding secara aman jika panjang data < 14 hari.
  */
 export function computeLagRainfallEffect(rainfallHistory14Days: number[]): number {
   const weights = [
@@ -52,11 +53,19 @@ export function computeLagRainfallEffect(rainfallHistory14Days: number[]): numbe
     0.160, 0.155, 0.130, 0.094, 0.059, 0.032
   ];
 
+  if (!rainfallHistory14Days || rainfallHistory14Days.length === 0) {
+    return 0.0;
+  }
+
+  // Normalisasi kronologis: pastikan array memiliki 14 elemen [t-13 ... t]
+  const paddedRain = rainfallHistory14Days.length < 14
+    ? [...Array(14 - rainfallHistory14Days.length).fill(0), ...rainfallHistory14Days]
+    : rainfallHistory14Days.slice(-14);
+
   let weightedRain = 0;
-  const len = Math.min(rainfallHistory14Days.length, 14);
-  for (let k = 0; k < len; k++) {
-    // Index len - 1 - k = hari t - k (Lag k hari ke belakang)
-    const rainAtLagK = rainfallHistory14Days[len - 1 - k] ?? 0;
+  for (let k = 0; k < 14; k++) {
+    // Index 13 - k = hari t - k (Lag k hari ke belakang dari titik evaluasi hari ini)
+    const rainAtLagK = paddedRain[13 - k] ?? 0;
     weightedRain += rainAtLagK * weights[k];
   }
   // Normalisasi ambang batas saturasi genangan mikroklimat Kota Semarang (45.0 mm efektif)
@@ -93,7 +102,7 @@ export function computeAtmosphericStagnationIndex(windSpeedKmh: number, humidity
 /**
  * Evaluasi Risiko Multi-Bahaya Epidemiologi per Kecamatan (100% Deterministic)
  * 
- * @param climate14Days Deret observasi iklim harian 14 hari terakhir (indeks 0 = hari evaluasi)
+ * @param climate14Days Deret observasi iklim harian 14 hari kronologis [t-13 ... t]
  * @param isCoastalRob Status geomorfologi pesisir rawan banjir rob (Genuk, Semarang Utara, Tugu, Gayamsari)
  * @param sanitationIndex Indeks sanitasi kelurahan (0.0 - 1.0)
  */
@@ -112,7 +121,8 @@ export function evaluateDistrictRisk(
     };
   }
 
-  const latest = climate14Days[0];
+  // Ambil titik evaluasi terkini (hari t, indeks terakhir deret kronologis)
+  const latest = climate14Days[climate14Days.length - 1];
   const rainfall14 = climate14Days.map((c) => c.rainfallMm);
 
   // 1. Risiko DBD (Dengue Risk): Briere (45%) + DLNM Lag Rain (35%) + Humidity Modifier (20%)

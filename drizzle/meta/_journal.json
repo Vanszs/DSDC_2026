@@ -8,6 +8,13 @@
       "when": 1787831061056,
       "tag": "0000_messy_gorilla_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788113001450,
+      "tag": "0001_curious_major_mapleleaf",
+      "breakpoints": true
     }
   ]
 }

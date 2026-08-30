@@ -8,8 +8,12 @@ const geometryPoint = customType<{ data: { lat: number; lng: number }; driverDat
   toDriver(value: { lat: number; lng: number }): string {
     return `SRID=4326;POINT(${value.lng} ${value.lat})`;
   },
-  fromDriver(value: string): { lat: number; lng: number } {
+  fromDriver(value: unknown): { lat: number; lng: number } {
     if (!value) return { lat: 0, lng: 0 };
+    if (typeof value === "object" && value !== null && "lat" in value && "lng" in value) {
+      return value as { lat: number; lng: number };
+    }
+    if (typeof value !== "string") return { lat: 0, lng: 0 };
     
     // Format A: WKT String "POINT(110.4208 -6.9825)" or "SRID=4326;POINT(...)"
     const wktMatch = value.match(/POINT\s*\(\s*([-+]?[0-9]*\.?[0-9]+)\s+([-+]?[0-9]*\.?[0-9]+)\s*\)/i);
@@ -18,7 +22,7 @@ const geometryPoint = customType<{ data: { lat: number; lng: number }; driverDat
     }
 
     // Format B: PostGIS Hex EWKB (e.g. 0101000020E6100000...)
-    if (typeof value === "string" && /^[0-9a-fA-F]+$/.test(value) && value.length >= 42) {
+    if (/^[0-9a-fA-F]+$/.test(value) && value.length >= 42) {
       try {
         const buf = Buffer.from(value, "hex");
         const isLittleEndian = buf.readUInt8(0) === 1;
