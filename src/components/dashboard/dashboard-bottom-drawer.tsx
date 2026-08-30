@@ -158,64 +158,54 @@ export function DashboardBottomDrawer({
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 cockpit-scrollbar">
           <div className="max-w-7xl mx-auto space-y-6">
 
-            {/* 1. PRIORITAS UTAMA (PALING ATAS): DIRECTIVE PEMERINTAH (APA YANG HARUS DILAKUKAN SEKARANG) */}
-            <div className="rounded-2xl border border-emerald-300 bg-emerald-50/70 p-5 dark:border-emerald-800 dark:bg-[#0B1510] space-y-4 shadow-sm">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-emerald-200/80 dark:border-emerald-900/60 pb-3">
+            {/* 1. EVALUASI HISTORIS: TREN RISIKO 3 BULAN TERAKHIR */}
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-[#0B0F19] space-y-3">
+              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-600 text-white font-bold text-xs">
-                    #1
-                  </div>
-                  <div>
-                    <h3 className="text-sm sm:text-base font-bold text-emerald-950 dark:text-emerald-200">
-                      Instruksi & Rekomendasi Aksi Pemerintah Kota (Dinas Kesehatan & Pemda)
-                    </h3>
-                    <p className="text-xs text-emerald-800/90 dark:text-emerald-400">
-                      Prioritas penanganan darurat 1 minggu ke depan untuk mencegah lonjakan pasien rumah sakit
-                    </p>
-                  </div>
+                  <TrendingUp className="h-4 w-4 text-slate-700 dark:text-slate-300" />
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-tight">
+                    Evaluasi Historis: Tren Risiko 3 Bulan Terakhir (12 Minggu Lalu)
+                  </h3>
                 </div>
-                <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-emerald-700 text-white uppercase tracking-wider">
-                  Tindakan Wajib Minggu Ini
-                </span>
+                <span className="text-[10px] text-slate-500 font-mono">Juni - Agustus 2026</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
-                {/* Aksi 1 */}
-                <div className="rounded-xl border border-emerald-200 bg-white p-4 dark:border-emerald-900/80 dark:bg-[#080C14] space-y-1.5 shadow-2xs">
-                  <div className="flex items-center gap-2 font-bold text-red-600 dark:text-red-400 text-xs">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-100 dark:bg-red-950 text-red-700 text-[11px]">1</span>
-                    <span>Pencegahan DBD (Fokus Jumantik):</span>
-                  </div>
-                  <p className="text-slate-700 dark:text-slate-300 text-[11.5px] leading-relaxed">
-                    Kerahkan kader Jumantik ke seluruh kelurahan untuk inspeksi jentik di penampungan air dan bagikan bubuk larvasida (Abate) massal.
-                  </p>
-                </div>
+              {/* Visual Bar Chart Indeks Skor */}
+              <div className="h-28 flex items-end justify-between gap-1.5 pt-3 pb-1 px-1">
+                {threeMonthsHistory.map((item, idx) => {
+                  const heightPct = Math.max(15, (item.score / 100) * 100);
+                  const isLatest = idx === threeMonthsHistory.length - 1;
+                  return (
+                    <div key={item.label} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group">
+                      <span className="text-[9px] font-mono font-bold text-slate-600 dark:text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {item.score}
+                      </span>
+                      <div
+                        className={cn(
+                          "w-full rounded-t-md transition-all duration-300",
+                          isLatest
+                            ? "bg-emerald-500 dark:bg-emerald-400"
+                            : item.score >= 50
+                            ? "bg-amber-400 dark:bg-amber-500/80"
+                            : "bg-slate-300 dark:bg-slate-700"
+                        )}
+                        style={{ height: `${heightPct}%` }}
+                      />
+                      <span className="text-[8.5px] font-mono text-slate-400 truncate max-w-[28px]">
+                        {item.label.split(" ")[0]}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
 
-                {/* Aksi 2 */}
-                <div className="rounded-xl border border-emerald-200 bg-white p-4 dark:border-emerald-900/80 dark:bg-[#080C14] space-y-1.5 shadow-2xs">
-                  <div className="flex items-center gap-2 font-bold text-amber-600 dark:text-amber-400 text-xs">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 text-[11px]">2</span>
-                    <span>Kesiapsiagaan Fasilitas Kesehatan:</span>
-                  </div>
-                  <p className="text-slate-700 dark:text-slate-300 text-[11.5px] leading-relaxed">
-                    Siagakan stok cairan infus, obat batuk/flu, dan ruang isolasi di 37 Puskesmas se-Kota Semarang menghadapi fluktuasi cuaca.
-                  </p>
-                </div>
-
-                {/* Aksi 3 */}
-                <div className="rounded-xl border border-emerald-200 bg-white p-4 dark:border-emerald-900/80 dark:bg-[#080C14] space-y-1.5 shadow-2xs">
-                  <div className="flex items-center gap-2 font-bold text-indigo-600 dark:text-indigo-400 text-xs">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-700 text-[11px]">3</span>
-                    <span>Imbauan Kesehatan Masyarakat:</span>
-                  </div>
-                  <p className="text-slate-700 dark:text-slate-300 text-[11.5px] leading-relaxed">
-                    Sebarkan peringatan dini melalui kanal resmi Pemkot: anjuran PSN 3M Plus mandiri bagi keluarga dan penggunaan masker di jalan raya.
-                  </p>
-                </div>
+              <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-1.5 border-t border-slate-200 dark:border-slate-800">
+                <span>Rata-rata 3 Bulan Lalu: <strong>47 / 100</strong></span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Tren Terkendali</span>
               </div>
             </div>
 
-            {/* 2. PRIORITAS KEDUA: APA YANG SEDANG TERJADI & KAPAN TERJADI (DIAGNOSIS CUACA & PENYAKIT) */}
+            {/* 2. DIAGNOSIS MASALAH & KAPAN TERJADI (KONDISI SAAT INI & PROYEKSI) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
               {/* KIRI (5 Kolom): Apa yang Terjadi (Kondisi Saat Ini & 2 Penyakit Rawan) */}
               <div className="lg:col-span-5 rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-[#0B0F19] space-y-4">
@@ -324,50 +314,60 @@ export function DashboardBottomDrawer({
               </div>
             </div>
 
-            {/* 3. PRIORITAS KETIGA: HISTORIS TREN 3 BULAN SEBELUMNYA */}
-            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-[#0B0F19] space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
+            {/* 3. INSTRUKSI & REKOMENDASI AKSI PEMERINTAH KOTA (DINAS KESEHATAN & PEMDA) */}
+            <div className="rounded-2xl border border-emerald-300 bg-emerald-50/70 p-5 dark:border-emerald-800 dark:bg-[#0B1510] space-y-4 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-emerald-200/80 dark:border-emerald-900/60 pb-3">
                 <div className="flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-slate-700 dark:text-slate-300" />
-                  <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-tight">
-                    Evaluasi Historis: Tren Risiko 3 Bulan Terakhir (12 Minggu Lalu)
-                  </h3>
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-600 text-white font-bold text-xs">
+                    #3
+                  </div>
+                  <div>
+                    <h3 className="text-sm sm:text-base font-bold text-emerald-950 dark:text-emerald-200">
+                      Instruksi & Rekomendasi Aksi Pemerintah Kota (Dinas Kesehatan & Pemda)
+                    </h3>
+                    <p className="text-xs text-emerald-800/90 dark:text-emerald-400">
+                      Prioritas penanganan darurat 1 minggu ke depan untuk mencegah lonjakan pasien rumah sakit
+                    </p>
+                  </div>
                 </div>
-                <span className="text-[10px] text-slate-500 font-mono">Juni - Agustus 2026</span>
+                <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-emerald-700 text-white uppercase tracking-wider">
+                  Tindakan Wajib Minggu Ini
+                </span>
               </div>
 
-              {/* Visual Bar Chart Indeks Skor */}
-              <div className="h-28 flex items-end justify-between gap-1.5 pt-3 pb-1 px-1">
-                {threeMonthsHistory.map((item, idx) => {
-                  const heightPct = Math.max(15, (item.score / 100) * 100);
-                  const isLatest = idx === threeMonthsHistory.length - 1;
-                  return (
-                    <div key={item.label} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group">
-                      <span className="text-[9px] font-mono font-bold text-slate-600 dark:text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity">
-                        {item.score}
-                      </span>
-                      <div
-                        className={cn(
-                          "w-full rounded-t-md transition-all duration-300",
-                          isLatest
-                            ? "bg-emerald-500 dark:bg-emerald-400"
-                            : item.score >= 50
-                            ? "bg-amber-400 dark:bg-amber-500/80"
-                            : "bg-slate-300 dark:bg-slate-700"
-                        )}
-                        style={{ height: `${heightPct}%` }}
-                      />
-                      <span className="text-[8.5px] font-mono text-slate-400 truncate max-w-[28px]">
-                        {item.label.split(" ")[0]}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+                {/* Aksi 1 */}
+                <div className="rounded-xl border border-emerald-200 bg-white p-4 dark:border-emerald-900/80 dark:bg-[#080C14] space-y-1.5 shadow-2xs">
+                  <div className="flex items-center gap-2 font-bold text-red-600 dark:text-red-400 text-xs">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-100 dark:bg-red-950 text-red-700 text-[11px]">1</span>
+                    <span>Pencegahan DBD (Fokus Jumantik):</span>
+                  </div>
+                  <p className="text-slate-700 dark:text-slate-300 text-[11.5px] leading-relaxed">
+                    Kerahkan kader Jumantik ke seluruh kelurahan untuk inspeksi jentik di penampungan air dan bagikan bubuk larvasida (Abate) massal.
+                  </p>
+                </div>
 
-              <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 pt-1.5 border-t border-slate-200 dark:border-slate-800">
-                <span>Rata-rata 3 Bulan Lalu: <strong>47 / 100</strong></span>
-                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Tren Terkendali</span>
+                {/* Aksi 2 */}
+                <div className="rounded-xl border border-emerald-200 bg-white p-4 dark:border-emerald-900/80 dark:bg-[#080C14] space-y-1.5 shadow-2xs">
+                  <div className="flex items-center gap-2 font-bold text-amber-600 dark:text-amber-400 text-xs">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 text-[11px]">2</span>
+                    <span>Kesiapsiagaan Fasilitas Kesehatan:</span>
+                  </div>
+                  <p className="text-slate-700 dark:text-slate-300 text-[11.5px] leading-relaxed">
+                    Siagakan stok cairan infus, obat batuk/flu, dan ruang isolasi di 37 Puskesmas se-Kota Semarang menghadapi fluktuasi cuaca.
+                  </p>
+                </div>
+
+                {/* Aksi 3 */}
+                <div className="rounded-xl border border-emerald-200 bg-white p-4 dark:border-emerald-900/80 dark:bg-[#080C14] space-y-1.5 shadow-2xs">
+                  <div className="flex items-center gap-2 font-bold text-indigo-600 dark:text-indigo-400 text-xs">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-700 text-[11px]">3</span>
+                    <span>Imbauan Kesehatan Masyarakat:</span>
+                  </div>
+                  <p className="text-slate-700 dark:text-slate-300 text-[11.5px] leading-relaxed">
+                    Sebarkan peringatan dini melalui kanal resmi Pemkot: anjuran PSN 3M Plus mandiri bagi keluarga dan penggunaan masker di jalan raya.
+                  </p>
+                </div>
               </div>
             </div>
 
