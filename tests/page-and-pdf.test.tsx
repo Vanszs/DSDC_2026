@@ -126,19 +126,17 @@ describe("Dashboard Page (src/app/dashboard/page.tsx)", () => {
 
     render(<DashboardPage />);
 
-    // Open bottom drawer to view analysis and KPI metrics
-    const openDrawerBtn = screen.getByRole("button", { name: /Buka Analisis/i });
+    // Open bottom drawer to view unified indicators, disease metrics, and forecast
+    const openDrawerBtn = screen.getByText(/Kondisi Kesehatan Lingkungan Kota Semarang/i);
     expect(openDrawerBtn).toBeTruthy();
     fireEvent.click(openDrawerBtn);
 
-    // Switch to KPI tab
-    const kpiTabBtn = screen.getByRole("button", { name: /Indikator Kota/i });
-    expect(kpiTabBtn).toBeTruthy();
-    fireEvent.click(kpiTabBtn);
-
-    expect(screen.getByText("Skor Bahaya Kesehatan Kota")).toBeTruthy();
-    expect(screen.getByText("Cakupan Wilayah")).toBeTruthy();
-    expect(screen.getByText("373.7")).toBeTruthy();
+    expect(screen.getByText("Skor Bahaya Saat Ini")).toBeTruthy();
+    expect(screen.getByText("Penyakit Paling Rawan")).toBeTruthy();
+    expect(screen.getByText("Demam Berdarah")).toBeTruthy();
+    expect(screen.getByText(/Langkah Pencegahan yang Harus Dilakukan Sekarang/i)).toBeTruthy();
+    expect(screen.getByText(/Tren Skor Bahaya 3 Bulan Terakhir/i)).toBeTruthy();
+    expect(screen.getByText(/Proyeksi Risiko 1 Bulan Ke Depan/i)).toBeTruthy();
   });
 });
 
