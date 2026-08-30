@@ -31,7 +31,7 @@ export function LiveClockBadge() {
 
       <div className="flex h-8 items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-2.5 dark:border-slate-800 dark:bg-[#0B0F19] shrink-0">
         <span className="text-xs font-bold text-slate-900 dark:text-slate-100 font-mono tracking-tight">
-          EcoHealth Pulse
+          Sentry
         </span>
         <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500">
           (33.74)

@@ -1,26 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import {
-  Activity,
-  LogIn,
   LogOut,
-  Search,
-  LayoutDashboard,
-  ChevronRight,
-  Menu,
-  X,
-  FileCode2,
-  Database,
-  Building2,
+  ChevronDown,
+  ArrowUpRight,
+  BarChart3,
+  ShieldCheck,
+  Layers,
+  MapPin,
+  LogIn,
+  User as UserIcon,
+  Check,
+  Activity,
+  Home,
 } from "lucide-react";
-import { StatusPing } from "./status-ping";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { motion, AnimatePresence } from "motion/react";
 import { useAuth } from "@/components/auth/auth-context";
-import { CommandMenu } from "./command-menu";
 import { Button } from "@/components/ui/button";
+import { SectionContainer } from "@/components/ui/section-container";
 import { cn } from "@/lib/utils";
 
 export interface GlobalNavbarProps {
@@ -30,11 +31,130 @@ export interface GlobalNavbarProps {
   showBreadcrumb?: boolean;
 }
 
+interface NavItem {
+  id: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  href: string;
+}
+
+const NAV_ITEMS: NavItem[] = [
+  {
+    id: "beranda",
+    label: "Beranda",
+    icon: Home,
+    href: "/#main-content",
+  },
+  {
+    id: "tentang",
+    label: "Tentang Platform",
+    icon: ShieldCheck,
+    href: "/#tentang-sentry",
+  },
+  {
+    id: "tantangan",
+    label: "Tantangan",
+    icon: Activity,
+    href: "/#tantangan",
+  },
+  {
+    id: "alur-kerja",
+    label: "Alur Kerja Sistem",
+    icon: Layers,
+    href: "/#alur-kerja",
+  },
+];
+
+export function NotchLeftWing({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      shapeRendering="geometricPrecision"
+      className={cn(
+        "pointer-events-none absolute right-full size-2.5 md:size-4 overflow-visible select-none text-background transition-colors duration-200 top-0",
+        className
+      )}
+    >
+      <path
+        d="M 0 0 C 11.046 0 20 8.954 20 20 H 21 V -1 H 0 Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+export function NotchRightWing({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      shapeRendering="geometricPrecision"
+      className={cn(
+        "pointer-events-none absolute left-full size-2.5 md:size-4 overflow-visible select-none text-background transition-colors duration-200 top-0",
+        className
+      )}
+    >
+      <path
+        d="M 20 0 C 8.954 0 0 8.954 0 20 H -1 V -1 H 20 Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function NotchDropdownItem({
+  item,
+  isSelected,
+  onSelect,
+}: {
+  item: NavItem;
+  isSelected: boolean;
+  onSelect: (id: string) => void;
+}) {
+  const Icon = item.icon;
+
+  return (
+    <Link
+      href={item.href}
+      onClick={() => onSelect(item.id)}
+      className={cn(
+        "flex w-full cursor-pointer items-center justify-between gap-2.5 rounded-xl px-3 py-2 text-left text-sm outline-none transition-colors select-none",
+        "focus-visible:ring-2 focus-visible:ring-accent",
+        isSelected
+          ? "bg-border/80 font-semibold text-foreground dark:bg-border"
+          : "text-text-secondary hover:bg-black/5 hover:text-foreground dark:hover:bg-white/5"
+      )}
+    >
+      <div className="flex items-center gap-2.5">
+        {Icon && (
+          <Icon
+            className={cn(
+              "size-4 shrink-0",
+              isSelected
+                ? "text-foreground"
+                : "text-text-secondary"
+            )}
+          />
+        )}
+        <span>{item.label}</span>
+      </div>
+
+      {isSelected && (
+        <Check className="size-3.5 text-foreground" />
+      )}
+    </Link>
+  );
+}
+
 export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
   className,
-  selectedDistrictName,
-  onSelectDistrict,
-  showBreadcrumb = false,
 }) => {
   let pathname = "/";
   try {
@@ -44,269 +164,364 @@ export const GlobalNavbar: React.FC<GlobalNavbarProps> = ({
   }
 
   const { user, isAuthenticated, logout } = useAuth();
-  const [commandMenuOpen, setCommandMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const notchContainerRef = useRef<HTMLDivElement>(null);
+  const savedScrollY = useRef(0);
 
-  const isDashboardRoute = pathname.startsWith("/dashboard");
+  useEffect(() => {
+    const handleScroll = () => {
+      if (mobileMenuOpen) return;
+      setIsScrolled(window.scrollY > 30);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      savedScrollY.current = window.scrollY;
+      const currentY = window.scrollY;
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${currentY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+    } else {
+      const topY = savedScrollY.current;
+      document.documentElement.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      if (topY) {
+        window.scrollTo({ top: topY, behavior: "instant" });
+        setIsScrolled(topY > 30);
+      }
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [mobileMenuOpen]);
+
   const isLoginRoute = pathname === "/login";
-  const isLandingRoute = pathname === "/";
+  const isDashboardRoute = pathname.startsWith("/dashboard");
 
-  const renderDashboardBreadcrumbs = () => {
-    if (selectedDistrictName) {
-      return [
-        { label: "KOTA SEMARANG", href: "/" },
-        { label: "EPIDEMIOLOGI", href: "/dashboard" },
-        {
-          label: selectedDistrictName.toUpperCase(),
-          href: `/dashboard?district=${encodeURIComponent(selectedDistrictName)}`,
-          current: true,
-        },
-      ];
-    }
-    if (isLoginRoute) {
-      return [
-        { label: "PORTAL RESMI", href: "/" },
-        { label: "OTENTIKASI PETUGAS", href: "/login", current: true },
-      ];
-    }
-    return [
-      { label: "KOTA SEMARANG", href: "/" },
-      { label: "EPIDEMIOLOGI", href: "/" },
-      { label: "REALTIME COCKPIT", href: "/dashboard", current: true },
-    ];
-  };
-
-  const breadcrumbs = renderDashboardBreadcrumbs();
+  const activeItem = useMemo(() => {
+    if (isDashboardRoute) return NAV_ITEMS[0];
+    const matched = NAV_ITEMS.find((item) => item.href === pathname);
+    return matched || NAV_ITEMS[0];
+  }, [pathname, isDashboardRoute]);
 
   return (
     <>
-      <header
-        role="banner"
+      {/* 1. TOP-ATTACHED NOTCH ISLAND (ALWAYS PRESENT AT Z-50) */}
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 z-50 origin-top pointer-events-none">
+        <div
+          className={cn(
+            "pointer-events-auto transition-all duration-300",
+            !isScrolled && !mobileMenuOpen ? "xl:hidden" : "block"
+          )}
+        >
+          <div
+            ref={notchContainerRef}
+            className={cn(
+              "relative flex flex-col select-none transition-all duration-300",
+              "bg-background text-foreground",
+              mobileMenuOpen
+                ? "w-auto px-4 rounded-b-[24px] shadow-none border-transparent"
+                : "w-auto px-4 rounded-b-[24px] shadow-lg border-b border-x border-border/60"
+            )}
+          >
+            <NotchLeftWing />
+            <NotchRightWing />
+
+            {/* Unified Horizontal Bar (Clean Logo + Hamburger/X) */}
+            <div className="w-auto flex h-12 sm:h-13 items-center justify-between gap-4 sm:gap-6 px-1">
+              {/* Left Logo Slot */}
+              <Link
+                href="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex shrink-0 items-center gap-2.5 text-inherit hover:opacity-90 transition-opacity"
+              >
+                <Image
+                  src="/logo.svg"
+                  alt="Sentry Logo"
+                  width={32}
+                  height={36}
+                  priority
+                  className="h-7 sm:h-8 w-auto object-contain"
+                />
+                <span className="text-base sm:text-lg font-bold tracking-tight">
+                  Sentry
+                </span>
+              </Link>
+
+              {/* Subtle Divider */}
+              <div className="h-4 w-px bg-border" />
+
+              {/* Right Hamburger/X Icon Trigger */}
+              <button
+                type="button"
+                aria-expanded={mobileMenuOpen}
+                aria-haspopup="listbox"
+                aria-label="Toggle navigation menu"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-1.5 text-foreground transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:ring-accent flex items-center justify-center bg-transparent border-0 cursor-pointer"
+              >
+                <div className="w-4.5 h-4.5 flex flex-col justify-center items-center gap-[4.5px]">
+                  <span
+                    className={cn(
+                      "block h-[1.5px] w-4 bg-current rounded-full transition-all duration-300 origin-center",
+                      mobileMenuOpen ? "rotate-45 translate-y-[3px]" : ""
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "block h-[1.5px] w-4 bg-current rounded-full transition-all duration-300 origin-center",
+                      mobileMenuOpen ? "-rotate-45 -translate-y-[3px]" : ""
+                    )}
+                  />
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. FULLSCREEN 1-SCREEN MENU OVERLAY WITH WIPE-DOWN ANIMATION */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ y: "-100%" }}
+            animate={{ y: "0%" }}
+            exit={{ y: "-100%" }}
+            transition={{
+              duration: 0.85,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className={cn(
+              "fixed inset-0 z-40 min-h-dvh w-full",
+              "bg-background text-foreground",
+              "flex flex-col justify-between pt-24 sm:pt-28 pb-8 sm:pb-12 px-6 sm:px-12 md:px-16 lg:px-20 xl:px-24",
+              "overflow-y-auto"
+            )}
+          >
+            {/* Main Content: Centered (<1280px) and Right-Anchored (>=1280px) Swiss Menu */}
+            <motion.div
+              initial={{ opacity: 0, y: -24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.32, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full my-auto flex flex-col items-center xl:items-end"
+            >
+              <div className="text-xs font-bold tracking-[0.25em] text-text-secondary uppercase mb-6 sm:mb-8 text-center xl:text-right">
+                ( NAVIGASI UTAMA )
+              </div>
+
+              <nav
+                aria-label="Navigasi Menu Layar Penuh"
+                className="w-full flex flex-col space-y-2 sm:space-y-3 lg:space-y-4"
+              >
+                {NAV_ITEMS.map((item, index) => {
+                  const isSelected = item.href === pathname;
+                  const number = String(index + 1).padStart(2, "0");
+                  return (
+                    <a
+                      key={item.id}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="group flex items-baseline justify-center xl:justify-end gap-3 sm:gap-5 lg:gap-6 py-1.5 sm:py-2 transition-colors"
+                    >
+                      <ArrowUpRight className="size-5 sm:size-7 md:size-8 text-text-secondary group-hover:text-foreground opacity-40 group-hover:opacity-100 group-hover:-translate-y-1 group-hover:-translate-x-1 transition-all shrink-0" />
+                      <span
+                        className={cn(
+                          "text-2xl sm:text-4xl md:text-5xl lg:text-[52px] xl:text-[60px] font-medium tracking-tight transition-all group-hover:-translate-x-1 text-center xl:text-right",
+                          isSelected
+                            ? "text-foreground font-semibold"
+                            : "text-foreground/80 group-hover:text-foreground"
+                        )}
+                      >
+                        {item.label}
+                      </span>
+                      <span className="font-mono text-xs sm:text-sm md:text-base font-semibold text-text-secondary group-hover:text-foreground transition-colors shrink-0 -translate-y-2 sm:-translate-y-3">
+                        {number}
+                      </span>
+                    </a>
+                  );
+                })}
+              </nav>
+            </motion.div>
+
+            {/* Bottom Action Area */}
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.42, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4"
+            >
+              <div className="text-xs text-text-secondary text-center sm:text-left">
+                Sentry • Early Warning Platform for Climate-Driven Epidemics
+              </div>
+
+              {isAuthenticated && user ? (
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-text-secondary">
+                    Login: <strong className="text-foreground">{user.name}</strong>
+                  </span>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="px-4 py-2 rounded-xl text-xs font-semibold text-danger bg-danger/10 hover:bg-danger/20 transition-colors"
+                  >
+                    Sign out
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full sm:w-auto h-12 px-8 rounded-xl bg-primary hover:bg-black dark:hover:bg-white/90 text-background text-sm font-semibold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md"
+                >
+                  <span>Mulai Analisa</span>
+                  <ArrowUpRight className="size-4" />
+                </Link>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 3. DESKTOP-ONLY (1280px+) INITIAL TOP STATE: Full Width Navbar */}
+      <motion.div
+        animate={{
+          opacity: isScrolled ? 0 : 1,
+          y: isScrolled ? -10 : 0,
+        }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
         className={cn(
-          "sticky top-0 z-40 border-b border-[#E5E0D8] bg-[#FAF8F5]/95 backdrop-blur-md dark:border-[#1E2638] dark:bg-[#080C14]/95 transition-colors duration-150",
-          className
+          "hidden xl:block sticky top-0 z-40 w-full bg-transparent",
+          isScrolled ? "pointer-events-none" : "pointer-events-auto"
         )}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
-          {/* Left: Brand Identity / Dashboard Breadcrumbs */}
-          <div className="flex items-center gap-4 min-w-0">
-            {/* Logo */}
-            <Link
-              href="/"
-              className="flex items-center gap-2.5 group shrink-0 focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-full p-0.5"
+        <SectionContainer
+          as="header"
+          role="banner"
+          spacing="none"
+          size="full"
+          gutter="spacious"
+          className={className}
+          containerClassName="flex items-center justify-between py-4"
+        >
+          {/* Left: Hanya Logo & Text */}
+          <Link
+            href="/"
+            className="flex items-center gap-3 shrink-0 focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl"
+          >
+            <Image
+              src="/logo.svg"
+              alt="Sentry Logo"
+              width={48}
+              height={54}
+              priority
+              className="h-10 sm:h-12 w-auto object-contain"
+            />
+            <span className="text-2xl sm:text-[28px] font-bold tracking-tight text-foreground">
+              Sentry
+            </span>
+          </Link>
+
+          {/* Right: Text Menu & Login Button */}
+          <div className="flex items-center gap-6 lg:gap-8">
+            <nav
+              aria-label="Navigasi Menu Utama"
+              className="flex items-center gap-6 lg:gap-8 text-xs sm:text-sm font-medium text-text-secondary"
             >
-              <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-[#181818] text-white dark:bg-[#F8FAFC] dark:text-[#080C14] shadow-xs transition-transform group-hover:scale-105 active-press">
-                <Activity className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-emerald-400 dark:text-emerald-600" />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm sm:text-base font-bold tracking-tight text-[#141824] dark:text-[#F8FAFC]">
-                  EcoHealth Pulse
-                </span>
-                <span className="rounded-full bg-[#EFEAE2] px-2 py-0.5 text-[10px] font-mono font-semibold text-[#141824] dark:bg-[#131B2C] dark:text-emerald-300 border border-[#DCD6CA] dark:border-slate-800">
-                  DSDC 2026
-                </span>
-              </div>
-            </Link>
-
-            {/* If on Dashboard / Internal Route: Render Command Breadcrumbs */}
-            {(isDashboardRoute || isLoginRoute || showBreadcrumb) && (
-              <>
-                <div className="hidden md:block h-5 w-px bg-[#E5E0D8] dark:bg-[#1E2638]" />
-                <nav
-                  aria-label="Breadcrumb Navigasi Komando"
-                  className="hidden lg:flex items-center gap-1.5 text-[11px] font-mono font-medium text-[#645E54] dark:text-[#94A3B8]"
-                >
-                  {breadcrumbs.map((crumb, idx) => (
-                    <React.Fragment key={crumb.label}>
-                      {idx > 0 && <ChevronRight className="h-3 w-3 text-slate-400 opacity-60" />}
-                      {crumb.current ? (
-                        <span className="text-[#141824] dark:text-[#F8FAFC] font-bold px-2 py-0.5 rounded-full bg-[#EFEAE2] dark:bg-[#131B2C] border border-[#DCD6CA] dark:border-slate-800">
-                          {crumb.label}
-                        </span>
-                      ) : (
-                        <Link
-                          href={crumb.href}
-                          className="hover:text-[#141824] dark:hover:text-[#F8FAFC] hover:underline px-1 py-0.5"
-                        >
-                          {crumb.label}
-                        </Link>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </nav>
-              </>
-            )}
-
-            {/* If on Public Landing (/): Render Clean Editorial Navigation Links */}
-            {isLandingRoute && !showBreadcrumb && (
-              <nav
-                aria-label="Navigasi Menu Publik"
-                className="hidden md:flex items-center gap-1 text-xs font-medium text-[#645E54] dark:text-[#94A3B8] ml-2"
+              <a
+                href="/#main-content"
+                className="hover:text-foreground transition-colors"
               >
-                <Link
-                  href="/dashboard"
-                  className="rounded-full px-3 py-1.5 hover:bg-[#EFEAE2] hover:text-[#141824] dark:hover:bg-slate-800 dark:hover:text-[#F8FAFC] transition-colors flex items-center gap-1.5 font-semibold text-[#141824] dark:text-[#F8FAFC]"
-                >
-                  <LayoutDashboard className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-                  <span>Cockpit Realtime</span>
-                </Link>
-                <a
-                  href="#mitra-institusional"
-                  className="rounded-full px-3 py-1.5 hover:bg-[#EFEAE2] hover:text-[#141824] dark:hover:bg-slate-800 dark:hover:text-[#F8FAFC] transition-colors"
-                >
-                  Mitra & Standar
-                </a>
-                <a
-                  href="#arsitektur-sistem"
-                  className="rounded-full px-3 py-1.5 hover:bg-[#EFEAE2] hover:text-[#141824] dark:hover:bg-slate-800 dark:hover:text-[#F8FAFC] transition-colors"
-                >
-                  Arsitektur DLNM
-                </a>
-                <a
-                  href="#kemendagri-catalog"
-                  className="rounded-full px-3 py-1.5 hover:bg-[#EFEAE2] hover:text-[#141824] dark:hover:bg-slate-800 dark:hover:text-[#F8FAFC] transition-colors"
-                >
-                  Direktori 16 Kec
-                </a>
-              </nav>
-            )}
-          </div>
+                Beranda
+              </a>
+              <a
+                href="/#tentang-sentry"
+                className="hover:text-foreground transition-colors"
+              >
+                Tentang
+              </a>
+              <a
+                href="/#tantangan"
+                className="hover:text-foreground transition-colors"
+              >
+                Tantangan
+              </a>
+              <a
+                href="/#alur-kerja"
+                className="hover:text-foreground transition-colors"
+              >
+                Alur Kerja
+              </a>
+            </nav>
 
-          {/* Right: Quick Search, Telemetry (Dashboard only), Theme Toggle & Auth Button */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Status Ping Telemetry only for Dashboard / Internal */}
-            {(isDashboardRoute || showBreadcrumb) && (
-              <StatusPing className="hidden sm:inline-block" />
-            )}
-
-            {/* Command Palette Search Button */}
-            <button
-              onClick={() => setCommandMenuOpen(true)}
-              className="flex items-center gap-1.5 rounded-full border border-[#DCD6CA] bg-white px-3 py-1.5 text-xs text-[#645E54] hover:bg-[#FAF8F5] hover:text-[#141824] hover:border-[#94A3B8] dark:border-[#1E2638] dark:bg-[#0E1420] dark:text-[#94A3B8] dark:hover:bg-slate-800 dark:hover:text-[#F8FAFC] active-press transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500 shadow-xs"
-              title="Buka Menu Perintah (Ctrl+K)"
-              aria-label="Buka Menu Perintah Cepat"
-            >
-              <Search className="h-3.5 w-3.5" />
-              <span className="hidden lg:inline text-[11px] font-medium">Cari Perintah...</span>
-              <kbd className="hidden sm:inline-flex items-center gap-0.5 rounded-full bg-[#FAF8F5] dark:bg-slate-800 px-1.5 py-0.5 text-[10px] font-mono text-[#645E54] dark:text-[#94A3B8] border border-[#E5E0D8] dark:border-slate-700">
-                ⌘K
-              </kbd>
-            </button>
-
-            {/* Theme Toggle Button */}
-            <ThemeToggle />
-
-            {/* User Session / Login CTA */}
+            {/* User Session / Login Button */}
             {isAuthenticated && user ? (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <div
-                  className="hidden sm:flex items-center gap-2 rounded-full border border-[#E5E0D8] bg-white px-3 py-1 dark:border-[#1E2638] dark:bg-[#0E1420] text-left shadow-xs"
+                  className="flex items-center gap-2 rounded-xl border border-border bg-surface px-3 py-1.5 text-left shadow-xs"
                   title={`${user.name} (${user.role})`}
                 >
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#181818] text-[10px] font-bold text-white uppercase">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-lg bg-primary text-[10px] font-bold text-background uppercase">
                     {user.name.slice(0, 1)}
                   </div>
-                  <div className="max-w-[120px] sm:max-w-[140px] truncate">
-                    <div className="text-[11px] font-semibold text-[#141824] dark:text-[#F8FAFC] truncate">
-                      {user.name.split(",")[0]}
-                    </div>
-                  </div>
+                  <span className="text-xs font-semibold text-foreground truncate max-w-[120px]">
+                    {user.name.split(",")[0]}
+                  </span>
                 </div>
 
                 <button
                   onClick={logout}
-                  className="rounded-full border border-[#DCD6CA] p-1.5 text-[#645E54] hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:border-[#1E2638] dark:text-[#94A3B8] dark:hover:bg-red-950/40 dark:hover:text-red-400 active-press transition-colors shadow-xs"
+                  className="rounded-xl border border-border p-1.5 text-text-secondary hover:bg-danger/10 hover:text-danger hover:border-danger/30 active-press transition-colors shadow-xs"
                   title="Keluar dari Sesi Petugas"
                   aria-label="Keluar dari Sesi Petugas"
                 >
-                  <LogOut className="h-3.5 w-3.5" />
+                  <LogOut className="h-4 w-4" />
                 </button>
               </div>
-            ) : isLoginRoute ? (
-              <Link href="/dashboard">
-                <Button
-                  size="pill"
-                  variant="default"
-                  className="gap-1.5 bg-[#181818] hover:bg-black text-white dark:bg-[#FAF8F5] dark:text-[#181818] dark:hover:bg-white text-xs font-semibold px-4 py-1.5 shadow-sm rounded-full transition-transform active:scale-95"
-                >
-                  <LayoutDashboard className="h-3.5 w-3.5 text-emerald-400 dark:text-emerald-600" />
-                  <span>Buka Cockpit</span>
-                </Button>
-              </Link>
             ) : (
               <Link href="/login">
                 <Button
-                  size="pill"
+                  size="default"
                   variant="default"
-                  className="gap-1.5 bg-[#181818] hover:bg-black text-white dark:bg-[#FAF8F5] dark:text-[#181818] dark:hover:bg-white text-xs font-semibold px-4 py-1.5 shadow-sm rounded-full transition-transform active:scale-95"
+                  className="bg-primary hover:bg-black dark:hover:bg-white/90 text-background text-xs sm:text-sm font-semibold px-5 py-2 shadow-xs rounded-xl transition-transform active:scale-95"
                 >
-                  <LogIn className="h-3.5 w-3.5" />
-                  <span>Portal Petugas</span>
+                  Mulai Analisa
                 </Button>
               </Link>
             )}
-
-            {/* Mobile Hamburger Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-full border border-[#DCD6CA] text-[#141824] dark:border-[#1E2638] dark:text-[#F8FAFC] hover:bg-[#FAF8F5] dark:hover:bg-slate-800 transition-colors"
-              aria-label="Buka Menu Mobile"
-            >
-              {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </button>
           </div>
-        </div>
-
-        {/* Mobile Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-[#E5E0D8] bg-[#FAF8F5] dark:border-[#1E2638] dark:bg-[#080C14] px-4 py-3 space-y-2">
-            <Link
-              href="/dashboard"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 p-2 rounded-lg text-xs font-semibold text-[#141824] dark:text-[#F8FAFC] hover:bg-[#EFEAE2] dark:hover:bg-slate-800"
-            >
-              <LayoutDashboard className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              <span>Cockpit Realtime</span>
-            </Link>
-            <a
-              href="#mitra-institusional"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block p-2 rounded-lg text-xs text-[#645E54] dark:text-[#94A3B8] hover:bg-[#EFEAE2] dark:hover:bg-slate-800"
-            >
-              Mitra & Standar Otoritatif
-            </a>
-            <a
-              href="#arsitektur-sistem"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block p-2 rounded-lg text-xs text-[#645E54] dark:text-[#94A3B8] hover:bg-[#EFEAE2] dark:hover:bg-slate-800"
-            >
-              Arsitektur DLNM & PostGIS
-            </a>
-            <a
-              href="#kemendagri-catalog"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block p-2 rounded-lg text-xs text-[#645E54] dark:text-[#94A3B8] hover:bg-[#EFEAE2] dark:hover:bg-slate-800"
-            >
-              Direktori 16 Kecamatan
-            </a>
-            <Link
-              href="/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-1.5 w-full mt-2 rounded-full bg-[#181818] py-2 text-xs font-semibold text-white dark:bg-[#FAF8F5] dark:text-[#181818]"
-            >
-              <LogIn className="h-3.5 w-3.5" />
-              <span>Portal Masuk Petugas</span>
-            </Link>
-          </div>
-        )}
-      </header>
-
-      {/* Global Command Palette Dialog Modal */}
-      <CommandMenu
-        open={commandMenuOpen}
-        onOpenChange={setCommandMenuOpen}
-        onSelectDistrict={onSelectDistrict}
-      />
+        </SectionContainer>
+      </motion.div>
     </>
   );
 };

@@ -99,7 +99,7 @@ export function EnterpriseFooter({
                 </div>
                 <div>
                   <h3 className="text-sm font-bold tracking-tight text-slate-900 dark:text-slate-50">
-                    EcoHealth Pulse
+                    Sentry
                   </h3>
                   <p className="text-[11px] font-mono text-slate-500">
                     Data Science & Analytics Development Center (DSDC 2026)

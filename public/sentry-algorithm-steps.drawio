@@ -1,0 +1,142 @@
+<mxfile host="app.diagrams.net" modified="2026-08-30T16:05:00.000Z" agent="Sentry Platform" version="24.7.5">
+  <!-- LANGKAH 1 -->
+  <diagram id="step-1" name="1. Mendapatkan Data">
+    <mxGraphModel dx="1000" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="500" background="#FAF8F5">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="h1" value="&lt;b style='font-size: 16px; color: #1E3A8A;'&gt;LANGKAH 01: BAGAIMANA KITA MENDAPATKAN DATA IKLIM?&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E2E8F0;strokeWidth=1.5;align=left;spacingLeft=15;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="920" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="f1" value="&lt;b style='font-size:13px; color:#1E3A8A;'&gt;⛅ Open-Meteo API&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#64748B;'&gt;Suhu, Hujan, Kelembapan, Angin&lt;/span&gt;" style="shape=mxgraph.aws4.cloud;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;strokeWidth=1.5;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="95" width="220" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" value="&lt;b style='font-size:13px; color:#1E3A8A;'&gt;📅 Rekam Jejak 30 Tahun&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#64748B;'&gt;11.688 Hari Cuaca Kota Semarang&lt;/span&gt;" style="shape=mxgraph.aws4.calendar;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;strokeWidth=1.5;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="185" width="220" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" value="&lt;b style='font-size:13px; color:#92400E;'&gt;🗺️ Ketinggian Topografi&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#64748B;'&gt;Pantai (0 mdpl) s.d. Bukit (350 mdpl)&lt;/span&gt;" style="shape=mxgraph.aws4.map;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="275" width="220" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ts_pipe" value="&lt;b style='font-size:16px; color:#1E3A8A;'&gt;Pengunduh Otomatis&lt;/b&gt;&lt;br&gt;&lt;b style='font-size:12px; color:#3B82F6;'&gt;Sinkronisasi Tiap Jam&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#0F172A;'&gt;Tanpa input manual, sistem mengunduh data cuaca terkini dan prakiraan 14 hari ke depan.&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FFFFFF;strokeColor=#3B82F6;strokeWidth=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="360" y="125" width="260" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="db_raw" value="&lt;b style='font-size:15px; color:#FFFFFF;'&gt;Database PostgreSQL&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#93C5FD;'&gt;Penyimpanan Terpusat&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;b style='font-size:11px; color:#10B981;'&gt;DATA SIAP DIOLAH&lt;/b&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#1E3A8A;strokeColor=#3B82F6;strokeWidth=2.5;align=center;" vertex="1" parent="1">
+          <mxGeometry x="720" y="115" width="220" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#3B82F6;strokeWidth=2;" edge="1" parent="1" source="f1" target="ts_pipe" />
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#3B82F6;strokeWidth=2;" edge="1" parent="1" source="f2" target="ts_pipe" />
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#3B82F6;strokeWidth=2;" edge="1" parent="1" source="f3" target="ts_pipe" />
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#3B82F6;strokeWidth=3;" edge="1" parent="1" source="ts_pipe" target="db_raw" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- LANGKAH 2 -->
+  <diagram id="step-2" name="2. Mengolah Data (Rumus Cuaca)">
+    <mxGraphModel dx="1000" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="500" background="#FAF8F5">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="h2" value="&lt;b style='font-size: 15px; color: #0F766E;'&gt;LANGKAH 02: BAGAIMANA DATA CUACA DIUBAH MENJADI SINYAL PENYAKIT?&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E2E8F0;strokeWidth=1.5;align=left;spacingLeft=15;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="920" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r1" value="&lt;b style='font-size:13px; color:#0F766E;'&gt;1. Rumus Suhu Nyamuk (Briere)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-family:Courier; font-size:12px; font-weight:700; color:#065F46;'&gt;S(T) = T·(T-16)·√(36-T) / 1039.8&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#475569;'&gt;Nyamuk DBD paling aktif menyengat pada suhu optimum 28.5°C.&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0D9488;strokeWidth=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="95" width="280" height="260" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r2" value="&lt;b style='font-size:13px; color:#0F766E;'&gt;2. Rumus Jeda Hujan (Gaussian DLNM)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-family:Courier; font-size:12px; font-weight:700; color:#065F46;'&gt;w_k = (1/σ√2π)·exp(-(k-8)²/2σ²)&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#475569;'&gt;Genangan air butuh 8 hari agar telur menetas jadi nyamuk dewasa.&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0D9488;strokeWidth=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="360" y="95" width="280" height="260" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r3" value="&lt;b style='font-size:13px; color:#0F766E;'&gt;3. Rumus Ketinggian (Lapse Rate)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-family:Courier; font-size:12px; font-weight:700; color:#065F46;'&gt;T_lokal = T - 0.0065·(h - 65)&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#475569;'&gt;Menyesuaikan suhu mikro di daerah perbukitan dan dataran pantai.&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0D9488;strokeWidth=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="680" y="95" width="280" height="260" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- LANGKAH 3 -->
+  <diagram id="step-3" name="3. Menghitung Risiko (L2 Ridge)">
+    <mxGraphModel dx="1000" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="500" background="#FAF8F5">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="h3" value="&lt;b style='font-size: 15px; color: #065F46;'&gt;LANGKAH 03: BAGAIMANA MODEL MENGHITUNG SKOR BAHAYA PENYAKIT?&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E2E8F0;strokeWidth=1.5;align=left;spacingLeft=15;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="920" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m1" value="&lt;b style='font-size:14px; color:#065F46;'&gt;Rumus Regresi L2 Ridge&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-family:Courier; font-size:14px; font-weight:800; color:#047857;'&gt;W = (Xᵀ·X + λI*)⁻¹ · Xᵀ·y&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#475569;'&gt;Menentukan bobot dampak cuaca secara pasti dari data 30 tahun tanpa tebak-tebakan.&lt;/span&gt;&lt;br&gt;&lt;br&gt;• Bobot Residu Hujan: &lt;b&gt;+5.37&lt;/b&gt;&lt;br&gt;• Bobot Suhu Nyamuk: &lt;b&gt;+4.40&lt;/b&gt;&lt;br&gt;• Bobot Debu PM2.5: &lt;b&gt;+6.79&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#059669;strokeWidth=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="95" width="420" height="260" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m2" value="&lt;b style='font-size:15px; color:#FFFFFF;'&gt;Hasil Pengujian pada Data Nyata&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#A7F3D0;'&gt;Diuji pada 1.752 Hari (2021–2025)&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;b style='font-size:13px; color:#FFFFFF;'&gt;Akurasi Model (R²): &lt;span style='color:#34D399;'&gt;94.14%&lt;/span&gt;&lt;/b&gt;&lt;br&gt;&lt;b style='font-size:13px; color:#FFFFFF;'&gt;Sensitivitas Deteksi: &lt;span style='color:#34D399;'&gt;97.86%&lt;/span&gt;&lt;/b&gt;&lt;br&gt;&lt;b style='font-size:13px; color:#FFFFFF;'&gt;Kecepatan Eksekusi: &lt;span style='color:#34D399;'&gt;&amp;lt; 1 Milidetik&lt;/span&gt;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#022C22;strokeColor=#059669;strokeWidth=2.5;align=center;" vertex="1" parent="1">
+          <mxGeometry x="500" y="95" width="460" height="260" as="geometry" />
+        </mxCell>
+
+        <mxCell id="em" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#059669;strokeWidth=3;" edge="1" parent="1" source="m1" target="m2" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- LANGKAH 4 -->
+  <diagram id="step-4" name="4. Transparansi Penyebab">
+    <mxGraphModel dx="1000" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="500" background="#FAF8F5">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="h4" value="&lt;b style='font-size: 15px; color: #92400E;'&gt;LANGKAH 04: BAGAIMANA SISTEM MENEMUKAN AKAR PENYEBAB MASALAH?&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E2E8F0;strokeWidth=1.5;align=left;spacingLeft=15;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="920" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t_form" value="&lt;b style='font-size:14px; color:#92400E;'&gt;Rumus Transparansi Penyebab (Explainable AI)&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-family:Courier; font-size:14px; font-weight:800; color:#78350F;'&gt;Kontribusi_i = w_i · ((x_i - μ_i) / σ_i)&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#475569;'&gt;Sistem menghitung persis apa pemicu bahaya terbesar hari ini:&lt;/span&gt;&lt;br&gt;&lt;br&gt;• Jika Hujan dominan ➔ &lt;b&gt;Sarang jentik air tergenang&lt;/b&gt;&lt;br&gt;• Jika Suhu dominan ➔ &lt;b&gt;Nyamuk berkembang pesat&lt;/b&gt;&lt;br&gt;• Jika Polusi dominan ➔ &lt;b&gt;Debu halus terhirup warga&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D97706;strokeWidth=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="95" width="420" height="260" as="geometry" />
+        </mxCell>
+
+        <mxCell id="t_levels" value="&lt;b style='font-size:14px; color:#0F172A;'&gt;4 Tingkatan Status Bahaya&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;span style='color:#065F46; font-weight:700;'&gt;🟢 Level 1: Normal (Skor &amp;lt; 30)&lt;/span&gt; — Kondisi aman&lt;br&gt;&lt;br&gt;&lt;span style='color:#92400E; font-weight:700;'&gt;🟡 Level 2: Waspada (Skor 30–59)&lt;/span&gt; — Indikasi jentik/polusi naik&lt;br&gt;&lt;br&gt;&lt;span style='color:#1E40AF; font-weight:700;'&gt;🔵 Level 3: Siaga (Skor 60–79)&lt;/span&gt; — Potensi lonjakan 1-2 minggu&lt;br&gt;&lt;br&gt;&lt;span style='color:#991B1B; font-weight:700;'&gt;🔴 Level 4: Awas (Skor ≥ 80)&lt;/span&gt; — Krisis darurat" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E2E8F0;strokeWidth=1.5;align=center;" vertex="1" parent="1">
+          <mxGeometry x="500" y="95" width="460" height="260" as="geometry" />
+        </mxCell>
+
+        <mxCell id="et" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#D97706;strokeWidth=3;" edge="1" parent="1" source="t_form" target="t_levels" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- LANGKAH 5 -->
+  <diagram id="step-5" name="5. Merumuskan Solusi Nyata">
+    <mxGraphModel dx="1000" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="500" background="#FAF8F5">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="h5" value="&lt;b style='font-size: 15px; color: #9F1239;'&gt;LANGKAH 05: BAGAIMANA SISTEM MERUMUSKAN SOLUSI &amp;amp; TINDAKAN NYATA?&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E2E8F0;strokeWidth=1.5;align=left;spacingLeft=15;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="920" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s_map" value="&lt;b style='font-size:13px; color:#0F172A;'&gt;🗺️ Peta Wilayah MapLibre GL&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#E11D48; font-weight:600;'&gt;Tahu Kecamatan Mana yang Terancam&lt;/span&gt;&lt;br&gt;&lt;br&gt;Peta warna 16 kecamatan langsung tunjukkan titik prioritas." style="shape=mxgraph.aws4.map;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FDA4AF;strokeWidth=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="430" height="125" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s_fog" value="&lt;b style='font-size:13px; color:#0F172A;'&gt;🎯 Fogging Fokus Tepat Waktu&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#D97706; font-weight:600;'&gt;3–5 Hari SEBELUM Nyamuk Meledak&lt;/span&gt;&lt;br&gt;&lt;br&gt;Mencegah ledakan kasus, bukan menyemprot setelah ada korban." style="shape=mxgraph.aws4.target_tracking;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FDE68A;strokeWidth=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="510" y="90" width="430" height="125" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s_psn" value="&lt;b style='font-size:13px; color:#0F172A;'&gt;🧹 PSN 3M+ &amp;amp; Pembagian Abate&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#059669; font-weight:600;'&gt;Membersihkan Genangan Air&lt;/span&gt;&lt;br&gt;&lt;br&gt;Membasmi jentik nyamuk sebelum menetas." style="shape=mxgraph.aws4.shield;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A7F3D0;strokeWidth=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="240" width="430" height="125" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s_bed" value="&lt;b style='font-size:13px; color:#0F172A;'&gt;🛏️ Kesiapan Rumah Sakit &amp;amp; Faskes&lt;/b&gt;&lt;br&gt;&lt;span style='font-size:11px; color:#2563EB; font-weight:600;'&gt;Penyiapan Ranjang &amp;amp; Stok Obat&lt;/span&gt;&lt;br&gt;&lt;br&gt;Puskesmas siap siaga sebelum bangsal penuh." style="shape=mxgraph.cisco.buildings.hospital;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#93C5FD;strokeWidth=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="510" y="240" width="430" height="125" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

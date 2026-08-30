@@ -1,0 +1,249 @@
+<mxfile host="app.diagrams.net" modified="2026-08-30T15:50:00.000Z" agent="Sentry Platform" version="24.7.5">
+  <diagram id="sentry-dlnm-pipeline" name="Sentry Algorithmic Pipeline & Architecture">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" background="#FAF8F5" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title Banner -->
+        <mxCell id="banner" value="&lt;b style='font-size: 22px; color: #181818;'&gt;SENTRY PREDICTIVE EPIDEMIOLOGY PIPELINE&lt;/b&gt;&lt;br&gt;&lt;span style='font-size: 13px; color: #645E54;'&gt;Distributed Lag Non-Linear Modeling (DLNM) &amp;amp; Prescriptive Healthcare Orchestration Architecture&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E5E0D8;strokeWidth=2;shadow=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="80" y="30" width="1640" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ========================================================================= -->
+        <!-- CONTAINER 1: DATA INGESTION (PURPLE / INDIGO THEME)                      -->
+        <!-- ========================================================================= -->
+        <mxCell id="box_stage1" value="&lt;b style='font-size: 14px; color: #4C1D95;'&gt;1. DATA INGESTION &amp;amp; STREAMING&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#8B5CF6;strokeWidth=2;rounded=1;arcSize=8;fontColor=#4C1D95;collapsible=0;container=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="140" width="300" height="840" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_bmkg" value="&lt;b style='color:#312E81; font-size: 13px;'&gt;BMKG Weather Stations&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• Surface Temp (°C)&lt;br&gt;• Rainfall Rate (mm/24h)&lt;br&gt;• Relative Humidity (%)&lt;br&gt;• Solar Radiation Index&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8B5CF6;strokeWidth=1.5;fontColor=#1E1B4B;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage1">
+          <mxGeometry x="20" y="60" width="260" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_sat" value="&lt;b style='color:#312E81; font-size: 13px;'&gt;Satellite Atmosphere Feed&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• ERA5 Land Reanalysis&lt;br&gt;• Soil Moisture Index&lt;br&gt;• Normalized Veg Index (NDVI)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8B5CF6;strokeWidth=1.5;fontColor=#1E1B4B;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage1">
+          <mxGeometry x="20" y="200" width="260" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_puskesmas" value="&lt;b style='color:#312E81; font-size: 13px;'&gt;16 Puskesmas Clinical Feed&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• DHF (DBD) Case Logs&lt;br&gt;• ARI (ISPA) Outpatient Data&lt;br&gt;• Bed Occupancy Rate (BOR)&lt;br&gt;• Daily Triage Inflow&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8B5CF6;strokeWidth=1.5;fontColor=#1E1B4B;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage1">
+          <mxGeometry x="20" y="330" width="260" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_spatial_ref" value="&lt;b style='color:#312E81; font-size: 13px;'&gt;Kemendagri Geographic Master&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• 16 Sub-district Codes&lt;br&gt;• Polygon Boundary Coordinates&lt;br&gt;• Demographic Density Weights&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8B5CF6;strokeWidth=1.5;fontColor=#1E1B4B;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage1">
+          <mxGeometry x="20" y="470" width="260" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_kafka" value="&lt;b style='color:#581C87; font-size: 13px;'&gt;Continuous Event Stream&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;Apache Kafka / Redpanda Buffer&lt;br&gt;Sub-second Delivery Guarantee&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#EDE9FE;strokeColor=#7C3AED;strokeWidth=2;fontColor=#4C1D95;align=center;shadow=1;" vertex="1" parent="box_stage1">
+          <mxGeometry x="20" y="620" width="260" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ========================================================================= -->
+        <!-- CONTAINER 2: PREPROCESSING & CALIBRATION (TEAL THEME)                     -->
+        <!-- ========================================================================= -->
+        <mxCell id="box_stage2" value="&lt;b style='font-size: 14px; color: #115E59;'&gt;2. PREPROCESSING &amp;amp; DATA FUSION&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#CCFBF1;strokeColor=#0D9488;strokeWidth=2;rounded=1;arcSize=8;fontColor=#115E59;collapsible=0;container=1;" vertex="1" parent="1">
+          <mxGeometry x="415" y="140" width="300" height="840" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_clean" value="&lt;b style='color:#134E4A; font-size: 13px;'&gt;Outlier &amp;amp; Anomaly Filter&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• Sensor Drift Isolation&lt;br&gt;• Missing Imputation (MICE)&lt;br&gt;• Z-Score Boundary Check&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0D9488;strokeWidth=1.5;fontColor=#134E4A;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage2">
+          <mxGeometry x="20" y="80" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_smooth" value="&lt;b style='color:#134E4A; font-size: 13px;'&gt;Spatial-Temporal Alignment&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• Daily Resampling &amp;amp; Sync&lt;br&gt;• Spatial ID Standard Mapping&lt;br&gt;• Rolling Window Smoothing&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0D9488;strokeWidth=1.5;fontColor=#134E4A;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage2">
+          <mxGeometry x="20" y="220" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_lag_builder" value="&lt;b style='color:#134E4A; font-size: 13px;'&gt;Cross-Basis Matrix Builder&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• 14-Day Lag Transformation&lt;br&gt;• B-Spline Knot Allocation&lt;br&gt;• Natural Cubic Splines (df=4)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFFA;strokeColor=#0D9488;strokeWidth=2;fontColor=#134E4A;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage2">
+          <mxGeometry x="20" y="360" width="260" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_feature_store" value="&lt;b style='color:#0F766E; font-size: 13px;'&gt;Curated Feature Tensor Store&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;Multi-dimensional Tensors:&lt;br&gt;[District_ID × Day × Metric × Lag(0..14)]&lt;/span&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#FFFFFF;strokeColor=#0D9488;strokeWidth=2;fontColor=#134E4A;align=center;shadow=1;" vertex="1" parent="box_stage2">
+          <mxGeometry x="20" y="520" width="260" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- ========================================================================= -->
+        <!-- CONTAINER 3: DLNM MODELING CORE (EMERALD / GREEN THEME)                   -->
+        <!-- ========================================================================= -->
+        <mxCell id="box_stage3" value="&lt;b style='font-size: 14px; color: #065F46;'&gt;3. DLNM ALGORITHMIC CORE&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#D1FAE5;strokeColor=#059669;strokeWidth=2;rounded=1;arcSize=8;fontColor=#065F46;collapsible=0;container=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="140" width="300" height="840" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_exposure_func" value="&lt;b style='color:#064E3B; font-size: 13px;'&gt;Exposure-Response Function f(x)&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;Non-linear pathogen growth curves:&lt;br&gt;• Aedes egg-to-adult incubation&lt;br&gt;• Viral replication threshold&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#059669;strokeWidth=1.5;fontColor=#064E3B;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage3">
+          <mxGeometry x="20" y="60" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_lag_func" value="&lt;b style='color:#064E3B; font-size: 13px;'&gt;Lag-Response Function w(l)&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;Temporal decay &amp;amp; delayed surge:&lt;br&gt;• Lag range: 0 ≤ l ≤ 14 days&lt;br&gt;• Peak risk identification (T+6..T+8)&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#059669;strokeWidth=1.5;fontColor=#064E3B;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage3">
+          <mxGeometry x="20" y="180" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_bi_dlnm" value="&lt;b style='color:#064E3B; font-size: 13px;'&gt;Cross-Basis Bi-Dimensional Surface&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;s(x_t, l) = ∑∑ α_ij · b_i(x_t) · c_j(l)&lt;br&gt;Joint exposure-lag optimization&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;strokeWidth=2;fontColor=#064E3B;align=center;shadow=1;" vertex="1" parent="box_stage3">
+          <mxGeometry x="20" y="300" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_ensemble" value="&lt;b style='color:#064E3B; font-size: 13px;'&gt;Quasi-Poisson GAM Ensemble&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• Overdispersion adjustment&lt;br&gt;• Seasonality / Holiday controls&lt;br&gt;• 95% Confidence Interval Band&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#059669;strokeWidth=1.5;fontColor=#064E3B;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage3">
+          <mxGeometry x="20" y="420" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_pred_engine" value="&lt;b style='color:#065F46; font-size: 13px;'&gt;14-Day Forward Forecast Engine&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;Outputs relative risk RR(t+1..14)&lt;br&gt;for each of 16 Sub-districts&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#A7F3D0;strokeColor=#047857;strokeWidth=2;fontColor=#064E3B;align=center;shadow=1;" vertex="1" parent="box_stage3">
+          <mxGeometry x="20" y="540" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ========================================================================= -->
+        <!-- CONTAINER 4: RISK CLASSIFICATION & PROTOCOLS (AMBER THEME)                -->
+        <!-- ========================================================================= -->
+        <mxCell id="box_stage4" value="&lt;b style='font-size: 14px; color: #92400E;'&gt;4. RISK THRESHOLD ENGINE&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=2;rounded=1;arcSize=8;fontColor=#92400E;collapsible=0;container=1;" vertex="1" parent="1">
+          <mxGeometry x="1085" y="140" width="300" height="840" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_tier1" value="&lt;b style='color:#065F46; font-size: 12px;'&gt;LEVEL 1: NORMAL (RR &amp;lt; 1.05)&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;Baseline monitoring &amp;amp; routine 3M+&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;strokeWidth=2;fontColor=#064E3B;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage4">
+          <mxGeometry x="20" y="80" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_tier2" value="&lt;b style='color:#92400E; font-size: 12px;'&gt;LEVEL 2: WASPADA (1.05 ≤ RR &amp;lt; 1.30)&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;Larva inspection &amp;amp; Abate distribution&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;strokeWidth=2;fontColor=#92400E;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage4">
+          <mxGeometry x="20" y="180" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_tier3" value="&lt;b style='color:#1E40AF; font-size: 12px;'&gt;LEVEL 3: SIAGA (1.30 ≤ RR &amp;lt; 1.70)&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;Targeted fogging &amp;amp; Bed preparation&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;strokeWidth=2;fontColor=#1E3A8A;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage4">
+          <mxGeometry x="20" y="280" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_tier4" value="&lt;b style='color:#991B1B; font-size: 12px;'&gt;LEVEL 4: KRITIS (RR ≥ 1.70)&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;Emergency medical surge &amp;amp; Drug dispatch&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#EF4444;strokeWidth=2;fontColor=#7F1D1D;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage4">
+          <mxGeometry x="20" y="380" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_decision_router" value="&lt;b style='color:#78350F; font-size: 13px;'&gt;Spatial Action Router&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;Matches predicted lag surge with&lt;br&gt;district healthcare capacity &amp;amp; inventory&lt;/span&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#D97706;strokeWidth=2;fontColor:#78350F;align=center;shadow=1;" vertex="1" parent="box_stage4">
+          <mxGeometry x="30" y="490" width="240" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- ========================================================================= -->
+        <!-- CONTAINER 5: ORCHESTRATION & OUTPUTS (ROSE / RED THEME)                   -->
+        <!-- ========================================================================= -->
+        <mxCell id="box_stage5" value="&lt;b style='font-size: 14px; color: #9F1239;'&gt;5. PRESCRIPTIVE ORCHESTRATION&lt;/b&gt;" style="swimlane;whiteSpace=wrap;html=1;fillColor=#FFE4E6;strokeColor=#E11D48;strokeWidth=2;rounded=1;arcSize=8;fontColor=#9F1239;collapsible=0;container=1;" vertex="1" parent="1">
+          <mxGeometry x="1420" y="140" width="300" height="840" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_cockpit" value="&lt;b style='color:#881337; font-size: 13px;'&gt;Cockpit Realtime Dashboard&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• 16 District Interactive Map&lt;br&gt;• 14-Day Interactive Lag Curve&lt;br&gt;• Alert Broadcast Center&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E11D48;strokeWidth=1.5;fontColor=#881337;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage5">
+          <mxGeometry x="20" y="80" width="260" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_fogging" value="&lt;b style='color:#881337; font-size: 13px;'&gt;Targeted Vector Interventions&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• Precision Fogging Schedule&lt;br&gt;• Abate Logistics Allocation&lt;br&gt;• Field Sanitation Routes&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E11D48;strokeWidth=1.5;fontColor=#881337;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage5">
+          <mxGeometry x="20" y="210" width="260" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_bed" value="&lt;b style='color:#881337; font-size: 13px;'&gt;Hospital Bed &amp;amp; Ward Surge&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• Pediatric Inpatient Scaling&lt;br&gt;• Oxygen &amp;amp; Infusion Supply Buffer&lt;br&gt;• Inter-facility Patient Routing&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E11D48;strokeWidth=1.5;fontColor=#881337;align=left;spacingLeft=12;shadow=1;" vertex="1" parent="box_stage5">
+          <mxGeometry x="20" y="340" width="260" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node_webhook" value="&lt;b style='color:#9F1239; font-size: 13px;'&gt;Automated Dinkes Dispatch&lt;/b&gt;&lt;br&gt;&lt;span style='color:#475569; font-size: 11px;'&gt;• WhatsApp Emergency Alert API&lt;br&gt;• Weekly Epidemiological PDF&lt;br&gt;• SatuSehat Ministry Gateway&lt;/span&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FECDD3;strokeColor=#BE123C;strokeWidth=2;fontColor=#881337;align=center;shadow=1;" vertex="1" parent="box_stage5">
+          <mxGeometry x="20" y="480" width="260" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ========================================================================= -->
+        <!-- INTER-STAGE CONNECTORS (EDGES)                                            -->
+        <!-- ========================================================================= -->
+        <!-- Stage 1 to 2 -->
+        <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#7C3AED;strokeWidth=2.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="node_kafka" target="node_clean">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="800" />
+              <mxPoint x="390" y="265" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Stage 2 Internal to Feature Store -->
+        <mxCell id="edge2a" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0D9488;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage2" source="node_clean" target="node_smooth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0D9488;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage2" source="node_smooth" target="node_lag_builder">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2c" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0D9488;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage2" source="node_lag_builder" target="node_feature_store">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Stage 2 to Stage 3 -->
+        <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=2.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="node_feature_store" target="node_bi_dlnm">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="730" y="720" />
+              <mxPoint x="730" y="485" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Stage 3 Internal Flow -->
+        <mxCell id="edge3a" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage3" source="node_exposure_func" target="node_bi_dlnm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage3" source="node_lag_func" target="node_bi_dlnm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3c" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage3" source="node_bi_dlnm" target="node_ensemble">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3d" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage3" source="node_ensemble" target="node_pred_engine">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Stage 3 to Stage 4 -->
+        <mxCell id="edge4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=2.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="node_pred_engine" target="node_decision_router">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1065" y="725" />
+              <mxPoint x="1065" y="705" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Stage 4 Internal Flow to Decision Router -->
+        <mxCell id="edge4a" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage4" source="node_tier1" target="node_decision_router">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage4" source="node_tier2" target="node_decision_router">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4c" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage4" source="node_tier3" target="node_decision_router">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4d" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=1.5;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="box_stage4" source="node_tier4" target="node_decision_router">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Stage 4 to Stage 5 -->
+        <mxCell id="edge5a" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#E11D48;strokeWidth=2.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="node_decision_router" target="node_cockpit">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1400" y="705" />
+              <mxPoint x="1400" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge5b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#E11D48;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="node_decision_router" target="node_fogging">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1400" y="705" />
+              <mxPoint x="1400" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge5c" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#E11D48;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="node_decision_router" target="node_bed">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1400" y="705" />
+              <mxPoint x="1400" y="530" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge5d" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#E11D48;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="node_decision_router" target="node_webhook">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1400" y="705" />
+              <mxPoint x="1400" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

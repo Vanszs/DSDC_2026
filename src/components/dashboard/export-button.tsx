@@ -53,7 +53,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
     if (isPdfBusy) return;
 
     const dateIso = new Date().toISOString().slice(0, 10);
-    const filename = `EcoHealth_Executive_Brief_${dateIso}.pdf`;
+    const filename = `Sentry_Executive_Brief_${dateIso}.pdf`;
 
     onExportStart?.("pdf");
     setPdfStatus({ stage: "connecting", message: "Menghubungkan..." });
@@ -95,7 +95,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
     if (isExcelBusy) return;
 
     const dateIso = new Date().toISOString().slice(0, 10);
-    const filename = `EcoHealth_Vulnerability_Matrix_${dateIso}.xlsx`;
+    const filename = `Sentry_Vulnerability_Matrix_${dateIso}.xlsx`;
 
     onExportStart?.("excel");
     setExcelStatus({ stage: "connecting", message: "Menghubungkan..." });

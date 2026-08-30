@@ -8,22 +8,22 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-slate-900 text-slate-50 shadow-sm hover:bg-slate-800 active:bg-slate-950 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200",
+          "bg-[#181818] text-white shadow-sm hover:bg-black active:bg-black dark:bg-[#FAF8F5] dark:text-[#181818] dark:hover:bg-white",
         destructive:
-          "bg-red-500 text-slate-50 shadow-sm hover:bg-red-600 active:bg-red-700 dark:bg-red-600 dark:text-slate-50 dark:hover:bg-red-500",
+          "bg-red-600 text-white shadow-sm hover:bg-red-700 active:bg-red-800 dark:bg-red-600 dark:text-white dark:hover:bg-red-500",
         outline:
-          "border border-slate-300 bg-white text-slate-800 shadow-sm hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800",
+          "border border-[#E5E0D8] bg-white text-[#181818] shadow-xs hover:bg-[#FAF8F5] hover:border-[#DCD6CA] dark:border-[#1E2638] dark:bg-[#0E1420] dark:text-[#FAF8F5] dark:hover:bg-slate-800",
         secondary:
-          "bg-slate-100 text-slate-900 shadow-sm hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700",
+          "bg-[#EFEAE2] text-[#181818] shadow-xs hover:bg-[#E5E0D8] dark:bg-[#1E2638] dark:text-[#FAF8F5] dark:hover:bg-slate-700",
         ghost:
-          "text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+          "text-[#645E54] hover:bg-[#EFEAE2] hover:text-[#181818] dark:text-[#94A3B8] dark:hover:bg-slate-800 dark:hover:text-[#FAF8F5]",
         link: "text-emerald-700 underline-offset-4 hover:underline dark:text-emerald-400",
         success:
           "bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 active:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500",
         pillSolid:
-          "rounded-full bg-[#181818] text-white shadow-sm hover:bg-black dark:bg-white dark:text-[#080C14] dark:hover:bg-slate-200 border border-transparent",
+          "rounded-full bg-[#181818] text-white shadow-sm hover:bg-black dark:bg-[#FAF8F5] dark:text-[#181818] dark:hover:bg-white border border-transparent",
         pillOutline:
-          "rounded-full border border-[#DCD6CA] bg-white text-[#141824] shadow-sm hover:border-[#BDB5A7] hover:bg-[#FAF8F5] dark:border-[#1E2638] dark:bg-[#0E1420] dark:text-[#F8FAFC] dark:hover:bg-slate-800",
+          "rounded-full border border-[#DCD6CA] bg-white text-[#181818] shadow-xs hover:border-[#BDB5A7] hover:bg-[#FAF8F5] dark:border-[#1E2638] dark:bg-[#0E1420] dark:text-[#FAF8F5] dark:hover:bg-slate-800",
         pillEmerald:
           "rounded-full bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 active:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 border border-emerald-500/20",
       },

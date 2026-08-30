@@ -1,7 +1,18 @@
 import type { Metadata, Viewport } from "next";
+import { Poppins } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { AuthProvider } from "@/components/auth/auth-context";
+import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
+import { SplashScreen } from "@/components/ui/splash-screen";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -14,11 +25,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "EcoHealth Pulse | Prediksi Kerentanan Iklim & Epidemiologi Kota Semarang (DSDC 2026)",
+  title: "Sentry | Early Warning Platform for Climate-Driven Epidemics",
   description:
-    "Sistem analitik epidemiologi prediktif dampak anomali iklim dan risiko lingkungan terhadap beban penyakit DBD dan ISPA di Kota Semarang (DSDC 2026).",
+    "Sentry: Early Warning Platform for Climate-Driven Epidemics — Sistem prediksi kerentanan epidemiologi berbasis anomali iklim dan risiko lingkungan di Kota Semarang (DSDC 2026).",
   keywords: [
-    "EcoHealth Pulse",
+    "Sentry",
     "Semarang",
     "Epidemiologi",
     "DBD",
@@ -30,7 +41,7 @@ export const metadata: Metadata = {
     "PostGIS MVT",
     "DLNM Lag-14",
   ],
-  authors: [{ name: "EcoHealth Pulse Engineering Team" }],
+  authors: [{ name: "Sentry Engineering Team" }],
 };
 
 export default function RootLayout({
@@ -46,7 +57,7 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('ecohealth_theme');
+                  var theme = localStorage.getItem('sentry_theme') || localStorage.getItem('ecohealth_theme');
                   var supportDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                   if (theme === 'dark' || (!theme || theme === 'system') && supportDark) {
                     document.documentElement.classList.add('dark');
@@ -61,12 +72,14 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-[100dvh] antialiased bg-background text-foreground selection:bg-emerald-500 selection:text-white">
-        <a href="#main-content" className="skip-link">
-          Lewati ke konten utama
-        </a>
+      <body className={`${poppins.variable} font-sans min-h-[100dvh] antialiased bg-background text-foreground selection:bg-[#181818] selection:text-[#FAF8F5] dark:selection:bg-[#FAF8F5] dark:selection:text-[#181818]`}>
         <ThemeProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <SplashScreen />
+            <SmoothScrollProvider>
+              {children}
+            </SmoothScrollProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

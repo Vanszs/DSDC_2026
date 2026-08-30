@@ -645,7 +645,7 @@ export default function LoginPage() {
       {/* Single-line Minimal Footer */}
       <footer className="border-t border-[#E5E0D8] bg-white py-3 dark:border-[#1E2638] dark:bg-[#080C14] transition-colors duration-150">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 text-[11px] font-mono text-slate-500 dark:text-slate-400">
-          <span>EcoHealth Pulse &bull; Kemendagri 33.74</span>
+          <span>Sentry &bull; Kemendagri 33.74</span>
           <span>Permenkes 24/2022 &bull; TLS 1.3</span>
         </div>
       </footer>

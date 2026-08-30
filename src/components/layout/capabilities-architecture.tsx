@@ -188,7 +188,7 @@ map.addSource('districts-mvt', {
     number: "03",
     badgeLabel: "CLINICAL TRIAGE MATRIX",
     title: "Dual-Disease Triage Matrix",
-    subtitle: "EcoHealth Vulnerability (EHV 0-100) Dual-Pathogen Scoring",
+    subtitle: "Sentry Vulnerability (EHV 0-100) Dual-Pathogen Scoring",
     specSummary:
       "Matriks penilaian komposit kuantitatif yang mendekomposisi risiko dua spektrum penyakit menular iklim: DBD (vektor Aedes) dan ISPA (aerosol PM2.5).",
     keyMetrics: [
@@ -333,7 +333,7 @@ export const CapabilitiesArchitectureSection: React.FC<{ className?: string }> =
   return (
     <section
       id="arsitektur-kapabilitas"
-      aria-label="Arsitektur Ontologis dan 4 Pilar Kapabilitas EcoHealth Pulse"
+      aria-label="Arsitektur Ontologis dan 4 Pilar Kapabilitas Sentry"
       className={cn(
         "py-16 sm:py-24 border-b border-[#E5E0D8] bg-[#FFFFFF] dark:border-[#1E2638] dark:bg-[#0E1420] transition-colors",
         className
@@ -347,7 +347,7 @@ export const CapabilitiesArchitectureSection: React.FC<{ className?: string }> =
             <span>ARSITEKTUR SISTEM & 4 PILAR KAPABILITAS ONTOLOGIS</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#141824] dark:text-[#F8FAFC] leading-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#181818] dark:text-[#F8FAFC] leading-tight">
             Infrastruktur Analitik Epidemiologi & Rekayasa Spasial Skala Kota
           </h2>
 
@@ -369,7 +369,7 @@ export const CapabilitiesArchitectureSection: React.FC<{ className?: string }> =
                   "flex flex-col text-left p-3.5 sm:p-4 rounded-xl border transition-all active-press",
                   isActive
                     ? "border-emerald-600 bg-emerald-50/70 dark:bg-emerald-950/40 dark:border-emerald-500 shadow-sm ring-1 ring-emerald-500/20"
-                    : "border-[#E5E0D8] bg-[#FAF8F5] hover:bg-slate-100/90 dark:border-[#1E2638] dark:bg-[#080C14] dark:hover:bg-slate-900/60 text-[#141824] dark:text-[#F8FAFC]"
+                    : "border-[#E5E0D8] bg-[#FAF8F5] hover:bg-slate-100/90 dark:border-[#1E2638] dark:bg-[#080C14] dark:hover:bg-slate-900/60 text-[#181818] dark:text-[#F8FAFC]"
                 )}
               >
                 <div className="flex items-center justify-between w-full mb-2">
@@ -378,7 +378,7 @@ export const CapabilitiesArchitectureSection: React.FC<{ className?: string }> =
                       "font-mono text-xs font-bold px-2 py-0.5 rounded",
                       isActive
                         ? "bg-emerald-600 text-white dark:bg-emerald-500"
-                        : "bg-slate-200 text-[#141824] dark:bg-slate-800 dark:text-[#F8FAFC]"
+                        : "bg-slate-200 text-[#181818] dark:bg-slate-800 dark:text-[#F8FAFC]"
                     )}
                   >
                     PILAR {pillar.number}
@@ -388,7 +388,7 @@ export const CapabilitiesArchitectureSection: React.FC<{ className?: string }> =
                   )}
                 </div>
 
-                <div className="font-bold text-sm text-[#141824] dark:text-[#F8FAFC] line-clamp-1">
+                <div className="font-bold text-sm text-[#181818] dark:text-[#F8FAFC] line-clamp-1">
                   {pillar.title}
                 </div>
                 <div className="text-[11px] text-[#645E54] dark:text-[#94A3B8] font-mono mt-0.5 line-clamp-1">
@@ -409,13 +409,13 @@ export const CapabilitiesArchitectureSection: React.FC<{ className?: string }> =
                   PILAR {activePillar.number} : {activePillar.badgeLabel}
                 </span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-[#141824] dark:text-[#F8FAFC]">
+              <h3 className="text-xl sm:text-2xl font-bold text-[#181818] dark:text-[#F8FAFC]">
                 {activePillar.title}
               </h3>
               <p className="text-xs sm:text-sm font-mono text-[#645E54] dark:text-[#94A3B8]">
                 {activePillar.subtitle}
               </p>
-              <p className="text-xs sm:text-sm text-[#141824] dark:text-[#F8FAFC] leading-relaxed pt-1">
+              <p className="text-xs sm:text-sm text-[#181818] dark:text-[#F8FAFC] leading-relaxed pt-1">
                 {activePillar.specSummary}
               </p>
             </div>
@@ -430,7 +430,7 @@ export const CapabilitiesArchitectureSection: React.FC<{ className?: string }> =
                   <div className="text-[10px] font-mono uppercase tracking-wider text-[#645E54] dark:text-[#94A3B8]">
                     {km.label}
                   </div>
-                  <div className="text-base sm:text-lg font-bold font-mono text-[#141824] dark:text-[#F8FAFC]">
+                  <div className="text-base sm:text-lg font-bold font-mono text-[#181818] dark:text-[#F8FAFC]">
                     {km.value}
                   </div>
                   <div className="text-[11px] text-[#645E54] dark:text-[#94A3B8] leading-tight mt-0.5">
@@ -450,10 +450,10 @@ export const CapabilitiesArchitectureSection: React.FC<{ className?: string }> =
               >
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-[10px] font-mono font-bold text-[#141824] dark:text-[#F8FAFC]">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-[10px] font-mono font-bold text-[#181818] dark:text-[#F8FAFC]">
                       {idx + 1}
                     </span>
-                    <h4 className="text-xs sm:text-sm font-bold text-[#141824] dark:text-[#F8FAFC]">
+                    <h4 className="text-xs sm:text-sm font-bold text-[#181818] dark:text-[#F8FAFC]">
                       {tp.heading}
                     </h4>
                   </div>
@@ -486,7 +486,7 @@ export const CapabilitiesArchitectureSection: React.FC<{ className?: string }> =
               {activePillar.domainKeywords.map((kw, i) => (
                 <span
                   key={i}
-                  className="rounded bg-slate-100 px-2 py-0.5 text-[10px] font-mono text-[#141824] dark:bg-slate-800 dark:text-[#F8FAFC] border border-[#E5E0D8] dark:border-[#1E2638]"
+                  className="rounded bg-slate-100 px-2 py-0.5 text-[10px] font-mono text-[#181818] dark:bg-slate-800 dark:text-[#F8FAFC] border border-[#E5E0D8] dark:border-[#1E2638]"
                 >
                   {kw}
                 </span>

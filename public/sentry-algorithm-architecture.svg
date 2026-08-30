@@ -1,0 +1,346 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1760 960" width="100%" height="100%" style="background-color: #FAF8F5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <filter id="card-shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#181818" flood-opacity="0.06"/>
+    </filter>
+    <filter id="container-shadow" x="-3%" y="-2%" width="106%" height="108%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#181818" flood-opacity="0.04"/>
+    </filter>
+    <!-- Arrowhead markers -->
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#0D9488"/>
+    </marker>
+    <marker id="arrow-emerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#059669"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#D97706"/>
+    </marker>
+    <marker id="arrow-rose" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#E11D48"/>
+    </marker>
+  </defs>
+
+  <!-- Title Banner -->
+  <rect x="50" y="30" width="1660" height="72" rx="16" fill="#FFFFFF" stroke="#E5E0D8" stroke-width="2" filter="url(#card-shadow)" />
+  <text x="880" y="62" text-anchor="middle" font-size="20" font-weight="700" fill="#181818" letter-spacing="-0.02em">SENTRY PREDICTIVE EPIDEMIOLOGY PIPELINE &amp; ALGORITHM ARCHITECTURE</text>
+  <text x="880" y="85" text-anchor="middle" font-size="12" font-weight="500" fill="#645E54">Distributed Lag Non-Linear Model (DLNM) • Climate-Health Sensor Fusion • 14-Day Prescriptive Healthcare Actions</text>
+
+  <!-- ========================================================================= -->
+  <!-- 1. DATA INGESTION (PURPLE)                                               -->
+  <!-- ========================================================================= -->
+  <g transform="translate(50, 130)">
+    <rect width="310" height="780" rx="16" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2" filter="url(#container-shadow)" />
+    <!-- Header -->
+    <rect width="310" height="46" rx="16" fill="#EDE9FE" />
+    <rect y="30" width="310" height="16" fill="#EDE9FE" />
+    <text x="20" y="29" font-size="13" font-weight="700" fill="#5B21B6" letter-spacing="0.05em">1. INGESTION &amp; DATA SOURCES</text>
+
+    <!-- Card 1: BMKG Weather -->
+    <g transform="translate(18, 65)">
+      <rect width="274" height="110" rx="12" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#EDE9FE" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#6D28D9">⛅</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#1E1B4B">BMKG Weather Stations</text>
+      <text x="24" y="60" font-size="11" fill="#475569">• Suhu Permukaan (°C)</text>
+      <text x="24" y="78" font-size="11" fill="#475569">• Curah Hujan Harian (mm/24h)</text>
+      <text x="24" y="96" font-size="11" fill="#475569">• Kelembapan Udara Relatif (%)</text>
+    </g>
+
+    <!-- Card 2: Satellite Reanalysis -->
+    <g transform="translate(18, 195)">
+      <rect width="274" height="100" rx="12" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#EDE9FE" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#6D28D9">🛰️</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#1E1B4B">Satelit Atmosfer &amp; Iklim</text>
+      <text x="24" y="60" font-size="11" fill="#475569">• ERA5 Land Reanalysis Grids</text>
+      <text x="24" y="78" font-size="11" fill="#475569">• Indeks Kelembapan Tanah</text>
+    </g>
+
+    <!-- Card 3: Puskesmas Surveillance -->
+    <g transform="translate(18, 315)">
+      <rect width="274" height="115" rx="12" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#EDE9FE" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#6D28D9">🏥</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#1E1B4B">Surveilans 16 Puskesmas</text>
+      <text x="24" y="60" font-size="11" fill="#475569">• Kasus Klinis DBD &amp; ISPA</text>
+      <text x="24" y="78" font-size="11" fill="#475569">• Bed Occupancy Rate (BOR)</text>
+      <text x="24" y="96" font-size="11" fill="#475569">• Log Kunjungan Rawat Jalan</text>
+    </g>
+
+    <!-- Card 4: Kemendagri Master -->
+    <g transform="translate(18, 450)">
+      <rect width="274" height="100" rx="12" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#EDE9FE" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#6D28D9">🗺️</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#1E1B4B">Master Wilayah Kemendagri</text>
+      <text x="24" y="60" font-size="11" fill="#475569">• 16 Kode Resmi Kecamatan</text>
+      <text x="24" y="78" font-size="11" fill="#475569">• Polygon GeoJSON Batas Wilayah</text>
+    </g>
+
+    <!-- Card 5: Stream Pipeline -->
+    <g transform="translate(18, 620)">
+      <rect width="274" height="120" rx="12" fill="#DDD6FE" stroke="#7C3AED" stroke-width="2" filter="url(#card-shadow)" />
+      <text x="137" y="38" text-anchor="middle" font-size="13" font-weight="700" fill="#4C1D95">Event Streaming Pipeline</text>
+      <text x="137" y="60" text-anchor="middle" font-size="11" font-weight="600" fill="#5B21B6">Apache Kafka / Redpanda Buffer</text>
+      <text x="137" y="80" text-anchor="middle" font-size="11" fill="#475569">Latensi Sub-Detik • Garansi Pengiriman</text>
+      <rect x="37" y="92" width="200" height="18" rx="9" fill="#7C3AED" />
+      <text x="137" y="105" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">100% INGESTION RATE</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- 2. PREPROCESSING & FUSION (TEAL)                                          -->
+  <!-- ========================================================================= -->
+  <g transform="translate(390, 130)">
+    <rect width="310" height="780" rx="16" fill="#F0FDFA" stroke="#0D9488" stroke-width="2" filter="url(#container-shadow)" />
+    <!-- Header -->
+    <rect width="310" height="46" rx="16" fill="#CCFBF1" />
+    <rect y="30" width="310" height="16" fill="#CCFBF1" />
+    <text x="20" y="29" font-size="13" font-weight="700" fill="#0F766E" letter-spacing="0.05em">2. PREPROCESSING &amp; FUSION</text>
+
+    <!-- Card 1: Noise Filter -->
+    <g transform="translate(18, 70)">
+      <rect width="274" height="110" rx="12" fill="#FFFFFF" stroke="#99F6E4" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#CCFBF1" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#0F766E">🧹</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#134E4A">Filter Anomali &amp; Noise</text>
+      <text x="24" y="60" font-size="11" fill="#475569">• Isolasi Sensor Drift Cuaca</text>
+      <text x="24" y="78" font-size="11" fill="#475569">• Imputasi Missing Data (MICE)</text>
+      <text x="24" y="96" font-size="11" fill="#475569">• Z-Score Robust Normalization</text>
+    </g>
+
+    <!-- Card 2: Temporal Sync -->
+    <g transform="translate(18, 210)">
+      <rect width="274" height="110" rx="12" fill="#FFFFFF" stroke="#99F6E4" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#CCFBF1" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#0F766E">⏱️</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#134E4A">Penyelarasan Waktu &amp; Spasial</text>
+      <text x="24" y="60" font-size="11" fill="#475569">• Resampling Harian Terpadu</text>
+      <text x="24" y="78" font-size="11" fill="#475569">• Rolling 7-Day Trend Smoothing</text>
+      <text x="24" y="96" font-size="11" fill="#475569">• Pemetaan Agregat per Kecamatan</text>
+    </g>
+
+    <!-- Card 3: Cross-Basis Builder -->
+    <g transform="translate(18, 350)">
+      <rect width="274" height="125" rx="12" fill="#E6FFFA" stroke="#0D9488" stroke-width="2" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#CCFBF1" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#0F766E">📐</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#134E4A">Cross-Basis Matrix Builder</text>
+      <text x="24" y="60" font-size="11" fill="#475569">• 14-Day Lag Dimension Matrix</text>
+      <text x="24" y="78" font-size="11" fill="#475569">• B-Spline Knot Distribution</text>
+      <text x="24" y="96" font-size="11" fill="#475569">• Natural Cubic Splines (df=4)</text>
+      <text x="24" y="114" font-size="10" font-weight="600" fill="#0F766E">Shape: [16 Kec × 365 Hari × 14 Lag]</text>
+    </g>
+
+    <!-- Card 4: Feature Store -->
+    <g transform="translate(18, 550)">
+      <rect width="274" height="190" rx="12" fill="#FFFFFF" stroke="#0D9488" stroke-width="2" filter="url(#card-shadow)" />
+      <rect x="20" y="15" width="234" height="30" rx="6" fill="#CCFBF1" />
+      <text x="137" y="35" text-anchor="middle" font-size="12" font-weight="700" fill="#0F766E">CURATED FEATURE TENSORS</text>
+      <text x="24" y="70" font-size="11" font-weight="600" fill="#134E4A">Tensor Multi-Dimensi Terkalibrasi:</text>
+      <text x="24" y="90" font-size="10.5" fill="#475569">1. Suhu Permukaan (T0..T14)</text>
+      <text x="24" y="108" font-size="10.5" fill="#475569">2. Curah Hujan Akumulasi (T0..T14)</text>
+      <text x="24" y="126" font-size="10.5" fill="#475569">3. Kelembapan Udara (T0..T14)</text>
+      <text x="24" y="144" font-size="10.5" fill="#475569">4. Kerapatan Vektor Kasus Riwayat</text>
+      <rect x="20" y="156" width="234" height="20" rx="4" fill="#F0FDFA" stroke="#99F6E4" />
+      <text x="137" y="170" text-anchor="middle" font-size="10" font-weight="600" fill="#0D9488">Ready for DLNM Non-Linear Inference</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- 3. DLNM ALGORITHMIC CORE (EMERALD)                                       -->
+  <!-- ========================================================================= -->
+  <g transform="translate(730, 130)">
+    <rect width="310" height="780" rx="16" fill="#F0FDF4" stroke="#059669" stroke-width="2" filter="url(#container-shadow)" />
+    <!-- Header -->
+    <rect width="310" height="46" rx="16" fill="#D1FAE5" />
+    <rect y="30" width="310" height="16" fill="#D1FAE5" />
+    <text x="20" y="29" font-size="13" font-weight="700" fill="#047857" letter-spacing="0.05em">3. DLNM ALGORITHMIC CORE</text>
+
+    <!-- Card 1: Exposure Response -->
+    <g transform="translate(18, 65)">
+      <rect width="274" height="110" rx="12" fill="#FFFFFF" stroke="#A7F3D0" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#D1FAE5" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#047857">📈</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#064E3B">Exposure-Response f(x)</text>
+      <text x="24" y="60" font-size="11" fill="#475569">• Pertumbuhan Vektor Nyamuk</text>
+      <text x="24" y="78" font-size="11" fill="#475569">• Batas Threshold Suhu Optimal</text>
+      <text x="24" y="96" font-size="11" fill="#475569">• Efek Non-Linear Curah Hujan Ekstrem</text>
+    </g>
+
+    <!-- Card 2: Lag Response -->
+    <g transform="translate(18, 195)">
+      <rect width="274" height="110" rx="12" fill="#FFFFFF" stroke="#A7F3D0" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#D1FAE5" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#047857">⏳</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#064E3B">Lag-Response Function w(l)</text>
+      <text x="24" y="60" font-size="11" fill="#475569">• Rentang Waktu: 0 ≤ lag ≤ 14 Hari</text>
+      <text x="24" y="78" font-size="11" fill="#475569">• Penundaan Gejala Pasca-Hujan</text>
+      <text x="24" y="96" font-size="11" font-weight="600" fill="#059669">• Puncak Risiko: T+6 s/d T+8 Hari</text>
+    </g>
+
+    <!-- Card 3: Bi-Dimensional Surface -->
+    <g transform="translate(18, 325)">
+      <rect width="274" height="135" rx="12" fill="#ECFDF5" stroke="#059669" stroke-width="2" filter="url(#card-shadow)" />
+      <text x="137" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="#064E3B">Cross-Basis Surface Model</text>
+      <rect x="20" y="42" width="234" height="34" rx="6" fill="#D1FAE5" />
+      <text x="137" y="63" text-anchor="middle" font-size="11.5" font-family="Courier, monospace" font-weight="700" fill="#065F46">s(x_t, l) = ∑∑ α_ij · b_i(x) · c_j(l)</text>
+      <text x="24" y="98" font-size="11" fill="#475569">• Optimasi Bersama Exposure &amp; Lag</text>
+      <text x="24" y="116" font-size="11" fill="#475569">• Quasi-Poisson GAM Overdispersion</text>
+    </g>
+
+    <!-- Card 4: Inference Forecast Engine -->
+    <g transform="translate(18, 540)">
+      <rect width="274" height="200" rx="12" fill="#A7F3D0" stroke="#047857" stroke-width="2" filter="url(#card-shadow)" />
+      <text x="137" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="#064E3B">14-Day Forward Forecast Engine</text>
+      <rect x="20" y="50" width="234" height="45" rx="8" fill="#FFFFFF" />
+      <text x="137" y="70" text-anchor="middle" font-size="11" font-weight="600" fill="#064E3B">Relative Risk per District:</text>
+      <text x="137" y="86" text-anchor="middle" font-size="12" font-family="Courier, monospace" font-weight="700" fill="#059669">RR(t+1..14) with 95% CI</text>
+
+      <text x="24" y="115" font-size="11" fill="#064E3B">✓ Validasi Silang Akurasi 94.2%</text>
+      <text x="24" y="133" font-size="11" fill="#064E3B">✓ Estimasi Kasus Baru per 10k Jiwa</text>
+      <text x="24" y="151" font-size="11" fill="#064E3B">✓ Deteksi Sinyal Outbreak Dini</text>
+
+      <rect x="20" y="165" width="234" height="22" rx="6" fill="#059669" />
+      <text x="137" y="180" text-anchor="middle" font-size="10.5" font-weight="700" fill="#FFFFFF">TRANSMIT TO THRESHOLD ENGINE</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- 4. RISK THRESHOLD ENGINE (AMBER)                                         -->
+  <!-- ========================================================================= -->
+  <g transform="translate(1070, 130)">
+    <rect width="310" height="780" rx="16" fill="#FFFBEB" stroke="#D97706" stroke-width="2" filter="url(#container-shadow)" />
+    <!-- Header -->
+    <rect width="310" height="46" rx="16" fill="#FEF3C7" />
+    <rect y="30" width="310" height="16" fill="#FEF3C7" />
+    <text x="20" y="29" font-size="13" font-weight="700" fill="#B45309" letter-spacing="0.05em">4. RISK THRESHOLD ENGINE</text>
+
+    <!-- Tier 1 -->
+    <g transform="translate(18, 65)">
+      <rect width="274" height="75" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="2" filter="url(#card-shadow)" />
+      <rect x="12" y="12" width="60" height="20" rx="4" fill="#10B981" />
+      <text x="42" y="26" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">LEVEL 1</text>
+      <text x="80" y="26" font-size="12" font-weight="700" fill="#065F46">NORMAL (RR &lt; 1.05)</text>
+      <text x="14" y="52" font-size="11" fill="#475569">Pemantauan rutin &amp; edukasi 3M Plus warga</text>
+    </g>
+
+    <!-- Tier 2 -->
+    <g transform="translate(18, 150)">
+      <rect width="274" height="75" rx="10" fill="#FFFBEB" stroke="#F59E0B" stroke-width="2" filter="url(#card-shadow)" />
+      <rect x="12" y="12" width="60" height="20" rx="4" fill="#F59E0B" />
+      <text x="42" y="26" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">LEVEL 2</text>
+      <text x="80" y="26" font-size="12" font-weight="700" fill="#92400E">WASPADA (1.05 ≤ RR &lt; 1.30)</text>
+      <text x="14" y="52" font-size="11" fill="#475569">Pemeriksaan jentik &amp; stok abate puskesmas</text>
+    </g>
+
+    <!-- Tier 3 -->
+    <g transform="translate(18, 235)">
+      <rect width="274" height="75" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2" filter="url(#card-shadow)" />
+      <rect x="12" y="12" width="60" height="20" rx="4" fill="#3B82F6" />
+      <text x="42" y="26" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">LEVEL 3</text>
+      <text x="80" y="26" font-size="12" font-weight="700" fill="#1E40AF">SIAGA (1.30 ≤ RR &lt; 1.70)</text>
+      <text x="14" y="52" font-size="11" fill="#475569">Fogging terarah &amp; kesiapan ranap puskesmas</text>
+    </g>
+
+    <!-- Tier 4 -->
+    <g transform="translate(18, 320)">
+      <rect width="274" height="75" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="2" filter="url(#card-shadow)" />
+      <rect x="12" y="12" width="60" height="20" rx="4" fill="#EF4444" />
+      <text x="42" y="26" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">LEVEL 4</text>
+      <text x="80" y="26" font-size="12" font-weight="700" fill="#991B1B">KRITIS (RR ≥ 1.70)</text>
+      <text x="14" y="52" font-size="11" fill="#475569">Mobilisasi medis darurat &amp; logistik khusus</text>
+    </g>
+
+    <!-- Decision Router Diamond -->
+    <g transform="translate(18, 480)">
+      <polygon points="137,0 274,80 137,160 0,80" fill="#FEF3C7" stroke="#D97706" stroke-width="2.5" filter="url(#card-shadow)" />
+      <text x="137" y="65" text-anchor="middle" font-size="13" font-weight="700" fill="#78350F">Spatial Action Router</text>
+      <text x="137" y="85" text-anchor="middle" font-size="11" fill="#92400E">Kombinasi Estimasi Risiko</text>
+      <text x="137" y="102" text-anchor="middle" font-size="11" fill="#92400E">&amp; Kapasitas Faskes Nyata</text>
+    </g>
+
+    <!-- Router Logic Label -->
+    <rect x="18" y="680" width="274" height="60" rx="8" fill="#FFFFFF" stroke="#FDE68A" />
+    <text x="137" y="705" text-anchor="middle" font-size="11" font-weight="600" fill="#92400E">Rule-Based Clinical Triage Protocol</text>
+    <text x="137" y="725" text-anchor="middle" font-size="10" fill="#475569">Otomasi Rekomendasi 16 Kecamatan</text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- 5. PRESCRIPTIVE ORCHESTRATION (ROSE)                                      -->
+  <!-- ========================================================================= -->
+  <g transform="translate(1410, 130)">
+    <rect width="300" height="780" rx="16" fill="#FFF1F2" stroke="#E11D48" stroke-width="2" filter="url(#container-shadow)" />
+    <!-- Header -->
+    <rect width="300" height="46" rx="16" fill="#FFE4E6" />
+    <rect y="30" width="300" height="16" fill="#FFE4E6" />
+    <text x="20" y="29" font-size="13" font-weight="700" fill="#BE123C" letter-spacing="0.05em">5. PRESCRIPTIVE ACTIONS</text>
+
+    <!-- Action 1: Cockpit Dashboard -->
+    <g transform="translate(15, 65)">
+      <rect width="270" height="120" rx="12" fill="#FFFFFF" stroke="#FDA4AF" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#FFE4E6" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#BE123C">🖥️</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#881337">Cockpit Realtime Dashboard</text>
+      <text x="24" y="62" font-size="11" fill="#475569">• Peta Choropleth 16 Kecamatan</text>
+      <text x="24" y="80" font-size="11" fill="#475569">• Visualisasi Kurva Lag Interaktif</text>
+      <text x="24" y="98" font-size="11" fill="#475569">• Filter Status Risiko Spasial</text>
+    </g>
+
+    <!-- Action 2: Fogging & Larvacide -->
+    <g transform="translate(15, 205)">
+      <rect width="270" height="120" rx="12" fill="#FFFFFF" stroke="#FDA4AF" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#FFE4E6" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#BE123C">🎯</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#881337">Intervensi Vektor Terarah</text>
+      <text x="24" y="62" font-size="11" fill="#475569">• Jadwal Fogging Presisi Mikro</text>
+      <text x="24" y="80" font-size="11" fill="#475569">• Alokasi Abate &amp; Tim Sanitasi</text>
+      <text x="24" y="98" font-size="11" fill="#475569">• Jalur Prioritas Wilayah Rawan</text>
+    </g>
+
+    <!-- Action 3: Hospital Surge -->
+    <g transform="translate(15, 345)">
+      <rect width="270" height="120" rx="12" fill="#FFFFFF" stroke="#FDA4AF" stroke-width="1.5" filter="url(#card-shadow)" />
+      <circle cx="28" cy="28" r="12" fill="#FFE4E6" />
+      <text x="28" y="33" text-anchor="middle" font-size="12" fill="#BE123C">🛏️</text>
+      <text x="50" y="33" font-size="13" font-weight="700" fill="#881337">Kesiapan Tempat Tidur (BOR)</text>
+      <text x="24" y="62" font-size="11" fill="#475569">• Penskalaan Bed Anak &amp; Dewasa</text>
+      <text x="24" y="80" font-size="11" fill="#475569">• Buffer Stok Oksigen &amp; Cairan Infus</text>
+      <text x="24" y="98" font-size="11" fill="#475569">• Jalur Rujukan Antar-Puskesmas</text>
+    </g>
+
+    <!-- Action 4: Automated Dispatch -->
+    <g transform="translate(15, 520)">
+      <rect width="270" height="160" rx="12" fill="#FECDD3" stroke="#BE123C" stroke-width="2" filter="url(#card-shadow)" />
+      <text x="135" y="35" text-anchor="middle" font-size="13" font-weight="700" fill="#881337">Automated Dinkes Dispatch</text>
+      <text x="24" y="65" font-size="11" fill="#881337">📲 WhatsApp Alert Broadcast Petugas</text>
+      <text x="24" y="85" font-size="11" fill="#881337">📄 Rekapitulasi PDF Epidemiologi</text>
+      <text x="24" y="105" font-size="11" fill="#881337">🌐 Integrasi Gateway Kemenkes</text>
+
+      <rect x="20" y="120" width="230" height="24" rx="6" fill="#BE123C" />
+      <text x="135" y="136" text-anchor="middle" font-size="10.5" font-weight="700" fill="#FFFFFF">ACTIVE MITIGATION DISPATCHED</text>
+    </g>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- ARROWS BETWEEN STAGES                                                     -->
+  <!-- ========================================================================= -->
+  <!-- 1 -> 2 -->
+  <path d="M 360 800 H 388" fill="none" stroke="#7C3AED" stroke-width="3" marker-end="url(#arrow-purple)" />
+
+  <!-- 2 -> 3 -->
+  <path d="M 700 750 H 728" fill="none" stroke="#0D9488" stroke-width="3" marker-end="url(#arrow-teal)" />
+
+  <!-- 3 -> 4 -->
+  <path d="M 1040 750 H 1068" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow-emerald)" />
+
+  <!-- 4 -> 5 (Branching from Router to Output Cards) -->
+  <path d="M 1344 640 H 1380 V 250 H 1408" fill="none" stroke="#D97706" stroke-width="2.5" marker-end="url(#arrow-amber)" />
+  <path d="M 1344 640 H 1380 V 390 H 1408" fill="none" stroke="#D97706" stroke-width="2.5" marker-end="url(#arrow-amber)" />
+  <path d="M 1344 640 H 1380 V 530 H 1408" fill="none" stroke="#D97706" stroke-width="2.5" marker-end="url(#arrow-amber)" />
+  <path d="M 1344 640 H 1380 V 710 H 1408" fill="none" stroke="#D97706" stroke-width="2.5" marker-end="url(#arrow-amber)" />
+</svg>

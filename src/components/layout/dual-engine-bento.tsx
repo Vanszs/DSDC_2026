@@ -25,9 +25,9 @@ export function DualEngineBentoSection({
   const [activeCodeTab, setActiveCodeTab] = useState<"ts" | "curl" | "postgis">("ts");
 
   const codeSnippets = {
-    ts: `import { EcoHealthEngine } from "@ecohealth/pulse-sdk";
+    ts: `import { SentryEngine } from "@sentry/pulse-sdk";
 
-const client = new EcoHealthEngine({
+const client = new SentryEngine({
   apiKey: process.env.DINKES_API_KEY,
   kemendagriCode: "33.74.05", // Kecamatan Genuk
 });
@@ -39,7 +39,7 @@ const telemetry = await client.predictVulnerability({
 });
 
 console.log(telemetry.ehvScore); // 84 / 100 (Status: Kritis)`,
-    curl: `curl -X GET "https://ecohealth.semarangkota.go.id/api/tiles/11/1652/1063" \\
+    curl: `curl -X GET "https://sentry.semarangkota.go.id/api/tiles/11/1652/1063" \\
   -H "Accept: application/x-protobuf" \\
   -H "Authorization: Bearer dinkes_sec_key_2026"`,
     postgis: `SELECT ST_AsMVT(mvt_geom.*, 'districts_layer', 4096, 'geom')
@@ -159,7 +159,7 @@ FROM (
                   <span>SDK / REST API / VECTOR TILES</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-50">
-                  EcoHealth API & SDK
+                  Sentry API & SDK
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                   Integrasikan prediksi kerentanan iklim langsung ke portal SatuSehat atau dashboard internal melalui REST endpoint dan binary Vector Tiles MVT.
@@ -187,7 +187,7 @@ FROM (
             </div>
           </div>
 
-          {/* RIGHT BOX: EcoHealth Realtime Spatial Cockpit */}
+          {/* RIGHT BOX: Sentry Realtime Spatial Cockpit */}
           <div className="relative rounded-2xl p-6 sm:p-8 flex flex-col justify-between border border-[#E5E0D8] bg-white dark:border-[#1E2638] dark:bg-[#0E1420] shadow-xs space-y-6">
             {/* Top Component: Realtime Spatial HUD & Telemetry Widgets */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -265,7 +265,7 @@ FROM (
                   <span>COMMAND CONSOLE / MAPLIBRE / SCRUBBER</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-50">
-                  EcoHealth Realtime Cockpit
+                  Sentry Realtime Cockpit
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                   Antarmuka pemantauan geospasial real-time dengan timeline scrubber 8-hari, dekomposisi 3 penyakit, dan ekspor instan SOP kebijakan untuk Dinas Kesehatan.

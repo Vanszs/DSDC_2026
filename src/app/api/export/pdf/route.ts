@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="EcoHealth_Executive_Brief_${format(new Date(), "yyyyMMdd")}.pdf"`,
+        "Content-Disposition": `attachment; filename="Sentry_Executive_Brief_${format(new Date(), "yyyyMMdd")}.pdf"`,
       },
     });
   } catch (error) {

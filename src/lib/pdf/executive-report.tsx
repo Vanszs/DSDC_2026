@@ -22,10 +22,10 @@ export const ExecutiveReportDocument: React.FC<{
   districts: DistrictSummaryDTO[];
   generatedAt: string;
 }> = ({ districts, generatedAt }) => (
-  <Document title="EcoHealth Pulse - Executive Briefing Kota Semarang">
+  <Document title="Sentry - Executive Briefing Kota Semarang">
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
-        <Text style={styles.title}>ECOHEALTH PULSE: EXECUTIVE POLICY BRIEF</Text>
+        <Text style={styles.title}>SENTRY: EXECUTIVE POLICY BRIEF</Text>
         <Text style={styles.subtitle}>
           Analisis Epidemiologi Prediktif Kerentanan Iklim & Beban Penyakit Kota Semarang | Tanggal: {generatedAt}
         </Text>
@@ -56,7 +56,7 @@ export const ExecutiveReportDocument: React.FC<{
       </View>
 
       <Text style={styles.footer}>
-        Dihasilkan secara otomatis oleh Engine Analitik EcoHealth Pulse (DSDC 2026) - Dinas Kesehatan Kota Semarang
+        Dihasilkan secara otomatis oleh Engine Analitik Sentry (DSDC 2026) - Dinas Kesehatan Kota Semarang
       </Text>
     </Page>
   </Document>

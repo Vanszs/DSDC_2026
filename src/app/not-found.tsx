@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-8 max-w-md text-center">
         <h2 className="text-2xl font-bold tracking-tight text-slate-100 font-mono">404 // NOT_FOUND</h2>
         <p className="mt-2 text-xs text-slate-400 font-mono">
-          Koordinat atau rute telemetri spasial tidak ditemukan dalam pangkalan data EcoHealth Pulse.
+          Koordinat atau rute telemetri spasial tidak ditemukan dalam pangkalan data Sentry.
         </p>
         <Link
           href="/"

@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const data = await getLatestCitywideVulnerability();
 
     const workbook = new ExcelJS.Workbook();
-    workbook.creator = "EcoHealth Pulse Platform";
+    workbook.creator = "Sentry Platform";
     workbook.created = new Date();
 
     const sheet = workbook.addWorksheet("Kerentanan Semarang");
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       status: 200,
       headers: {
         "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "Content-Disposition": `attachment; filename="EcoHealth_Dataset_Semarang_${format(new Date(), "yyyyMMdd")}.xlsx"`,
+        "Content-Disposition": `attachment; filename="Sentry_Dataset_Semarang_${format(new Date(), "yyyyMMdd")}.xlsx"`,
       },
     });
   } catch (error) {

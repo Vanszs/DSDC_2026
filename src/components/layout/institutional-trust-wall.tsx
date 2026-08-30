@@ -113,7 +113,7 @@ export function InstitutionalTrustWall({
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#EFEAE2] text-[#141824] dark:bg-slate-800 dark:text-slate-300 group-hover:bg-[#181818] group-hover:text-white dark:group-hover:bg-slate-100 dark:group-hover:text-slate-950 transition-colors duration-150">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#EFEAE2] text-[#181818] dark:bg-slate-800 dark:text-slate-300 group-hover:bg-[#181818] group-hover:text-white dark:group-hover:bg-slate-100 dark:group-hover:text-slate-950 transition-colors duration-150">
                       <Icon className="h-3 w-3" />
                     </div>
                     <span className="font-mono text-[9px] font-semibold text-[#78716C] dark:text-slate-400 tracking-wider">
@@ -122,7 +122,7 @@ export function InstitutionalTrustWall({
                   </div>
 
                   <div className="space-y-0.5">
-                    <h3 className="text-xs font-bold text-[#141824] dark:text-[#F8FAFC] leading-snug">
+                    <h3 className="text-xs font-bold text-[#181818] dark:text-[#F8FAFC] leading-snug">
                       {partner.name}
                     </h3>
                     <p className="text-[10px] text-[#78716C] dark:text-[#94A3B8] leading-tight">

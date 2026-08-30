@@ -13,7 +13,7 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const STORAGE_KEY = "ecohealth_theme";
+const STORAGE_KEY = "sentry_theme";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>("system");
@@ -23,7 +23,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Initialize theme from localStorage on client mount
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
+      const stored = (localStorage.getItem(STORAGE_KEY) || localStorage.getItem("ecohealth_theme")) as Theme | null;
       if (stored === "light" || stored === "dark" || stored === "system") {
         setThemeState(stored);
       }

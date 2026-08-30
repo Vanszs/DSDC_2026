@@ -11,7 +11,8 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: [
-          "Geist",
+          "var(--font-poppins)",
+          "Poppins",
           "-apple-system",
           "BlinkMacSystemFont",
           '"Segoe UI"',
@@ -33,6 +34,22 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        surface: "var(--surface)",
+        border: "var(--border)",
+        primary: {
+          DEFAULT: "var(--primary)",
+          dark: "var(--primary-dark)",
+          light: "var(--primary-light)",
+        },
+        accent: "var(--accent)",
+        success: "var(--success)",
+        warning: "var(--warning)",
+        danger: "var(--danger)",
+        critical: "var(--critical)",
+        text: {
+          primary: "var(--text-primary)",
+          secondary: "var(--text-secondary)",
+        },
         crucible: {
           canvas: "var(--crucible-canvas)",
           card: "var(--crucible-card)",

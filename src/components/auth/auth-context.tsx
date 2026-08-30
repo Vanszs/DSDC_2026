@@ -23,7 +23,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const AUTH_STORAGE_KEY = "ecohealth_auth_session";
+const AUTH_STORAGE_KEY = "sentry_auth_session";
 
 export const PRESET_OFFICIALS: Record<UserSession["roleId"], UserSession> = {
   dinkes: {
