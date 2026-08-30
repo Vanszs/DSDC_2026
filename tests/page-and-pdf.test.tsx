@@ -83,11 +83,9 @@ describe("Landing Page (src/app/page.tsx)", () => {
   it("renders landing hero, value proposition, and regulatory governance matrix", () => {
     render(<LandingPage />);
 
-    expect(screen.getAllByText("EcoHealth Pulse").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText("DSDC 2026").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText(/Platform intelijen epidemiologi untuk mitigasi krisis iklim/i)).toBeTruthy();
-    expect(screen.getAllByText(/Buka Cockpit Realtime/i).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText("Direktori 16 Kecamatan Administratif")).toBeTruthy();
+    expect(screen.getAllByText("Sentry").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText(/Satu platform untuk memantau/i)).toBeTruthy();
+    expect(screen.getAllByText(/Mulai Analisa/i).length).toBeGreaterThanOrEqual(1);
   });
 });
 

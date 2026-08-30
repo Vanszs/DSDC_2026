@@ -115,8 +115,9 @@ export function DashboardBottomDrawer({
   return (
     <aside
       aria-label="Panel Analisis Epidemiologi Kota Semarang"
+      data-lenis-prevent
       className={cn(
-        "fixed inset-x-0 bottom-0 z-40 flex flex-col bg-white border-t border-slate-200 dark:border-slate-800 dark:bg-[#080C14] shadow-2xl transition-all duration-300 ease-out font-sans",
+        "fixed inset-x-0 bottom-0 z-40 flex flex-col bg-white border-t border-slate-200 dark:border-slate-800 dark:bg-[#080C14] shadow-2xl transition-all duration-300 ease-out font-sans overscroll-contain",
         drawerState === "collapsed" && "h-12",
         drawerState === "half" && "h-[62vh] sm:h-[68vh]",
         drawerState === "full" && "h-[94vh]",
@@ -175,7 +176,10 @@ export function DashboardBottomDrawer({
 
       {/* Konten Utama Terpadu (Tanpa Tab Tersembunyi) */}
       {drawerState !== "collapsed" && (
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 cockpit-scrollbar">
+        <div
+          data-lenis-prevent
+          className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 cockpit-scrollbar touch-pan-y overscroll-contain"
+        >
           <div className="max-w-7xl mx-auto space-y-6">
 
             {/* 1. EVALUASI HISTORIS: TREN RISIKO 12 MINGGU */}

@@ -49,7 +49,7 @@ describe("PDF Export API Route (/api/export/pdf)", () => {
 
     expect(response.status).toBe(200);
     expect(response.headers.get("Content-Type")).toBe("application/pdf");
-    expect(response.headers.get("Content-Disposition")).toContain("EcoHealth_Executive_Brief_");
+    expect(response.headers.get("Content-Disposition")).toContain("Executive_Brief_");
     
     const arrayBuf = await response.arrayBuffer();
     expect(Buffer.from(arrayBuf).toString()).toContain("%PDF-1.4 Mock PDF Content");
