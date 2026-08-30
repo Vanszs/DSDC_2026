@@ -121,7 +121,7 @@ describe("Login Page (/login and src/app/login/page.tsx)", () => {
     expect(passwordInput.type).toBe("password");
   });
 
-  it("completes authentication and advances to MFA step for ASN operators", async () => {
+  it("completes authentication directly without OTP step for ASN operators", async () => {
     render(
       <TestLoginWrapper>
         <LoginPage />
@@ -130,18 +130,6 @@ describe("Login Page (/login and src/app/login/page.tsx)", () => {
 
     const submitBtn = screen.getByRole("button", { name: /Lanjutkan Autentikasi/i });
     fireEvent.click(submitBtn);
-
-    await waitFor(
-      () => {
-        expect(screen.getByText("Verifikasi Dua Langkah (MFA)")).toBeTruthy();
-        expect(screen.getByText(/Kode OTP 6-Digit Terkirim/i)).toBeTruthy();
-      },
-      { timeout: 3000 }
-    );
-
-    // Use Demo OTP button
-    const demoOtpBtn = screen.getByRole("button", { name: /Gunakan Kode Demo/i });
-    fireEvent.click(demoOtpBtn);
 
     await waitFor(
       () => {

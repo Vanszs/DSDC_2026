@@ -51,7 +51,7 @@ const ROLE_CONFIGS: Record<UserRole, RoleConfig> = {
       "Akses telemetri 16 kecamatan Semarang",
       "Unduh lembar kerja operasional lapangan",
     ],
-    requiresMfa: true,
+    requiresMfa: false,
   },
   epidemiologist: {
     id: "epidemiologist",
@@ -68,7 +68,7 @@ const ROLE_CONFIGS: Record<UserRole, RoleConfig> = {
       "Ekspor PDF Executive Brief dan OpenXML Excel",
       "Akses streaming PostGIS MVT Vector Tiles",
     ],
-    requiresMfa: true,
+    requiresMfa: false,
   },
   public: {
     id: "public",
