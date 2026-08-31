@@ -49,7 +49,7 @@ export function AboutSection({
 
         {/* Right Column: Enriched Human Editorial Narrative with Palette TextHighlighter */}
         <div className="lg:col-span-9 xl:col-span-9 max-w-5xl">
-          <p className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[44px] font-normal tracking-[-0.02em] text-foreground leading-[1.36] sm:leading-[1.32] lg:leading-[1.28]">
+          <p className="text-justify lg:text-left text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[44px] font-normal tracking-[-0.02em] text-foreground leading-[1.36] sm:leading-[1.32] lg:leading-[1.28]">
             Sentry adalah{" "}
             <TextHighlighter
               highlightColor="var(--highlight-bg)"

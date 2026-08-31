@@ -144,7 +144,7 @@ FROM (
 
               <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-[10px] text-slate-400 font-mono">
                 <span className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse motion-reduce:animate-none" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                   MVT Binary Protocol • ST_AsMVT
                 </span>
                 <span className="tabular-nums text-slate-300">Edge Cache: 300s</span>
@@ -198,7 +198,7 @@ FROM (
                     Telemetri Wilayah
                   </span>
                   <span className="inline-flex items-center gap-1 text-[9px] font-mono font-bold text-red-700 dark:text-red-300 bg-red-100/80 dark:bg-red-950/80 px-1.5 py-0.5 rounded-md border border-red-200 dark:border-red-900">
-                    <span className="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse motion-reduce:animate-none" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-red-600" />
                     WASPADA TINGGI
                   </span>
                 </div>

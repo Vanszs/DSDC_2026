@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { DistrictSummaryDTO } from "@/lib/queries";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { type DrawerState } from "@/components/dashboard/dashboard-bottom-drawer";
 
 const MapView = dynamic(
   () => import("@/components/map/map-view").then((mod) => mod.MapView),
@@ -38,6 +38,7 @@ export default function DashboardPage() {
   const [districts, setDistricts] = useState<DistrictSummaryDTO[]>([]);
   const [selectedDistrict, setSelectedDistrict] =
     useState<DistrictSummaryDTO | null>(null);
+  const [drawerState, setDrawerState] = useState<DrawerState>("collapsed");
   const [loading, setLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -97,7 +98,13 @@ export default function DashboardPage() {
           <MapView
             districts={districts}
             selectedDistrictId={selectedDistrict?.id}
-            onSelectDistrict={(d: DistrictSummaryDTO) => setSelectedDistrict(d)}
+            onSelectDistrict={(d: DistrictSummaryDTO) => {
+              setSelectedDistrict(d);
+              setDrawerState((prev) => (prev === "collapsed" ? "half" : prev));
+            }}
+            onPolygonClick={() => {
+              setDrawerState((prev) => (prev === "collapsed" ? "half" : prev));
+            }}
           />
         </div>
 
@@ -109,7 +116,6 @@ export default function DashboardPage() {
         {/* Top-Right Floating Controls (Minimal Pill Group) */}
         <div className="absolute top-4 right-4 z-20 flex items-center gap-2 pointer-events-auto">
           <div className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white p-1.5 shadow-lg dark:border-slate-800 dark:bg-[#080C14]">
-            <ThemeToggle variant="button" />
             <ExportButton />
             <button
               onClick={() => fetchAnalytics(selectedDate)}
@@ -161,12 +167,17 @@ export default function DashboardPage() {
       <DashboardBottomDrawer
         districts={districts}
         selectedDistrict={selectedDistrict}
-        onSelectDistrict={(d: DistrictSummaryDTO) => setSelectedDistrict(d)}
+        onSelectDistrict={(d: DistrictSummaryDTO) => {
+          setSelectedDistrict(d);
+          setDrawerState((prev) => (prev === "collapsed" ? "half" : prev));
+        }}
         selectedDate={selectedDate}
         onDateChange={(newDate) => setSelectedDate(newDate)}
         avgCompositeScore={avgCompositeScore}
         highRiskCount={highRiskCount}
         highestRiskDistrict={highestRiskDistrict}
+        drawerState={drawerState}
+        onDrawerStateChange={setDrawerState}
       />
     </div>
   );

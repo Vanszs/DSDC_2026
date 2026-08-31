@@ -1,91 +1,105 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" width="100%" height="100%" style="background-color: transparent; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 400" width="100%" height="100%" style="background-color: transparent; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
   <defs>
-    <filter id="card-shadow-4" x="-5%" y="-5%" width="110%" height="115%">
-      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.06"/>
+    <filter id="card-shadow" x="-3%" y="-3%" width="106%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#181818" flood-opacity="0.04"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#181818" flood-opacity="0.03"/>
     </filter>
-    <marker id="arr-a-4" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 8 5 L 0 9 z" fill="#D97706"/>
-    </marker>
   </defs>
 
-  <!-- Step Title Tag -->
-  <g transform="translate(30, 25)">
-    <rect width="130" height="30" rx="15" fill="#FEF3C7" />
-    <text x="65" y="20" text-anchor="middle" font-size="12" font-weight="800" fill="#92400E">LANGKAH 04</text>
-    <text x="145" y="21" font-size="16" font-weight="800" fill="#0F172A">Bagaimana Sistem Menemukan Akar Penyebab Masalah?</text>
+  <!-- ==================== HEADER ==================== -->
+  <g transform="translate(36, 28)">
+    <rect width="78" height="22" rx="4" fill="#EFEAE2" stroke="#DCD5CA" stroke-width="1"/>
+    <text x="39" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="#181818">TAHAP 04</text>
+    
+    <text x="92" y="16" font-size="16" font-weight="700" fill="#181818">Tingkat Bahaya &amp; Penjelasan Penyebab</text>
+    <text x="0" y="40" font-size="12" font-weight="400" fill="#736B5E">Sistem langsung menunjukkan pemicu utama dan status stabilitas lingkungan kota ke dalam 4 tingkatan.</text>
   </g>
 
-  <!-- ==================== LEFT: FORMULA KONTRIBUSI ==================== -->
-  <g transform="translate(30, 75)">
-    <rect width="410" height="295" rx="16" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5" filter="url(#card-shadow-4)" />
-    
-    <rect x="20" y="20" width="370" height="32" rx="8" fill="#FEF3C7" />
-    <text x="205" y="41" text-anchor="middle" font-size="12" font-weight="800" fill="#92400E">RUMUS TRANSPARANSI PENYEBAB (EXPLAINABLE AI)</text>
+  <!-- ==================== 2 SPACIOUS PANELS ==================== -->
+  <g transform="translate(36, 95)">
+    <!-- LEFT PANEL: PENJELASAN PENYEBAB -->
+    <g transform="translate(0, 0)">
+      <rect width="380" height="260" rx="12" fill="#FFFFFF" stroke="#E5E0D8" stroke-width="1.2" filter="url(#card-shadow)"/>
+      
+      <rect x="20" y="18" width="90" height="20" rx="4" fill="#EFEAE2"/>
+      <text x="65" y="32" text-anchor="middle" font-size="10" font-weight="700" fill="#181818">TRANSPARAN</text>
+      
+      <text x="20" y="58" font-size="14" font-weight="700" fill="#181818">Penyebab Langsung Terlacak</text>
 
-    <!-- Formula Box -->
-    <g transform="translate(20, 65)">
-      <rect width="370" height="55" rx="8" fill="#FFFBEB" stroke="#FDE68A" />
-      <text x="185" y="34" text-anchor="middle" font-size="14.5" font-family="Courier, monospace" font-weight="800" fill="#78350F">Kontribusi_i = w_i · ((x_i - μ_i) / σ_i)</text>
+      <g transform="translate(20, 78)">
+        <!-- Point 1 -->
+        <g transform="translate(0, 0)">
+          <circle cx="6" cy="8" r="3.5" fill="#181818"/>
+          <text x="18" y="11" font-size="12" font-weight="700" fill="#181818">Mengetahui Pemicu Utama</text>
+          <text x="18" y="27" font-size="11" font-weight="400" fill="#645E54">Contoh: Sisa genangan hujan atau lonjakan debu</text>
+        </g>
+
+        <!-- Point 2 -->
+        <g transform="translate(0, 48)">
+          <circle cx="6" cy="8" r="3.5" fill="#059669"/>
+          <text x="18" y="11" font-size="12" font-weight="700" fill="#181818">Prediksi 1 Minggu s.d. 1 Bulan</text>
+          <text x="18" y="27" font-size="11" font-weight="400" fill="#645E54">Melihat tren risiko ke depan sebelum korban jatuh</text>
+        </g>
+
+        <!-- Point 3 -->
+        <g transform="translate(0, 96)">
+          <circle cx="6" cy="8" r="3.5" fill="#181818"/>
+          <text x="18" y="11" font-size="12" font-weight="700" fill="#181818">Solusi Otomatis Tepat Sasaran</text>
+          <text x="18" y="27" font-size="11" font-weight="400" fill="#645E54">Penyebab yang ditemukan langsung tentukan aksi</text>
+        </g>
+      </g>
+
+      <rect x="20" y="218" width="340" height="24" rx="4" fill="#FAF8F5"/>
+      <text x="190" y="234" text-anchor="middle" font-size="10" font-weight="600" fill="#736B5E">Bukan Kotak Hitam (Explainable AI)</text>
     </g>
 
-    <text x="20" y="145" font-size="12" font-weight="700" fill="#0F172A">Bukan Kotak Hitam (Bukan Black-Box):</text>
-    <text x="20" y="166" font-size="11" font-weight="500" fill="#475569">• Setiap prediksi bisa dijelaskan secara gamblang</text>
-    <text x="20" y="186" font-size="11" font-weight="500" fill="#475569">• Menghitung pemicu bahaya terbesar hari ini</text>
-    <text x="20" y="206" font-size="11" font-weight="700" fill="#D97706">• Pemicu terbesar otomatis tentukan mitigasi</text>
-
-    <!-- 3 Contoh Pemicu -->
-    <g transform="translate(20, 230)">
-      <rect width="118" height="34" rx="6" fill="#FEF3C7" />
-      <text x="59" y="21" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400E">🌧️ Genangan Hujan</text>
-
-      <rect x="126" width="118" height="34" rx="6" fill="#FEF3C7" />
-      <text x="185" y="21" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400E">☀️ Suhu Optimum</text>
-
-      <rect x="252" width="118" height="34" rx="6" fill="#FEF3C7" />
-      <text x="311" y="21" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400E">🌫️ Polusi Debu</text>
-    </g>
-  </g>
-
-  <!-- Connector -->
-  <path d="M 445 220 H 475" fill="none" stroke="#D97706" stroke-width="3" marker-end="url(#arr-a-4)" />
-
-  <!-- ==================== RIGHT: 4 STATUS TINGKAT BAHAYA ==================== -->
-  <g transform="translate(480, 75)">
-    <rect width="410" height="295" rx="16" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5" filter="url(#card-shadow-4)" />
-    
-    <text x="205" y="32" text-anchor="middle" font-size="13.5" font-weight="800" fill="#0F172A">4 Tingkatan Status Bahaya Penyakit</text>
-
-    <!-- 4 Tiers List -->
-    <g transform="translate(20, 45)">
-      <!-- Tier 1 -->
-      <rect width="370" height="48" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5" />
-      <circle cx="24" cy="24" r="8" fill="#10B981" />
-      <text x="44" y="22" font-size="12" font-weight="800" fill="#065F46">Level 1: Normal (Skor &lt; 30)</text>
-      <text x="44" y="38" font-size="10.5" fill="#059669">Kondisi aman, cukup pemantauan rutin</text>
-
-      <!-- Tier 2 -->
-      <g transform="translate(0, 56)">
-        <rect width="370" height="48" rx="8" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1.5" />
-        <circle cx="24" cy="24" r="8" fill="#F59E0B" />
-        <text x="44" y="22" font-size="12" font-weight="800" fill="#92400E">Level 2: Waspada (Skor 30 – 59)</text>
-        <text x="44" y="38" font-size="10.5" fill="#D97706">Indikasi peningkatan jentik nyamuk / polusi</text>
+    <!-- RIGHT PANEL: 4 TIER STABILITY INDEX -->
+    <g transform="translate(398, 0)">
+      <rect width="450" height="260" rx="12" fill="#FFFFFF" stroke="#181818" stroke-width="1.3" filter="url(#card-shadow)"/>
+      
+      <!-- Panel Header & Scale Rule -->
+      <g transform="translate(18, 14)">
+        <text x="0" y="14" font-size="13" font-weight="700" fill="#181818">4 Tingkatan Skor Stabilitas Lingkungan Kota (0–100)</text>
+        <text x="0" y="30" font-size="10" font-weight="700" fill="#059669">Skor TINGGI = Aman &amp; Stabil</text>
+        <text x="210" y="30" font-size="10" font-weight="700" fill="#DC2626">Skor RENDAH = Bahaya / Kritis</text>
       </g>
 
-      <!-- Tier 3 -->
-      <g transform="translate(0, 112)">
-        <rect width="370" height="48" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5" />
-        <circle cx="24" cy="24" r="8" fill="#3B82F6" />
-        <text x="44" y="22" font-size="12" font-weight="800" fill="#1E40AF">Level 3: Siaga (Skor 60 – 79)</text>
-        <text x="44" y="38" font-size="10.5" fill="#2563EB">Potensi lonjakan kasus 1–2 minggu ke depan</text>
+      <!-- 4 Compact Crisp Tiers -->
+      <g transform="translate(18, 52)">
+        <!-- Level 4: Optimal / Stabil -->
+        <g transform="translate(0, 0)">
+          <rect width="414" height="42" rx="6" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
+          <circle cx="16" cy="21" r="5" fill="#059669"/>
+          <text x="30" y="17" font-size="11.5" font-weight="700" fill="#065F46">Level 4: Optimal / Stabil (Skor 70 – 100)</text>
+          <text x="30" y="32" font-size="10" font-weight="400" fill="#047857">Kondisi lingkungan aman &amp; terkendali, pemantauan rutin</text>
+        </g>
+
+        <!-- Level 3: Terkendali -->
+        <g transform="translate(0, 48)">
+          <rect width="414" height="42" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+          <circle cx="16" cy="21" r="5" fill="#1D4ED8"/>
+          <text x="30" y="17" font-size="11.5" font-weight="700" fill="#1E40AF">Level 3: Terkendali / Aman (Skor 50 – 69)</text>
+          <text x="30" y="32" font-size="10" font-weight="400" fill="#1D4ED8">Risiko rendah, pemantauan preventif lingkungan standar</text>
+        </g>
+
+        <!-- Level 2: Waspada -->
+        <g transform="translate(0, 96)">
+          <rect width="414" height="42" rx="6" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1"/>
+          <circle cx="16" cy="21" r="5" fill="#D97706"/>
+          <text x="30" y="17" font-size="11.5" font-weight="700" fill="#92400E">Level 2: Waspada (Skor 30 – 49)</text>
+          <text x="30" y="32" font-size="10" font-weight="400" fill="#B45309">Stabilitas menurun, ada potensi risiko 1–4 minggu ke depan</text>
+        </g>
+
+        <!-- Level 1: Kritis / Bahaya -->
+        <g transform="translate(0, 144)">
+          <rect width="414" height="42" rx="6" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
+          <circle cx="16" cy="21" r="5" fill="#DC2626"/>
+          <text x="30" y="17" font-size="11.5" font-weight="700" fill="#991B1B">Level 1: Kritis / Bahaya Tinggi (Skor &lt; 30)</text>
+          <text x="30" y="32" font-size="10" font-weight="400" fill="#B91C1C">Bahaya darurat, perlu tindakan fogging fokus dan mitigasi segera</text>
+        </g>
       </g>
 
-      <!-- Tier 4 -->
-      <g transform="translate(0, 168)">
-        <rect width="370" height="48" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5" />
-        <circle cx="24" cy="24" r="8" fill="#EF4444" />
-        <text x="44" y="22" font-size="12" font-weight="800" fill="#991B1B">Level 4: Awas (Skor ≥ 80)</text>
-        <text x="44" y="38" font-size="10.5" fill="#DC2626">Ancaman krisis tinggi, butuh intervensi darurat</text>
-      </g>
+      <rect x="18" y="246" width="414" height="6" rx="3" fill="#E5E0D8"/>
     </g>
   </g>
 </svg>

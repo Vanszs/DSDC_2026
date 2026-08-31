@@ -384,7 +384,7 @@ export const CapabilitiesArchitectureSection: React.FC<{ className?: string }> =
                     PILAR {pillar.number}
                   </span>
                   {isActive && (
-                    <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
                   )}
                 </div>
 

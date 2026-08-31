@@ -125,7 +125,6 @@ export const MetricCard: React.FC<MetricCardProps> = ({
             cy={lastPoint[1]}
             r="2.5"
             fill={sparkColor.stroke}
-            className="animate-pulse"
           />
         </svg>
         <span className="text-[9px] font-mono font-medium text-zinc-400 dark:text-zinc-500 mt-0.5 tracking-tight">

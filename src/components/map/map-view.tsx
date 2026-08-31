@@ -10,7 +10,8 @@ import semarangBoundaryGeoJSON from "@/data/semarang-boundary.json";
 export interface MapViewProps {
   districts: DistrictSummaryDTO[];
   selectedDistrictId?: number;
-  onSelectDistrict: (district: DistrictSummaryDTO) => void;
+  onSelectDistrict?: (district: DistrictSummaryDTO) => void;
+  onPolygonClick?: () => void;
 }
 
 interface DynamicRiskColorPalette {
@@ -145,12 +146,14 @@ const createMapStyle = (isDark: boolean, compositeScore: number = 41): maplibreg
 // Semarang Center Koordinat Tetap (Frozen Cockpit)
 const SEMARANG_CENTER: [number, number] = [110.4000, -7.0000];
 
-export const MapView: React.FC<MapViewProps> = ({ districts }) => {
+export const MapView: React.FC<MapViewProps> = ({ districts, onPolygonClick }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<maplibregl.Map | null>(null);
   const { resolvedTheme } = useTheme();
 
   const isDark = resolvedTheme === "dark";
+  const onPolygonClickRef = useRef(onPolygonClick);
+  onPolygonClickRef.current = onPolygonClick;
 
   // Ambil skor rata-rata komposit EHV kota
   const totalCount = districts.length || 1;
@@ -158,7 +161,7 @@ export const MapView: React.FC<MapViewProps> = ({ districts }) => {
     ? Math.round(districts.reduce((acc, d) => acc + (d.compositeScore ?? 0), 0) / totalCount)
     : 0;
 
-  // Inisialisasi MapLibre GL dengan Viewport Terkunci Total (100% Frozen Viewport)
+  // Inisialisasi MapLibre GL
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
@@ -172,7 +175,6 @@ export const MapView: React.FC<MapViewProps> = ({ districts }) => {
         zoom: 11.0,
         minZoom: 11.0,
         maxZoom: 11.0,
-        // Disable semua interaksi manipulasi posisi viewport (Frozen)
         dragPan: false,
         scrollZoom: false,
         boxZoom: false,
@@ -182,7 +184,33 @@ export const MapView: React.FC<MapViewProps> = ({ districts }) => {
         touchZoomRotate: false,
         touchPitch: false,
         pitchWithRotate: false,
-        interactive: false,
+        interactive: true,
+      });
+
+      // Hanya trigger onPolygonClick jika titik klik berada di dalam poligon batas Kota Semarang
+      map.on("click", (e) => {
+        try {
+          const features = map.queryRenderedFeatures(e.point, {
+            layers: ["semarang-boundary-fill"],
+          });
+          if (features && features.length > 0) {
+            onPolygonClickRef.current?.();
+          }
+        } catch {
+          // Abaikan jika layer belum siap
+        }
+      });
+
+      // Indikator visual kursor pointer saat melayang di atas poligon
+      map.on("mousemove", (e) => {
+        try {
+          const features = map.queryRenderedFeatures(e.point, {
+            layers: ["semarang-boundary-fill"],
+          });
+          map.getCanvas().style.cursor = features && features.length > 0 ? "pointer" : "default";
+        } catch {
+          // Abaikan
+        }
       });
 
       mapInstanceRef.current = map;
@@ -235,7 +263,7 @@ export const MapView: React.FC<MapViewProps> = ({ districts }) => {
   return (
     <div
       ref={mapContainerRef}
-      className="w-full h-full min-h-[480px] bg-[#FAF8F5] dark:bg-[#080C14] select-none pointer-events-none"
+      className="w-full h-full min-h-[480px] bg-[#FAF8F5] dark:bg-[#080C14] select-none"
     />
   );
 };

@@ -115,8 +115,8 @@ export function useTheme(): ThemeContextType {
   if (!context) {
     // Fallback if rendered outside provider
     return {
-      theme: "system",
-      resolvedTheme: "dark",
+      theme: "light",
+      resolvedTheme: "light",
       setTheme: () => {},
       toggleTheme: () => {},
     };

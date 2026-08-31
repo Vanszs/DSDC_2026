@@ -110,7 +110,7 @@ export const StatusPing: React.FC<StatusPingProps> = ({ className }) => {
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
             <div className="flex items-center gap-2">
               <div className="flex h-6 w-6 items-center justify-center rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400">
-                <Radio className="h-3.5 w-3.5 animate-pulse" />
+                <Radio className="h-3.5 w-3.5" />
               </div>
               <div>
                 <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100">

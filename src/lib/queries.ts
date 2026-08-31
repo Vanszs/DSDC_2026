@@ -16,14 +16,20 @@ export interface DistrictSummaryDTO {
   typology: string;
   isCoastalRob: boolean;
   population: number;
+  areaKm2?: number;
   elevationMeters: number;
+  sanitationIndex?: number;
   compositeScore: number;
   dengueRisk: number;
   ispaRisk: number;
   primaryFactor: string;
   recommendation: string;
   temperatureAvg: number;
+  temperatureMin?: number;
+  temperatureMax?: number;
+  humidityAvg?: number;
   rainfallMm: number;
+  windSpeedKmh?: number;
   pm25: number;
   lat: number;
   lng: number;
@@ -48,7 +54,9 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
         typology: districts.typology,
         isCoastalRob: districts.isCoastalRobRisk,
         population: districts.population,
+        areaKm2: districts.areaKm2,
         elevationMeters: districts.elevationMeters,
+        sanitationIndex: districts.sanitationIndex,
         centroid: districts.centroid,
         compositeScore: epidemiologicalRiskScores.compositeVulnerabilityScore,
         dengueRisk: epidemiologicalRiskScores.dengueRiskScore,
@@ -56,7 +64,11 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
         primaryFactor: epidemiologicalRiskScores.primaryRiskFactor,
         recommendation: epidemiologicalRiskScores.actionablePolicyRecommendation,
         temperatureAvg: weatherObservations.temperatureAvg,
+        temperatureMin: weatherObservations.temperatureMin,
+        temperatureMax: weatherObservations.temperatureMax,
+        humidityAvg: weatherObservations.humidityAvg,
         rainfallMm: weatherObservations.rainfallMm,
+        windSpeedKmh: weatherObservations.windSpeedKmh,
         pm25: weatherObservations.pm25,
       })
       .from(districts)
@@ -85,14 +97,20 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
         typology: r.typology,
         isCoastalRob: r.isCoastalRob,
         population: r.population,
+        areaKm2: r.areaKm2 ?? 15.0,
         elevationMeters: r.elevationMeters ?? 10,
+        sanitationIndex: r.sanitationIndex ?? 0.75,
         compositeScore: r.compositeScore ?? 0,
         dengueRisk: r.dengueRisk ?? 0,
         ispaRisk: r.ispaRisk ?? 0,
         primaryFactor: r.primaryFactor ?? "Normal",
         recommendation: r.recommendation ?? "Monitoring standar",
         temperatureAvg: r.temperatureAvg ?? 28.3,
+        temperatureMin: r.temperatureMin ?? 24.0,
+        temperatureMax: r.temperatureMax ?? 32.0,
+        humidityAvg: r.humidityAvg ?? 82.0,
         rainfallMm: r.rainfallMm ?? 0.0,
+        windSpeedKmh: r.windSpeedKmh ?? 11.2,
         pm25: r.pm25 ?? 34.5,
         lat: r.centroid?.lat ?? -7.0000,
         lng: r.centroid?.lng ?? 110.4000,
@@ -165,14 +183,20 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
           typology: dist.typology,
           isCoastalRob: dist.isCoastalRobRisk,
           population: dist.population,
+          areaKm2: dist.areaKm2,
           elevationMeters: dist.elevationMeters,
+          sanitationIndex: dist.sanitationIndex,
           compositeScore: prediction.compositeScore,
           dengueRisk: prediction.dengueRisk,
           ispaRisk: prediction.ispaRisk,
           primaryFactor: prediction.primaryFactor,
           recommendation: prediction.recommendation,
           temperatureAvg: downscaled.temperatureAvg,
+          temperatureMin: downscaled.temperatureMin,
+          temperatureMax: downscaled.temperatureMax,
+          humidityAvg: downscaled.humidityAvg,
           rainfallMm: downscaled.rainfallMm,
+          windSpeedKmh: downscaled.windSpeedKmh,
           pm25: downscaled.pm25,
           lat: dist.centroid.lat,
           lng: dist.centroid.lng,
@@ -303,14 +327,20 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
       typology: d.typology,
       isCoastalRob: d.isCoastalRobRisk,
       population: d.population,
+      areaKm2: d.areaKm2 ?? 15.0,
       elevationMeters: d.elevationMeters,
+      sanitationIndex: d.sanitationIndex ?? 0.75,
       compositeScore: prediction.compositeScore,
       dengueRisk: prediction.dengueRisk,
       ispaRisk: prediction.ispaRisk,
       primaryFactor: prediction.primaryFactor,
       recommendation: prediction.recommendation,
       temperatureAvg: downscaled.temperatureAvg,
+      temperatureMin: downscaled.temperatureMin,
+      temperatureMax: downscaled.temperatureMax,
+      humidityAvg: downscaled.humidityAvg,
       rainfallMm: downscaled.rainfallMm,
+      windSpeedKmh: downscaled.windSpeedKmh,
       pm25: downscaled.pm25,
       lat: d.centroid.lat,
       lng: d.centroid.lng,
