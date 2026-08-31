@@ -90,7 +90,7 @@ export default function LandingPage() {
           >
             <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_bottom,black_65%,transparent_100%)]">
               <Image
-                src="/current-drawer-test.png"
+                src="/dashboard-look.png"
                 alt="Sentry Cockpit Platform Interface"
                 width={1920}
                 height={1080}

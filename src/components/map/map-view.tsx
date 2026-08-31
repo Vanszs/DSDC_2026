@@ -146,6 +146,18 @@ const createMapStyle = (isDark: boolean, compositeScore: number = 41): maplibreg
 // Semarang Center Koordinat Tetap (Frozen Cockpit)
 const SEMARANG_CENTER: [number, number] = [110.4000, -7.0000];
 
+// Hitung zoom level responsif berdasarkan lebar layar perangkat
+const getResponsiveZoom = (): number => {
+  if (typeof window === "undefined") return 11.0;
+  const width = window.innerWidth;
+  if (width < 480) return 9.8; // Mobile kecil: zoom lebih jauh agar batas Kota Semarang terlihat utuh
+  if (width < 640) return 10.0; // Mobile reguler
+  if (width < 768) return 10.3; // Tablet kecil
+  if (width < 1024) return 10.6; // Tablet reguler / iPad
+  if (width < 1280) return 10.9; // Laptop kecil
+  return 11.1; // Desktop lebar
+};
+
 export const MapView: React.FC<MapViewProps> = ({ districts, onPolygonClick }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<maplibregl.Map | null>(null);
@@ -167,14 +179,15 @@ export const MapView: React.FC<MapViewProps> = ({ districts, onPolygonClick }) =
 
     if (!mapInstanceRef.current) {
       const activeStyle = createMapStyle(isDark, currentCityScore);
+      const initialZoom = getResponsiveZoom();
 
       const map = new maplibregl.Map({
         container: mapContainerRef.current,
         style: activeStyle,
         center: SEMARANG_CENTER,
-        zoom: 11.0,
-        minZoom: 11.0,
-        maxZoom: 11.0,
+        zoom: initialZoom,
+        minZoom: 7.0,
+        maxZoom: 18.0,
         dragPan: false,
         scrollZoom: false,
         boxZoom: false,
@@ -215,6 +228,20 @@ export const MapView: React.FC<MapViewProps> = ({ districts, onPolygonClick }) =
 
       mapInstanceRef.current = map;
     }
+
+    // Handler penyesuaian zoom otomatis saat ukuran layar / orientasi berubah
+    const handleResize = () => {
+      const map = mapInstanceRef.current;
+      if (!map) return;
+      map.resize();
+      const targetZoom = getResponsiveZoom();
+      map.setZoom(targetZoom);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   // Update style secara presisi via paint properties atau saat tema berganti
