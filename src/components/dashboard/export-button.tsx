@@ -14,6 +14,7 @@ export type ExportStage = "idle" | "connecting" | "streaming" | "finalizing" | "
 
 export interface ExportButtonProps {
   className?: string;
+  selectedDate?: string;
   onExportStart?: (format: ExportFormat) => void;
   onExportComplete?: (format: ExportFormat) => void;
   onExportError?: (format: ExportFormat, error: Error) => void;
@@ -27,6 +28,7 @@ interface ExportStatus {
 
 export const ExportButton: React.FC<ExportButtonProps> = ({
   className,
+  selectedDate,
   onExportStart,
   onExportComplete,
   onExportError,
@@ -52,7 +54,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
   const handleExportPdf = useCallback(async () => {
     if (isPdfBusy) return;
 
-    const dateIso = new Date().toISOString().slice(0, 10);
+    const dateIso = selectedDate || new Date().toISOString().slice(0, 10);
     const filename = `Sentry_Executive_Brief_${dateIso}.pdf`;
 
     onExportStart?.("pdf");
@@ -60,7 +62,8 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 
     try {
       setPdfStatus({ stage: "streaming", message: "Mengunduh PDF..." });
-      const res = await fetch("/api/export/pdf");
+      const queryParam = selectedDate ? `?date=${encodeURIComponent(selectedDate)}` : "";
+      const res = await fetch(`/api/export/pdf${queryParam}`);
       if (!res.ok) {
         throw new Error(`HTTP error ${res.status}: Gagal mengunduh dokumen PDF eksekutif`);
       }
@@ -89,12 +92,12 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
         setPdfStatus({ stage: "idle" });
       }, 3500);
     }
-  }, [isPdfBusy, onExportStart, onExportComplete, onExportError]);
+  }, [isPdfBusy, selectedDate, onExportStart, onExportComplete, onExportError]);
 
   const handleExportExcel = useCallback(async () => {
     if (isExcelBusy) return;
 
-    const dateIso = new Date().toISOString().slice(0, 10);
+    const dateIso = selectedDate || new Date().toISOString().slice(0, 10);
     const filename = `Sentry_Vulnerability_Matrix_${dateIso}.xlsx`;
 
     onExportStart?.("excel");
@@ -102,7 +105,8 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
 
     try {
       setExcelStatus({ stage: "streaming", message: "Menyusun Excel..." });
-      const res = await fetch("/api/export/excel");
+      const queryParam = selectedDate ? `?date=${encodeURIComponent(selectedDate)}` : "";
+      const res = await fetch(`/api/export/excel${queryParam}`);
       if (!res.ok) {
         throw new Error(`HTTP error ${res.status}: Gagal mengunduh dataset Excel`);
       }
@@ -131,7 +135,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
         setExcelStatus({ stage: "idle" });
       }, 3500);
     }
-  }, [isExcelBusy, onExportStart, onExportComplete, onExportError]);
+  }, [isExcelBusy, selectedDate, onExportStart, onExportComplete, onExportError]);
 
   return (
     <div className={cn("inline-flex items-center gap-1 sm:gap-1.5", className)}>

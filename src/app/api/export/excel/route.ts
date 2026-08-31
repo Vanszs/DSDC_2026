@@ -2,13 +2,33 @@ import { NextRequest, NextResponse } from "next/server";
 import ExcelJS from "exceljs";
 import { getLatestCitywideVulnerability } from "@/lib/queries";
 import { format } from "date-fns";
+import { z } from "zod";
 
 export const dynamic = "force-dynamic";
+
+const querySchema = z.object({
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format, expected YYYY-MM-DD").optional(),
+});
+
+function sanitizeExcelCell<T>(val: T): T {
+  if (typeof val === "string" && /^[=+\-@\t\r]/.test(val)) {
+    return `'${val}` as unknown as T;
+  }
+  return val;
+}
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const dateParam = searchParams.get("date") ?? undefined;
+    const dateParamRaw = searchParams.get("date") ?? undefined;
+    const parseResult = querySchema.safeParse({ date: dateParamRaw });
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { error: "Invalid date format, expected YYYY-MM-DD" },
+        { status: 400 }
+      );
+    }
+    const dateParam = parseResult.data.date;
     const data = await getLatestCitywideVulnerability(dateParam);
 
     const workbook = new ExcelJS.Workbook();
@@ -39,26 +59,27 @@ export async function GET(request: NextRequest) {
 
     data.forEach((d) => {
       sheet.addRow({
-        code: d.kemendagriCode,
-        name: d.name,
-        typology: d.typology,
+        code: sanitizeExcelCell(d.kemendagriCode),
+        name: sanitizeExcelCell(d.name),
+        typology: sanitizeExcelCell(d.typology),
         rob: d.isCoastalRob ? "YA" : "TIDAK",
         pop: d.population,
         ehv: d.compositeScore,
         dbd: d.dengueRisk,
         ispa: d.ispaRisk,
-        factor: d.primaryFactor,
-        rec: d.recommendation,
+        factor: sanitizeExcelCell(d.primaryFactor),
+        rec: sanitizeExcelCell(d.recommendation),
       });
     });
 
     const buffer = await workbook.xlsx.writeBuffer();
+    const exportDateStr = dateParam ? dateParam.replace(/-/g, "") : format(new Date(), "yyyyMMdd");
 
     return new NextResponse(buffer, {
       status: 200,
       headers: {
         "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "Content-Disposition": `attachment; filename="Sentry_Dataset_Semarang_${format(new Date(), "yyyyMMdd")}.xlsx"`,
+        "Content-Disposition": `attachment; filename="Sentry_Dataset_Semarang_${exportDateStr}.xlsx"`,
       },
     });
   } catch (error) {

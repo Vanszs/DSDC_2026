@@ -19,9 +19,29 @@ export function LiveClockBadge({ className }: LiveClockBadgeProps) {
   useEffect(() => {
     const updateClock = () => {
       const now = new Date();
+      // Format specifically in Asia/Jakarta (WIB = UTC+7) timezone
+      const formatter = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Jakarta",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      });
+      const parts = formatter.formatToParts(now);
+      const getPart = (type: string) => parts.find((p) => p.type === type)?.value || "";
+      const year = getPart("year");
+      const month = getPart("month");
+      const day = getPart("day");
+      const hour = getPart("hour");
+      const minute = getPart("minute");
+      const second = getPart("second");
+
       setDateTime({
-        date: format(now, "yyyy/MM/dd"),
-        time: format(now, "HH:mm:ss"),
+        date: `${year}/${month}/${day}`,
+        time: `${hour}:${minute}:${second}`,
       });
     };
 

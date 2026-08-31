@@ -21,25 +21,15 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/components/theme/theme-provider";
 import { cn } from "@/lib/utils";
+import { KEMENDAGRI_33_74_DISTRICTS } from "@/lib/regulatory-specs";
 
-export const SEMARANG_DISTRICTS = [
-  { id: 1, name: "Semarang Tengah", code: "33.74.01", typology: "Urban Dense", score: 78 },
-  { id: 2, name: "Semarang Utara", code: "33.74.02", typology: "Coastal Port & Rob", score: 72 },
-  { id: 3, name: "Semarang Selatan", code: "33.74.03", typology: "Commercial Core", score: 65 },
-  { id: 4, name: "Semarang Barat", code: "33.74.04", typology: "Mixed Industrial Urban", score: 58 },
-  { id: 5, name: "Semarang Timur", code: "33.74.05", typology: "Dense Residential", score: 62 },
-  { id: 6, name: "Gajahmungkur", code: "33.74.06", typology: "Hilly Suburban", score: 40 },
-  { id: 7, name: "Candisari", code: "33.74.07", typology: "Undulating Urban", score: 48 },
-  { id: 8, name: "Banyumanik", code: "33.74.08", typology: "Upper Plateau Suburban", score: 35 },
-  { id: 9, name: "Gunungpati", code: "33.74.09", typology: "Forest Canopy & Agro", score: 30 },
-  { id: 10, name: "Pedurungan", code: "33.74.10", typology: "Rapid Urban Sprawl", score: 68 },
-  { id: 11, name: "Genuk", code: "33.74.11", typology: "Coastal Rob Critical", score: 80 },
-  { id: 12, name: "Gayamsari", code: "33.74.12", typology: "River Basin Lowland", score: 55 },
-  { id: 13, name: "Tembalang", code: "33.74.13", typology: "University Town & Hills", score: 42 },
-  { id: 14, name: "Ngaliyan", code: "33.74.14", typology: "Industrial & Mixed Hills", score: 50 },
-  { id: 15, name: "Mijen", code: "33.74.15", typology: "Agro-Forestry Frontier", score: 25 },
-  { id: 16, name: "Tugu", code: "33.74.16", typology: "Coastal Mangrove Strip", score: 45 },
-];
+export const SEMARANG_DISTRICTS = KEMENDAGRI_33_74_DISTRICTS.map((d, i) => ({
+  id: i + 1,
+  name: d.name,
+  code: d.code,
+  typology: d.typology,
+  score: d.isCoastalRob ? 32 : 65,
+}));
 
 export interface CommandItem {
   id: string;
@@ -198,9 +188,9 @@ export const CommandMenu: React.FC<CommandMenuProps> = ({
         icon: MapPin,
         badge: `EHV ${d.score}`,
         badgeColor:
-          d.score >= 70
+          d.score <= 39
             ? "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300"
-            : d.score >= 45
+            : d.score <= 69
             ? "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300"
             : "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300",
         action: () => {

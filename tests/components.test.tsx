@@ -177,11 +177,11 @@ describe("Dashboard Components", () => {
     fireEvent.change(searchInput, { target: { value: "" } });
     expect(screen.getByText("Semarang Tengah")).toBeTruthy();
 
-    // Triage filter: Critical EHV >= 70
-    fireEvent.click(screen.getByText("Kritis EHV ≥ 70"));
-    expect(screen.getByText("Semarang Tengah")).toBeTruthy();
+    // Triage filter: Critical EHV <= 39
+    fireEvent.click(screen.getByText("Kritis EHV ≤ 39"));
+    expect(screen.getByText("Gunungpati")).toBeTruthy();
+    expect(screen.queryByText("Semarang Tengah")).toBeNull();
     expect(screen.queryByText("Semarang Utara")).toBeNull();
-    expect(screen.queryByText("Gunungpati")).toBeNull();
 
     // Triage filter: Rob Hazard
     fireEvent.click(screen.getByText("Pesisir / Rob"));

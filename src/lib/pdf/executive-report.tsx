@@ -46,7 +46,7 @@ export const ExecutiveReportDocument: React.FC<{
         {districts.map((d) => (
           <View style={styles.tableRow} key={d.id}>
             <Text style={styles.colName}>{d.name}</Text>
-            <Text style={[styles.colScore, d.compositeScore >= 70 ? styles.badgeHigh : {}]}>
+            <Text style={[styles.colScore, d.compositeScore <= 39 ? styles.badgeHigh : {}]}>
               {d.compositeScore} / 100
             </Text>
             <Text style={styles.colFactor}>{d.primaryFactor}</Text>

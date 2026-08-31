@@ -12,7 +12,11 @@ const globalForDb = globalThis as unknown as {
 const client =
   globalForDb.conn ??
   postgres(connectionString, {
-    max: process.env.NODE_ENV === "production" ? 1 : 10,
+    max: process.env.DB_MAX_CONNECTIONS
+      ? parseInt(process.env.DB_MAX_CONNECTIONS, 10)
+      : process.env.NODE_ENV === "production"
+      ? 10
+      : 10,
     idle_timeout: 20,
     connect_timeout: 15,
     ssl: connectionString.includes("neon.tech") || connectionString.includes("sslmode=require") ? "require" : undefined,

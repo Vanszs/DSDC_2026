@@ -129,13 +129,11 @@ describe("Dashboard Page (src/app/dashboard/page.tsx)", () => {
     expect(openDrawerBtn).toBeTruthy();
     fireEvent.click(openDrawerBtn);
 
-    expect(screen.getByText(/Protokol Intervensi/i)).toBeTruthy();
-    expect(screen.getByText(/Instruksi Wajib/i)).toBeTruthy();
-    expect(screen.getByText(/Pengendalian Vektor/i)).toBeTruthy();
-    expect(screen.getByText(/Kesiapan Logistik/i)).toBeTruthy();
-    expect(screen.getByText(/Beban Risiko Wilayah Saat Ini/i)).toBeTruthy();
-    expect(screen.getByText(/Proyeksi Risiko 30 Hari Mendatang/i)).toBeTruthy();
-    expect(screen.getByText(/Tren Indeks Kerentanan Historis/i)).toBeTruthy();
+    expect(screen.getByText(/Overview/i)).toBeTruthy();
+    expect(screen.getByText(/Recommended Action/i)).toBeTruthy();
+    expect(screen.getByText(/Skor Kota/i)).toBeTruthy();
+    expect(screen.getAllByText(/Skor DBD/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Skor ISPA/i).length).toBeGreaterThan(0);
   });
 });
 

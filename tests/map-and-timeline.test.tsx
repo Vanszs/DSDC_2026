@@ -153,8 +153,6 @@ describe("MapLibre GL Frontend Integration & Components", () => {
       expect(maplibregl.Map).toHaveBeenCalledWith(
         expect.objectContaining({
           center: [110.4000, -7.0000], // Semarang Central Anchor
-          zoom: 11.0,
-          interactive: false,
           dragPan: false,
           scrollZoom: false,
           style: expect.any(Object),

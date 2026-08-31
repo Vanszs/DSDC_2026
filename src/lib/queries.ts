@@ -45,7 +45,7 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
   const targetDate = dateParam || format(new Date(), "yyyy-MM-dd");
 
   try {
-    // TIER 1: Cek apakah data targetDate sudah ada di DB
+    // TIER 1: Cek apakah data targetDate sudah ada di DB (Cache Hit)
     const existingRows = await db
       .select({
         id: districts.id,
@@ -302,8 +302,17 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
       isCoastalRobRisk: d.isCoastalRobRisk,
     });
 
+    const parsedBaseDate = (() => {
+      try {
+        const d = parseISO(targetDate);
+        return isNaN(d.getTime()) ? new Date() : d;
+      } catch {
+        return new Date();
+      }
+    })();
+
     const fallback14Days: DailyClimateVector[] = Array.from({ length: 14 }, (_, i) => ({
-      date: format(subDays(parseISO(targetDate) || new Date(), 13 - i), "yyyy-MM-dd"),
+      date: format(subDays(parsedBaseDate, 13 - i), "yyyy-MM-dd"),
       temperatureAvg: downscaled.temperatureAvg,
       temperatureMin: downscaled.temperatureMin,
       temperatureMax: downscaled.temperatureMax,
@@ -345,5 +354,5 @@ export async function getLatestCitywideVulnerability(dateParam?: string): Promis
       lat: d.centroid.lat,
       lng: d.centroid.lng,
     };
-  }).sort((a, b) => b.compositeScore - a.compositeScore);
+  }).sort((a, b) => a.compositeScore - b.compositeScore); // Ascending: Skor terendah (paling bahaya) muncul teratas
 }

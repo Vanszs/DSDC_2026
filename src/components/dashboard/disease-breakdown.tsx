@@ -99,7 +99,7 @@ export const DiseaseBreakdown: React.FC<DiseaseBreakdownProps> = ({
         </div>
       </div>
 
-      {/* 3 Indikator Risiko Penyakit */}
+      {/* Indikator Risiko Beban Penyakit */}
       <div className="space-y-2.5">
         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">
           Estimasi Risiko Beban Penyakit

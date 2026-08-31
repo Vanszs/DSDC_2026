@@ -116,7 +116,7 @@ export default function DashboardPage() {
         {/* Top-Right Floating Controls (Minimal Pill Group) */}
         <div className="absolute top-2.5 right-2.5 sm:top-4 sm:right-4 z-20 flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
           <div className="flex items-center gap-1 sm:gap-1.5 rounded-xl border border-slate-200 bg-white/95 p-1 sm:p-1.5 shadow-lg backdrop-blur-md dark:border-slate-800 dark:bg-[#080C14]/95">
-            <ExportButton />
+            <ExportButton selectedDate={selectedDate} />
             <button
               onClick={() => fetchAnalytics(selectedDate)}
               title="Perbarui Data Analitik"
